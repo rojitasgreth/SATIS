@@ -1,0 +1,48 @@
+<app-menu></app-menu>
+
+<div class="flex justify-center items-center h-full p-40">
+    <form [formGroup]="ordenForm" class="w-80">
+
+        <div class="flex flex-col mb-4">
+            <label class="mb-1">Condiciones:</label>
+            <select formControlName="Condicion" placeholder="Hola"
+                class="w-90 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+                <option></option>
+                <option>Paog</option>
+                <option>Paog</option>
+                <option>Paog</option>
+            </select>
+        </div>
+
+        <div class="flex flex-col mb-4">
+            <label class="mb-1">Tipo de envio:</label>
+            <select formControlName="tipo_envio" placeholder="Hola"
+                class="h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+                <option></option>
+                <option>Paog</option>
+                <option>Paog</option>
+                <option>Paog</option>
+            </select>
+        </div>
+
+        <div class="flex flex-row mb-4">
+            <div class="flex flex-col mr-4">
+                <label class="mb-1">RIF:</label>
+                <input matInput type="text" formControlName="RIF"
+                    class="h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+            </div>
+
+            <div class="flex flex-col">
+                <label class="mb-1">Teléfono:</label>
+                <input matInput type="tel" formControlName="telefono"
+                    class="h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+            </div>
+        </div>
+
+        <div class="flex flex-col mb-4">
+            <label class="mb-1">Correo electrónico:</label>
+            <input matInput type="email" formControlName="email"
+                class="h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+        </div>
+    </form>
+</div>
