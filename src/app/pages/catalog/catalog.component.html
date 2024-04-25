@@ -1,0 +1,13 @@
+<app-menu></app-menu>
+
+<div class="flex flex-wrap justify-center mt-5 space-x-5 items-center h-full pl-40 pt-20 ml-36 text-2xl">
+    <div class=" flex flex-wrap justify-center mt-5 space-x-5"  *ngFor="let producto of productos">
+        <div *ngIf="producto.categoria == 'Almillas'">
+            <h1>ALMILLAS</h1>
+            <div class="bg-cyan-700 min-w-72 mb-5 min-h-56 border-2 rounded-2xl text-white">
+                <p> {{producto.precio_dist}} </p>
+            </div>
+            
+        </div>
+    </div>
+</div>

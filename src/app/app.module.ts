@@ -15,6 +15,7 @@ import { NewOrdenComponent } from './pages/new-orden/new-orden.component';
 import {MatSelectModule} from '@angular/material/select'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
+import { CatalogComponent } from './pages/catalog/catalog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     HomeComponent,
     MenuComponent,
     HeaderComponent,
-    NewOrdenComponent
+    NewOrdenComponent,
+    CatalogComponent
   ],
   imports: [
     BrowserModule,
