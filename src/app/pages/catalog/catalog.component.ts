@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 export class CatalogComponent implements OnInit {
   orden: any;
   productos: any;
+  categorias: any[] = [];
   constructor(private http: HttpClient, private service: OtherService, private cdr: ChangeDetectorRef){}
 
   ngOnInit(): void {
@@ -21,19 +22,19 @@ export class CatalogComponent implements OnInit {
       this.orden = data;
       this.consultarProductos();
     });
-    
+
   }
 
   consultarProductos(){
     const data = { "Condicion": this.orden.Condicion, "Envio": this.orden.tipo_envio};
 
     console.log(data);
-    
+
     this.http.post(`${environment.BASE_URL_API}/listarProductos`, data).subscribe(
       (response: any) => {
-        console.log(response);
         if (response !== 'VACIO'){
           this.productos = response;
+          this.extraerCategorias();
         } else {
           Swal.fire({
             title: 'Error',
@@ -47,6 +48,24 @@ export class CatalogComponent implements OnInit {
       (error: any) => {
         console.error("Error", error);
       }
-    );    
+    );
   }
+
+  extraerCategorias() {
+    console.log(this.productos);
+    // Itera sobre los productos y extrae las categorías únicas
+    this.productos.forEach((producto:any) => {
+      if (!this.categorias.includes(producto.categoria)) {
+        this.categorias.push(producto.categoria);
+      }
+    });
+    console.log(this.categorias);
+    this.cdr.detectChanges();
+  }
+
+  filtrarProductos(categoria: string): any[] {
+    return this.productos.filter((producto:any) => producto.categoria === categoria);
+  }
+
+  
 }
