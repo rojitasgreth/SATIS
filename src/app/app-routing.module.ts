@@ -5,13 +5,15 @@ import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './auth/authGuard.component';
 import { NewOrdenComponent } from './pages/new-orden/new-orden.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
+import { ProductComponent } from './pages/product/product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent},
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'purchase-order', component: NewOrdenComponent, canActivate: [AuthGuard]},
-  { path: 'catalog', component: CatalogComponent, canActivate: [AuthGuard]}
+  { path: 'catalog', component: CatalogComponent, canActivate: [AuthGuard]},
+  { path: 'product/:cod', component: ProductComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

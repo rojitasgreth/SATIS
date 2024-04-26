@@ -11,11 +11,14 @@ import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { HeaderComponent } from './pages/header/header.component';
 import {MatCardModule} from '@angular/material/card';
-import { NewOrdenComponent } from './pages/new-orden/new-orden.component'; 
+import { NewOrdenComponent } from './pages/new-orden/new-orden.component';
 import {MatSelectModule} from '@angular/material/select'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
 import { CatalogComponent } from './pages/catalog/catalog.component';
+import { ProductComponent } from './pages/product/product.component';
+import {MatRadioModule} from '@angular/material/radio';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +27,8 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
     MenuComponent,
     HeaderComponent,
     NewOrdenComponent,
-    CatalogComponent
+    CatalogComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,8 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
     MatCardModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

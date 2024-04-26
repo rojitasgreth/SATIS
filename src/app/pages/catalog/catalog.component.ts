@@ -66,6 +66,4 @@ export class CatalogComponent implements OnInit {
   filtrarProductos(categoria: string): any[] {
     return this.productos.filter((producto:any) => producto.categoria === categoria);
   }
-
-  
 }
