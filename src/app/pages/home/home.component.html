@@ -2,7 +2,7 @@
 <app-menu></app-menu>
 <div style="margin-left: 15%;" class="p-20">
     <div class="flex justify-center">
-        <button class="bg-cyan-700 p-5 text-white  text-4xl rounded-2xl flex items-center" [routerLink]="['/purchase-order']">
+        <button class="bg-cyan-700 p-5 text-white  text-4xl rounded-2xl flex items-center" (click)="crearOrden()">
             CREAR NUEVA ORDEN
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-10 h-10">
@@ -26,5 +26,5 @@
             </mat-card>
         </div>
     </div>
-    
+
 </div>

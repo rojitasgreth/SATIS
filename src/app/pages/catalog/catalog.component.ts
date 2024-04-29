@@ -20,7 +20,11 @@ export class CatalogComponent implements OnInit {
     this.service.orden$.subscribe(data => {
       data = JSON.parse(data);
       this.orden = data;
-      this.consultarProductos();
+      if (data !== null) {
+        this.consultarProductos();
+      } else {
+        this.consultarProductosGeneral();
+      }
     });
 
   }
@@ -49,6 +53,30 @@ export class CatalogComponent implements OnInit {
         console.error("Error", error);
       }
     );
+  }
+
+  consultarProductosGeneral(){
+
+    this.http.post(`${environment.BASE_URL_API}/listarProductosGeneral`, '').subscribe(
+      (response: any) => {
+        if (response !== 'VACIO'){
+          this.productos = response;
+          this.extraerCategorias();
+        } else {
+          Swal.fire({
+            title: 'Error',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        }
+        this.cdr.detectChanges();
+      },
+      (error: any) => {
+        console.error("Error", error);
+      }
+    );
+
   }
 
   extraerCategorias() {

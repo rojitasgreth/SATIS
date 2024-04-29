@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environment/environment';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'satis-login',
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  
+
   constructor(
     private _formBuilder: FormBuilder,
     private http: HttpClient,
@@ -25,7 +26,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('hola', this.loginForm.get('usuario'));
-    
+    if (localStorage.getItem('auth')) {
+      this.route.navigate(['/home']);
+    }
   }
 
   logIn(){
@@ -33,7 +36,7 @@ export class LoginComponent implements OnInit {
       const formData = this.loginForm.value;
       console.log(formData.usuario, 'hola');
 
-      this.http.post(`http://localhost:5000/satis/login`, formData).subscribe(
+      this.http.post(`${environment.BASE_URL_API}/login`, formData).subscribe(
         (response: any) => {
           console.log(response.rol);
 
@@ -60,7 +63,7 @@ export class LoginComponent implements OnInit {
             })
           } else if (response.rol == 'Vendedor') {
             console.log('aquii');
-            
+
             const auth = 'true';
             localStorage.setItem('auth', auth);
             this.authService.setAuth();
@@ -80,8 +83,8 @@ export class LoginComponent implements OnInit {
       )
     }else {
       console.log('No valido');
-      
+
     }
-    
+
   }
 }

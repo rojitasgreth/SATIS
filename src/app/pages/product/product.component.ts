@@ -1,8 +1,14 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OtherService } from 'src/app/services/other.service';
 import { environment } from 'src/environment/environment';
+import Swal from 'sweetalert2';
+
+interface Color {
+  value: string,
+  label: string
+}
 
 @Component({
   selector: 'app-product',
@@ -12,10 +18,12 @@ import { environment } from 'src/environment/environment';
 export class ProductComponent implements OnInit {
   cod: any;
   orden: any;
-  listaColores: any;
+  listaColores: Color[] = [];
   producto: any;
-  colores: any[] = [];
-  constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService) { }
+  generoSeleccionado: any;
+  //colores: any[] = [];
+  coloresSeleccionados: { genero: string, color: Color, cantidad: number }[] = [];
+  constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
   ngOnInit(): void {
     this.service.setOrden();
     this.service.orden$.subscribe(data => {
@@ -26,8 +34,6 @@ export class ProductComponent implements OnInit {
       this.cod = params['cod'];
       this.consultarProducto(this.cod);
     });
-    console.log(this.colores, 'es estooo');
-
   }
 
   consultarProducto(cod: any) {
@@ -39,15 +45,11 @@ export class ProductComponent implements OnInit {
         } else {
           console.log('Error');
         }
-        console.log(this.producto);
-
-        this.cdr.detectChanges();
       },
       (error: any) => {
         console.error("Error", error);
       }
     );
-
   }
 
   consultarColores(cod: string, genero: string) {
@@ -56,22 +58,18 @@ export class ProductComponent implements OnInit {
       "genero": genero
     };
 
-    console.log(data);
+    this.generoSeleccionado = genero;
+
+    console.log(this.generoSeleccionado, 'es estoo');
 
 
     this.http.post(`${environment.BASE_URL_API}/listarColores`, data).subscribe(
       (response: any) => {
-        console.log(response);
-
         if (response !== 'VACIO') {
           this.listaColores = response.map((dato: any) => ({ value: dato.codigo_color, label: dato.descripcion_color }));
-          //this.listaColores = [{ value: response.codigo_color, label: response.descripcion_color }]
-          console.log(this.listaColores);
-
         } else {
           console.log('Error');
         }
-        this.cdr.detectChanges();
       },
       (error: any) => {
         console.error("Error", error);
@@ -81,18 +79,117 @@ export class ProductComponent implements OnInit {
 
   nuevoColor(event: any) {
     const value = event?.target?.value;
-    console.log(value);
+    console.log(value, 'valorrr');
+    console.log(this.generoSeleccionado, 'generooo');
 
-    if (value) {
-      const colorSeleccionado = this.listaColores.find((color:any) => value == color.value);
-
+    if (value && this.generoSeleccionado) {
+      const colorSeleccionado = this.listaColores.find(color => value == color.value);
       if (colorSeleccionado) {
-        this.colores.push(colorSeleccionado);
+        this.coloresSeleccionados.push({
+          genero: this.generoSeleccionado,
+          color: colorSeleccionado,
+          cantidad: 0
+        });
+        console.log(this.coloresSeleccionados);
       } else {
         console.log('No se ha seleccionado ningún color.');
       }
+    } else {
+      console.log('No se ha seleccionado ningún color o género.');
     }
   }
 
+  agregarCantidad(cod: any, cantidad: any) {
+    const index = this.coloresSeleccionados.findIndex(color => cod === color.color.value);
 
+    if (index !== -1) {
+      this.coloresSeleccionados[index].cantidad = parseInt(cantidad);
+      console.log('Cantidad actualizada:', this.coloresSeleccionados[index]);
+    } else {
+      console.log('No se encontró ningún color con el código', cod);
+    }
+    console.log(this.coloresSeleccionados);
+  }
+
+  eliminarColor(cod: any) {
+    console.log('Eliminar color con código:', cod);
+
+    const index = this.coloresSeleccionados.findIndex(color => cod === color.color.value);
+
+    if (index !== -1) {
+      this.coloresSeleccionados.splice(index, 1);
+      console.log('Color eliminado.');
+    } else {
+      console.log('No se encontró ningún color con el código', cod);
+    }
+
+    console.log(this.coloresSeleccionados);
+
+  }
+
+  continuar() {
+    console.log(this.coloresSeleccionados.length, 'longitudd');
+
+    if (this.coloresSeleccionados.length == 0) {
+      console.log('holaa');
+
+      Swal.fire({
+        icon: 'warning',
+        text: 'No ha seleccionado ningún color. ¿Está seguro de volver al catálago?',
+        confirmButtonText: 'Si',
+        confirmButtonColor: '#28B463',
+        showConfirmButton: true,
+        cancelButtonColor: '#E74C3C',
+        cancelButtonText: 'No',
+        showCancelButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/catalog'])
+        }
+      });
+    } else {
+      this.router.navigate(['/catalog']);
+    }
+  }
+
+  finalizarOrden() {
+    if (this.coloresSeleccionados.length == 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'No ha seleccionado ningún producto.',
+        text: 'Si no desea continuar con la orden en proceso, por favor cancele la orden.'
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: '¿Desea finalizar la orden?',
+        text: 'Verifique haber agregado todos los productos, ya que después no los podrá agregar a esta misma orden.',
+        confirmButtonText: 'Si, finalizar',
+        confirmButtonColor: '#28B463',
+        showConfirmButton: true,
+        cancelButtonColor: '#E74C3C',
+        cancelButtonText: 'Cancelar',
+        showCancelButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'warning',
+            title: '¿Desea enviar la orden de compra?',
+            text: 'Puede realizar el envío en este momento o más tarde desde el inicio: Abriendo el detalle del ticket de color amarillo.',
+            confirmButtonText: 'Si, enviar en este momento.',
+            confirmButtonColor: '#28B463',
+            showConfirmButton: true,
+            cancelButtonColor: '#E74C3C',
+            cancelButtonText: 'No, enviar más tarde.',
+            showCancelButton: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem('orden');
+              this.router.navigate(['/home']);
+            }
+          })
+        }
+      });
+    }
+  }
 }

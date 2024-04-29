@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 
-<div class="container pl-40 pt-20 ml-36 border-2 grid grid-cols-2 gap-4">
+<div class="container pl-40 pt-20 ml-36 grid grid-cols-2 gap-4">
   <div class="w-full">
     <p class="text-4xl text-cyan-700 font-semibold">{{producto?.descripcion}}</p>
 
@@ -26,23 +26,85 @@
       </select>
     </div>
 
-    <div *ngIf="colores.length != 0" class="text-2xl mt-5">
-      <div *ngFor="let item of colores" class="flex flex-box" style="max-width: 300px;">
-        <p><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="w-6 h-6">
+    <div *ngIf="coloresSeleccionados.length != 0" class="text-2xl mt-5">
+      <div *ngFor="let item of coloresSeleccionados" class="flex flex-box items-center mr-5 mb-3"
+        style="max-width: 300px;">
+        <table>
+          <tbody>
+            <tr class="flex flex-box w-50"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="min-w-6 min-h-6 max-w-6 max-h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+            </svg>
+            <p>{{item.color.label}}</p></tr>
+            <tr><input #cantidadEmpaquesInput type="number" placeholder="10"
+              (blur)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value)"
+              class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
+              matTooltip="Cantidad de empaques"></tr>
+              <tr><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="min-w-20 min-h-6 max-w-20 max-h-6 ml-2" matTooltip="Eliminar color"
+                (click)="eliminarColor(item.color.value)">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+              </svg></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- <div *ngIf="coloresSeleccionados.length != 0" class="text-2xl mt-5">
+      <div *ngFor="let item of coloresSeleccionados" class="flex flex-box items-center mr-5 mb-3"
+        style="max-width: 300px;">
+        <div class="col-span-3 flex flex-box min-w-70 max-w-70 mr-5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="min-w-6 min-h-6 max-w-6 max-h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
           </svg>
-          {{item.label}}</p>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+          <p class="mr-2">{{item.color.label}}</p>
+        </div>
+        <div class="col-span-2 min-w-70 max-w-70">
+          <input #cantidadEmpaquesInput type="number" placeholder="10"
+            (blur)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value)"
+            class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
+            matTooltip="Cantidad de empaques">
+        </div>
+        <div class="col-span-1">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="min-w-20 min-h-6 max-w-20 max-h-6 ml-2" matTooltip="Eliminar color"
+            (click)="eliminarColor(item.color.value)">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
           </svg>
-
+        </div>
       </div>
+    </div> -->
+
+    <div class="w-full flex justify-center items-center mt-10">
+      <button class="bg-cyan-700 rounded-lg text-white text-2xl w-80 h-12 flex items-center justify-center"
+        (click)="continuar()">
+        <span>Continuar </span>
+        <span class="ml-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+          </svg>
+        </span>
+      </button>
     </div>
   </div>
 
-  <div class="w-full border-2">
-    <button class="bg-cyan-700 rounded-lg text-white w-20">Finalizar orden</button>
-    <img src="../../../assets/catalago/prueba.jpg" alt="Producto" class="w-full h-auto">
+  <div class="w-full items-center">
+    <div class="w-full flex justify-center items-center">
+      <button class="bg-cyan-700 rounded-lg text-white text-3xl w-80 h-12 flex items-center justify-center"
+        (click)="finalizarOrden()">
+        <span>Finalizar orden</span>
+        <span class="ml-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+          </svg>
+        </span>
+      </button>
+    </div>
+    <img src="../../../assets/catalago/prueba.jpg" alt="Producto" class="w-full mt-5 h-100 rounded-md">
   </div>
 </div>

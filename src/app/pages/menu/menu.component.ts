@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
+import { RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -16,8 +17,8 @@ export class MenuComponent implements OnInit{
         this.menuExpanded = true;
       }else {
         this.menuExpanded = estatus;
-      }     
-    })
+      }
+    });
   }
   toogleMenu(){
     this.menuExpanded = !this.menuExpanded;
