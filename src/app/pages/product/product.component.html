@@ -52,7 +52,7 @@
     </div> -->
 
     <div *ngIf="coloresSeleccionados.length != 0" class="text-2xl mt-5">
-      <div *ngFor="let item of coloresSeleccionados" class="flex flex-box items-center mr-5 mb-3"
+      <div *ngFor="let item of coloresMostrar" class="flex flex-box items-center mr-5 mb-3"
         style="max-width: 300px;">
         <div class="col-span-3 flex flex-box min-w-70 max-w-70 mr-5">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -63,7 +63,7 @@
         </div>
         <div class="col-span-2 min-w-70 max-w-70">
           <input #cantidadEmpaquesInput type="number" placeholder="10"
-            (blur)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value)"
+            (input)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value)"
             class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
             matTooltip="Cantidad de empaques">
         </div>
@@ -81,7 +81,7 @@
     <div class="w-full flex justify-center items-center mt-10">
       <button class="bg-cyan-700 rounded-lg text-white text-2xl w-80 h-12 flex items-center justify-center"
         (click)="continuar()">
-        <span>Continuar </span>
+        <span>Guardar yontinuar </span>
         <span class="ml-2">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="w-6 h-6">

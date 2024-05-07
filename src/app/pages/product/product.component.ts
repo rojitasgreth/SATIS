@@ -6,7 +6,7 @@ import { environment } from 'src/environment/environment';
 import Swal from 'sweetalert2';
 
 interface Color {
-  value: string,
+  value: number,
   label: string
 }
 
@@ -22,18 +22,27 @@ export class ProductComponent implements OnInit {
   producto: any;
   generoSeleccionado: any;
   //colores: any[] = [];
-  coloresSeleccionados: { genero: string, color: Color, cantidad: number }[] = [];
+  colorSeleccionado: any;
+  coloresSeleccionados: { genero: string, cod_color: number, cantidad: number, cod_categoria: string }[] = [];
+  coloresMostrar: { genero: string, color: Color, cantidad: number }[] = [];
   constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
   ngOnInit(): void {
     this.service.setOrden();
     this.service.orden$.subscribe(data => {
       this.orden = data;
     });
-
+    this.cargarProductosSeleccionados();
     this.route.params.subscribe(params => {
       this.cod = params['cod'];
       this.consultarProducto(this.cod);
     });
+  }
+
+  cargarProductosSeleccionados() {
+    const productosString = localStorage.getItem('productos');
+    if (productosString) {
+      this.coloresSeleccionados = JSON.parse(productosString);
+    }
   }
 
   consultarProducto(cod: any) {
@@ -41,9 +50,11 @@ export class ProductComponent implements OnInit {
     this.http.post(`${environment.BASE_URL_API}/listarProductoIndividual`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
+          //console.log(response, 'producto');
+
           this.producto = response[0];
         } else {
-          console.log('Error');
+          //console.log('Error');
         }
       },
       (error: any) => {
@@ -60,15 +71,17 @@ export class ProductComponent implements OnInit {
 
     this.generoSeleccionado = genero;
 
-    console.log(this.generoSeleccionado, 'es estoo');
+    //console.log(this.generoSeleccionado, 'es estoo');
 
 
     this.http.post(`${environment.BASE_URL_API}/listarColores`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
+          //console.log(response);
+
           this.listaColores = response.map((dato: any) => ({ value: dato.codigo_color, label: dato.descripcion_color }));
         } else {
-          console.log('Error');
+          //console.log('Error');
         }
       },
       (error: any) => {
@@ -79,18 +92,27 @@ export class ProductComponent implements OnInit {
 
   nuevoColor(event: any) {
     const value = event?.target?.value;
-    console.log(value, 'valorrr');
-    console.log(this.generoSeleccionado, 'generooo');
 
     if (value && this.generoSeleccionado) {
-      const colorSeleccionado = this.listaColores.find(color => value == color.value);
-      if (colorSeleccionado) {
+      this.colorSeleccionado = this.listaColores.find(color => value == color.value);
+
+      //console.log(this.colorSeleccionado, 'que es estooo');
+
+
+      if (this.colorSeleccionado) {
         this.coloresSeleccionados.push({
           genero: this.generoSeleccionado,
-          color: colorSeleccionado,
+          cod_color: this.colorSeleccionado.value,
+          cantidad: 0,
+          cod_categoria: this.producto.cod_categoria
+        });
+
+        this.coloresMostrar.push({
+          genero: this.generoSeleccionado,
+          color: this.colorSeleccionado,
           cantidad: 0
         });
-        console.log(this.coloresSeleccionados);
+        //console.log(this.coloresSeleccionados, 'este es el color seleccionado');
       } else {
         console.log('No se ha seleccionado ningún color.');
       }
@@ -99,8 +121,13 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  agregarCantidad(cod: any, cantidad: any) {
-    const index = this.coloresSeleccionados.findIndex(color => cod === color.color.value);
+  agregarCantidad(cod: any,cantidad: any) {
+    console.log(cod, cantidad, 'esto se recibe');
+
+    console.log(this.producto);
+
+    const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_categoria === this.producto.cod_categoria);
+    console.log(index);
 
     if (index !== -1) {
       this.coloresSeleccionados[index].cantidad = parseInt(cantidad);
@@ -112,26 +139,27 @@ export class ProductComponent implements OnInit {
   }
 
   eliminarColor(cod: any) {
-    console.log('Eliminar color con código:', cod);
+    //console.log('Eliminar color con código:', cod);
 
-    const index = this.coloresSeleccionados.findIndex(color => cod === color.color.value);
+    const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color);
 
     if (index !== -1) {
       this.coloresSeleccionados.splice(index, 1);
-      console.log('Color eliminado.');
+      this.coloresMostrar.splice(index, 1);
+     // console.log('Color eliminado.');
     } else {
-      console.log('No se encontró ningún color con el código', cod);
+     // console.log('No se encontró ningún color con el código', cod);
     }
 
-    console.log(this.coloresSeleccionados);
+   //console.log(this.coloresSeleccionados);
 
   }
 
   continuar() {
-    console.log(this.coloresSeleccionados.length, 'longitudd');
+   // console.log(this.coloresSeleccionados.length, 'longitudd');
 
     if (this.coloresSeleccionados.length == 0) {
-      console.log('holaa');
+    //  console.log('holaa');
 
       Swal.fire({
         icon: 'warning',
@@ -148,6 +176,10 @@ export class ProductComponent implements OnInit {
         }
       });
     } else {
+      /* const productoString = JSON.stringify(this.coloresSeleccionados);
+      const producto2 = productoString.slice(1, -1);
+      localStorage.setItem('productos', JSON.stringify(producto2)); */
+      localStorage.setItem('productos', JSON.stringify(this.coloresSeleccionados));
       this.router.navigate(['/catalog']);
     }
   }
@@ -172,6 +204,29 @@ export class ProductComponent implements OnInit {
         showCancelButton: true
       }).then((result) => {
         if (result.isConfirmed) {
+          const clienteString = localStorage.getItem('orden');
+          let clienteFinal;
+          if (clienteString !== null) {
+            const cliente = JSON.parse(clienteString);
+             clienteFinal = {
+              id_cliente: 10,
+              condicion: cliente.Condicion,
+              tipo_envio: cliente.tipo_envio,
+            };
+          } else {
+            console.error('El objeto cliente almacenado en localStorage es nulo.');
+          }
+
+          console.log(this.coloresSeleccionados);
+
+
+          const data = {
+            cliente: clienteFinal,
+            detalle: this.coloresSeleccionados
+          }
+
+          console.log(data, 'final');
+
           Swal.fire({
             icon: 'warning',
             title: '¿Desea enviar la orden de compra?',
@@ -184,8 +239,13 @@ export class ProductComponent implements OnInit {
             showCancelButton: true
           }).then((result) => {
             if (result.isConfirmed) {
+            localStorage.removeItem('orden');
+            localStorage.removeItem('productos');
+            this.router.navigate(['/home']);
+            } else {
               localStorage.removeItem('orden');
-              this.router.navigate(['/home']);
+            localStorage.removeItem('productos');
+            this.router.navigate(['/home']);
             }
           })
         }
