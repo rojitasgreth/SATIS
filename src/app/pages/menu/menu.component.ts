@@ -9,6 +9,7 @@ import { RouterLinkActive } from '@angular/router';
 })
 export class MenuComponent implements OnInit{
   menuExpanded: boolean = true;
+  orden: any;
   constructor(private service: MenuService){}
   ngOnInit(): void {
     this.service.menu$.subscribe(estatus=>{
@@ -19,6 +20,8 @@ export class MenuComponent implements OnInit{
         this.menuExpanded = estatus;
       }
     });
+
+    this.orden = localStorage.getItem('orden');
   }
   toogleMenu(){
     this.menuExpanded = !this.menuExpanded;

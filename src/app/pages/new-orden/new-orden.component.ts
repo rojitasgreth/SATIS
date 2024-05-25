@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, OnInit} from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environment/environment';
@@ -12,9 +12,10 @@ import Swal from 'sweetalert2';
 })
 export class NewOrdenComponent implements OnInit {
   ordenForm: FormGroup;
-
-  constructor ( private _formBuilder: FormBuilder, private http: HttpClient, private cdr: ChangeDetectorRef, private router: Router){
+  existe: boolean = false;
+  constructor(private _formBuilder: FormBuilder, private http: HttpClient, private cdr: ChangeDetectorRef, private router: Router) {
     this.ordenForm = this._formBuilder.group({
+      id: [''],
       Condicion: ['', Validators.required],
       tipo_envio: [''],
       RIF: ['', Validators.required],
@@ -34,47 +35,67 @@ export class NewOrdenComponent implements OnInit {
       };
     });
   }
-  consultarCliente(){
-    let rifCliente = { "RIF": this.ordenForm.get('RIF')?.value}
+  consultarCliente() {
+    let rifCliente = { "RIF": this.ordenForm.get('RIF')?.value }
 
 
-      this.http.post(`${environment.BASE_URL_API}/listarCliente`, rifCliente).subscribe(
+    this.http.post(`${environment.BASE_URL_API}/listarCliente`, rifCliente).subscribe(
       (response: any) => {
         console.log(response);
-        
-        if (response === 'VACIO') {
+
+        if (response === 'VACIO' || response.code === 204) {
+          this.existe = false;
           this.ordenForm.get('telefono')?.reset();
           this.ordenForm.get('email')?.reset();
           this.ordenForm.get('cliente')?.reset();
           this.ordenForm.get('estado')?.reset();
           this.ordenForm.get('calle')?.reset();
           this.ordenForm.get('edificio')?.reset();
-          
+
         } else {
           console.log('existe');
+          this.existe = true;
           this.ordenForm.patchValue({
+            id: response.id,
             telefono: response.telefono,
             cliente: response.razon_social,
             email: response.correo,
             estado: response.estado,
             calle: response.calle,
             edificio: response.edificio
-          });          
+          });
         }
+        console.log(this.existe);
+
         this.cdr.detectChanges();
       },
       (error: any) => {
         console.error("Error", error);
       }
-    );    
+    );
   }
 
-  enviarCliente(){
-    console.log(this.ordenForm);
-    
-    if (this.ordenForm.valid){
-      //Almacenar localmente?
-      localStorage.setItem('orden', JSON.stringify(this.ordenForm.value));
+  async enviarCliente(){
+    if (this.ordenForm.valid) {
+      console.log(this.existe);
+
+      if (!this.existe) {
+        await this.http.post(`${environment.BASE_URL_API}/insertarCliente`, this.ordenForm.value).subscribe(
+          (response: any) => {
+            console.log(response, 'respuesta insercion');
+
+              this.ordenForm.patchValue({
+                id: response
+              })
+            this.cdr.detectChanges();
+            console.log(this.ordenForm.value, 'clienteee');
+            localStorage.setItem('orden', JSON.stringify(this.ordenForm.value));
+          },
+          (error: any) => {
+            console.error("Error", error);
+          }
+        );
+      }
       this.router.navigate(['/catalog']);
     } else {
       Swal.fire({
@@ -82,8 +103,13 @@ export class NewOrdenComponent implements OnInit {
         icon: 'error',
         showConfirmButton: false,
         timer: 6000
-      }) 
+      })
     }
+  }
+
+  continuar(){
+    localStorage.setItem('orden', JSON.stringify(this.ordenForm.value));
+    this.router.navigate(['/catalog']);
   }
 
 

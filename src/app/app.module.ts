@@ -10,16 +10,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { HeaderComponent } from './pages/header/header.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { NewOrdenComponent } from './pages/new-orden/new-orden.component';
-import {MatSelectModule} from '@angular/material/select'
-import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 import { ProductComponent } from './pages/product/product.component';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog'; // Importa MatDialogModule
+import { VisualizeOrdenComponent } from './pages/visualize-orden/visualize-orden.component';
+import { VisualizeClientComponent } from './pages/visualize-client/visualize-client.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     NewOrdenComponent,
     CatalogComponent,
-    ProductComponent
+    ProductComponent,
+    VisualizeOrdenComponent,
+    VisualizeClientComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,8 @@ import { FormsModule } from '@angular/forms';
     MatNativeDateModule,
     MatRadioModule,
     MatTooltipModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

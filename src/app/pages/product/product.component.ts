@@ -21,9 +21,10 @@ export class ProductComponent implements OnInit {
   listaColores: Color[] = [];
   producto: any;
   generoSeleccionado: any;
+  clienteFinal: any;
   //colores: any[] = [];
   colorSeleccionado: any;
-  coloresSeleccionados: { genero: string, cod_color: number, cantidad: number, cod_categoria: string }[] = [];
+  coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color:string, cantidad: number, cod_categoria: string }[] = [];
   coloresMostrar: { genero: string, color: Color, cantidad: number }[] = [];
   constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
   ngOnInit(): void {
@@ -100,9 +101,18 @@ export class ProductComponent implements OnInit {
 
 
       if (this.colorSeleccionado) {
+        console.log(this.colorSeleccionado, 'que tieneee');
+        console.log(this.producto, 'prodcutooo');
+
+
         this.coloresSeleccionados.push({
           genero: this.generoSeleccionado,
+          categoria_producto: this.producto.categoria,
+          descripcion_producto: this.producto.descripcion,
+          cantidad_piezas: this.producto.cantidad_piezas,
+          precio: this.producto.precio,
           cod_color: this.colorSeleccionado.value,
+          color: this.colorSeleccionado.label,
           cantidad: 0,
           cod_categoria: this.producto.cod_categoria
         });
@@ -121,7 +131,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  agregarCantidad(cod: any,cantidad: any) {
+  agregarCantidad(cod: any, cantidad: any) {
     console.log(cod, cantidad, 'esto se recibe');
 
     console.log(this.producto);
@@ -146,20 +156,20 @@ export class ProductComponent implements OnInit {
     if (index !== -1) {
       this.coloresSeleccionados.splice(index, 1);
       this.coloresMostrar.splice(index, 1);
-     // console.log('Color eliminado.');
+      // console.log('Color eliminado.');
     } else {
-     // console.log('No se encontró ningún color con el código', cod);
+      // console.log('No se encontró ningún color con el código', cod);
     }
 
-   //console.log(this.coloresSeleccionados);
+    //console.log(this.coloresSeleccionados);
 
   }
 
   continuar() {
-   // console.log(this.coloresSeleccionados.length, 'longitudd');
+    // console.log(this.coloresSeleccionados.length, 'longitudd');
 
     if (this.coloresSeleccionados.length == 0) {
-    //  console.log('holaa');
+      //  console.log('holaa');
 
       Swal.fire({
         icon: 'warning',
@@ -205,28 +215,21 @@ export class ProductComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           const clienteString = localStorage.getItem('orden');
-          let clienteFinal;
-          if (clienteString !== null) {
+          const infoString = localStorage.getItem('info')
+          if (clienteString !== null && infoString !== null) {
             const cliente = JSON.parse(clienteString);
-             clienteFinal = {
-              id_cliente: 10,
+            const info = JSON.parse(infoString);
+            this.clienteFinal = {
+              id_cliente: cliente.id,
+              id_usuario: info.id,
               condicion: cliente.Condicion,
               tipo_envio: cliente.tipo_envio,
+              email: cliente.email,
+              correo: true
             };
           } else {
             console.error('El objeto cliente almacenado en localStorage es nulo.');
           }
-
-          console.log(this.coloresSeleccionados);
-
-
-          const data = {
-            cliente: clienteFinal,
-            detalle: this.coloresSeleccionados
-          }
-
-          console.log(data, 'final');
-
           Swal.fire({
             icon: 'warning',
             title: '¿Desea enviar la orden de compra?',
@@ -239,13 +242,55 @@ export class ProductComponent implements OnInit {
             showCancelButton: true
           }).then((result) => {
             if (result.isConfirmed) {
-            localStorage.removeItem('orden');
-            localStorage.removeItem('productos');
-            this.router.navigate(['/home']);
+
+              const data = {
+                cliente: this.clienteFinal,
+                detalle: this.coloresSeleccionados
+              }
+
+              console.log(data);
+
+
+              this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
+                (response: any) => {
+                  if (response == 'Insercion correcta') {
+                    console.log(response);
+                    localStorage.removeItem('orden');
+                    localStorage.removeItem('productos');
+                    this.router.navigate(['/home']);
+
+                  } else {
+                    console.log('Error');
+                  }
+                },
+                (error: any) => {
+                  console.error("Error", error);
+                }
+              );
+
             } else {
-              localStorage.removeItem('orden');
-            localStorage.removeItem('productos');
-            this.router.navigate(['/home']);
+              this.clienteFinal.correo = false;
+              const data = {
+                cliente: this.clienteFinal,
+                detalle: this.coloresSeleccionados
+              }
+
+              this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
+                (response: any) => {
+                  if (response == 'Insercion correcta') {
+                    console.log(response);
+                    localStorage.removeItem('orden');
+                    localStorage.removeItem('productos');
+                    this.router.navigate(['/home']);
+
+                  } else {
+                    console.log('Error');
+                  }
+                },
+                (error: any) => {
+                  console.error("Error", error);
+                }
+              );
             }
           })
         }
