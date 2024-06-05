@@ -22,7 +22,7 @@
                     {{orden.razon_social}}
                 </mat-card-content>
                 <mat-card-content class="text-end">{{orden.fecha}}</mat-card-content>
-                <mat-card-content class="text-black text-sm p-1" style="background-color: white;">{{orden.estatus_finalizado ? 'Ver detalles' : 'Enviar'}}</mat-card-content>
+                <mat-card-content class="text-black text-sm p-1" (click)="verDetalles(orden.id)" style="background-color: white;">{{orden.estatus_finalizado ? 'Ver detalles' : 'Enviar'}}</mat-card-content>
             </mat-card>
         </div>
     </div>

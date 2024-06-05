@@ -2,7 +2,14 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from "@angular/material/dialog";
 import { VisualizeClientComponent } from '../visualize-client/visualize-client.component';
+import { environment } from 'src/environment/environment';
+import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+
+interface Color {
+  value: number,
+  label: string
+}
 
 @Component({
   selector: 'app-visualize-orden',
@@ -11,11 +18,13 @@ import Swal from 'sweetalert2';
 export class VisualizeOrdenComponent implements OnInit {
   orden: any;
   productos: any;
-  constructor(private router: Router, private cdr: ChangeDetectorRef, private _matDialog: MatDialog) { }
+  clienteFinal: any;
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private _matDialog: MatDialog, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.consultarOrden();
     this.consultarProductos();
+    localStorage.removeItem('editProduct');
   }
 
   consultarOrden() {
@@ -39,7 +48,8 @@ export class VisualizeOrdenComponent implements OnInit {
     } else {
       this.productos = null;
     }
-  }
+  };
+
 
   cancelarOrden() {
     Swal.fire({
@@ -76,41 +86,41 @@ export class VisualizeOrdenComponent implements OnInit {
     });
   }
 
-  visualizarDatosCliente(){
+  visualizarDatosCliente() {
     const dialogRef = this._matDialog.open(VisualizeClientComponent, {
       panelClass: 'bg-white'
     });
 
-        dialogRef.afterClosed().subscribe((result) => {
-          console.log('holaa');
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('holaa');
 
-        });
+    });
   }
   objetosSonIguales(obj1: any, obj2: any): boolean {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
 
     if (keys1.length !== keys2.length) {
-        return false;
+      return false;
     }
 
     for (const key of keys1) {
-        const val1 = obj1[key];
-        const val2 = obj2[key];
+      const val1 = obj1[key];
+      const val2 = obj2[key];
 
-        if (typeof val1 === 'object' && typeof val2 === 'object') {
-            if (!this.objetosSonIguales(val1, val2)) {
-                return false;
-            }
-        } else if (val1 !== val2) {
-            return false;
+      if (typeof val1 === 'object' && typeof val2 === 'object') {
+        if (!this.objetosSonIguales(val1, val2)) {
+          return false;
         }
+      } else if (val1 !== val2) {
+        return false;
+      }
     }
 
     return true;
-}
+  }
 
-  borrarProd(item: any){
+  borrarProd(item: any) {
     console.log(item);
 
     Swal.fire({
@@ -127,7 +137,125 @@ export class VisualizeOrdenComponent implements OnInit {
         localStorage.setItem('productos', JSON.stringify(this.productos));
       }
     });
+  };
 
+  finalizarOrden() {
+    if (this.productos !== null) {
+      Swal.fire({
+        icon: 'warning',
+        title: '¿Desea finalizar la orden?',
+        text: 'Verifique haber agregado todos los productos, ya que después no los podrá agregar a esta misma orden.',
+        confirmButtonText: 'Si, finalizar',
+        confirmButtonColor: '#28B463',
+        showConfirmButton: true,
+        cancelButtonColor: '#E74C3C',
+        cancelButtonText: 'Cancelar',
+        showCancelButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const clienteString = localStorage.getItem('orden');
+          const infoString = localStorage.getItem('info')
+          if (clienteString !== null && infoString !== null) {
+            const cliente = JSON.parse(clienteString);
+            const info = JSON.parse(infoString);
+
+            this.clienteFinal = {
+              id_cliente: cliente.id,
+              id_usuario: info.id,
+              vendedor: info.primer_nombre + ' ' + info.primer_apellido,
+              nombre: cliente.cliente,
+              RIF: cliente.RIF,
+              estado: cliente.estado,
+              calle: cliente.calle,
+              edificio: cliente.edificio,
+              condicion: cliente.Condicion,
+              tipo_envio: cliente.tipo_envio,
+              email: cliente.email,
+              correo: true
+            };
+
+            Swal.fire({
+              icon: 'warning',
+              title: '¿Desea enviar la orden de compra?',
+              text: 'Puede realizar el envío en este momento o más tarde desde el inicio: Abriendo el detalle del ticket de color amarillo.',
+              confirmButtonText: 'Si, enviar en este momento.',
+              confirmButtonColor: '#28B463',
+              showConfirmButton: true,
+              cancelButtonColor: '#E74C3C',
+              cancelButtonText: 'No, enviar más tarde.',
+              showCancelButton: true
+            }).then((result) => {
+              if (result.isConfirmed) {
+
+                const data = {
+                  cliente: this.clienteFinal,
+                  detalle: this.productos
+                }
+
+                console.log(data);
+
+
+                this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
+                  (response: any) => {
+                    if (response == 'Insercion correcta') {
+                      console.log(response);
+                      localStorage.removeItem('orden');
+                      localStorage.removeItem('productos');
+                      this.router.navigate(['/home']);
+
+                    } else {
+                      console.log('Error');
+                    }
+                  },
+                  (error: any) => {
+                    console.error("Error", error);
+                  }
+                );
+
+              } else {
+                this.clienteFinal.correo = false;
+                const data = {
+                  cliente: this.clienteFinal,
+                  detalle: this.productos
+                }
+
+                this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
+                  (response: any) => {
+                    if (response == 'Insercion correcta') {
+                      console.log(response);
+                      localStorage.removeItem('orden');
+                      localStorage.removeItem('productos');
+                      this.router.navigate(['/home']);
+
+                    } else {
+                      console.log('Error');
+                    }
+                  },
+                  (error: any) => {
+                    console.error("Error", error);
+                  }
+                );
+              }
+            });
+
+          } else {
+            console.error('El objeto cliente almacenado en localStorage es nulo.');
+          }
+
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'No se ha seleccionado ningun producto',
+        timer: 4000
+      })
+    }
+  }
+
+  editarOrden(item: any) {
+    localStorage.setItem('editProduct', JSON.stringify(item));
+    this.router.navigate(['editProduct']);
 
   }
 }

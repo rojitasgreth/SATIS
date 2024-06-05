@@ -7,6 +7,8 @@ import { NewOrdenComponent } from './pages/new-orden/new-orden.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 import { ProductComponent } from './pages/product/product.component';
 import { VisualizeOrdenComponent } from './pages/visualize-orden/visualize-orden.component';
+import { EditProdcutComponent } from './pages/edit-prodcut/edit-prodcut.component';
+import { DetailsComponent } from './pages/details/details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -15,7 +17,9 @@ const routes: Routes = [
   { path: 'purchase-order', component: NewOrdenComponent, canActivate: [AuthGuard]},
   { path: 'catalog', component: CatalogComponent, canActivate: [AuthGuard]},
   { path: 'product/:cod', component: ProductComponent, canActivate: [AuthGuard]},
-  { path: 'visualize-orden', component: VisualizeOrdenComponent, canActivate: [AuthGuard]}
+  { path: 'visualize-orden', component: VisualizeOrdenComponent, canActivate: [AuthGuard]},
+  { path: 'editProduct', component: EditProdcutComponent, canActivate: [AuthGuard]},
+  { path: 'details/:orden', component: DetailsComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

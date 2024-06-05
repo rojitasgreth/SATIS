@@ -23,6 +23,8 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog'; // Importa MatDialogModule
 import { VisualizeOrdenComponent } from './pages/visualize-orden/visualize-orden.component';
 import { VisualizeClientComponent } from './pages/visualize-client/visualize-client.component';
+import { EditProdcutComponent } from './pages/edit-prodcut/edit-prodcut.component';
+import { DetailsComponent } from './pages/details/details.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { VisualizeClientComponent } from './pages/visualize-client/visualize-cli
     CatalogComponent,
     ProductComponent,
     VisualizeOrdenComponent,
-    VisualizeClientComponent
+    VisualizeClientComponent,
+    EditProdcutComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,

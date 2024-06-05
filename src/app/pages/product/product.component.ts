@@ -131,12 +131,15 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  agregarCantidad(cod: any, cantidad: any) {
+  agregarCantidad(cod: any, cantidad: any, genero: any) {
     console.log(cod, cantidad, 'esto se recibe');
 
     console.log(this.producto);
 
-    const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_categoria === this.producto.cod_categoria);
+    console.log(this.coloresSeleccionados);
+
+
+    const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_categoria === this.producto.cod_categoria && genero === color.genero);
     console.log(index);
 
     if (index !== -1) {
@@ -219,9 +222,17 @@ export class ProductComponent implements OnInit {
           if (clienteString !== null && infoString !== null) {
             const cliente = JSON.parse(clienteString);
             const info = JSON.parse(infoString);
+            //console.log(cliente);
+
             this.clienteFinal = {
               id_cliente: cliente.id,
               id_usuario: info.id,
+              vendedor: info.primer_nombre + ' ' + info.primer_apellido,
+              nombre: cliente.cliente,
+              RIF: cliente.RIF,
+              estado: cliente.estado,
+              calle: cliente.calle,
+              edificio: cliente.edificio,
               condicion: cliente.Condicion,
               tipo_envio: cliente.tipo_envio,
               email: cliente.email,

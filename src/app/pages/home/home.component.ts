@@ -76,4 +76,8 @@ export class HomeComponent implements OnInit {
     );
     console.log(this.ordenes);
   }
+
+  verDetalles(orden: any){
+    this.router.navigate(['details', orden]);
+  }
 }

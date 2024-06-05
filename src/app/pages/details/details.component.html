@@ -1,0 +1,33 @@
+<app-menu></app-menu>
+<div class="bg-gray-100" style="height: 100%;">
+  <div class="container flex justify-between items-center" style="height: 100%; padding: 0 20px;">
+    <!-- <button class="bg-cyan-700 p-5 text-white text-lg ml-80 mt-10 rounded-2xl flex items-center h-10" style="width: max-content;" (click)="visualizarDatosCliente()">Datos del cliente</button> -->
+    <button class="bg-cyan-700 p-5 text-white text-lg ml-80 mt-10 rounded-2xl flex items-center h-10" style="width: max-content;" (click)="volver()">Volver</button>
+  </div>
+  <div class="container pl-40 pt-10 ml-36 grid grid-cols-3 gap-4">
+    <p class="text-4xl text-cyan-700 font-semibold">Datos de la orden:</p>
+  </div>
+
+  <div class="container ml-60 pl-40 mt-8" style="height: 100%;">
+    <div class="text-xl ml-20" style="max-width: 990px;" *ngFor="let item of productos">
+      <div class="bg-white shadow-md p-4 flex max-w-50">
+        <img src="../../../assets/catalago/prueba.jpg" alt="Imagen del producto" class="w-40 rounded-md mb-4">
+        <table class="border-2 text-center ml-5">
+          <tr class="border-2">
+            <td colspan="3"><p class="text-lg font-semibold">{{ item.descripcion_producto }}</p></td>
+          </tr>
+          <tr class="border-2">
+            <td class="border-2 min-w-80 max-w-80"><p class="text-black-600">Unidades: {{ item.cantidad_piezas }}</p></td>
+            <td colspan="2" class="border-2"><p class="text-black-600">Precio: {{ item.precio }} $</p></td>
+          </tr>
+          <tr class="border-2">
+            <td class="border-2" *ngIf="item.genero === 'M'"><p class="text-black-600">Género: Varón </p></td>
+            <td class="border-2" *ngIf="item.genero === 'F'"><p class="text-black-600">Género: Hembra </p></td>
+            <td class="border-2 min-w-80 max-w-80"><p class="text-black-600">Color: {{ item.descripcion_color }}</p></td>
+            <td class="border-2 min-w-20 max-w-20"><p class="text-black-600">Cant: {{ item.cantidad }}</p></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
