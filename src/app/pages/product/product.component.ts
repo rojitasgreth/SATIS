@@ -23,6 +23,7 @@ export class ProductComponent implements OnInit {
   producto: any;
   generoSeleccionado: any;
   clienteFinal: any;
+  cliente : any;
   //colores: any[] = [];
   colorSeleccionado: any;
   coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color: string, cantidad: number, cod_categoria: string, img: string }[] = [];
@@ -32,6 +33,7 @@ export class ProductComponent implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
   ngOnInit(): void {
     this.service.setOrden();
+    this.verificarCliente();
     this.service.orden$.subscribe(data => {
       this.orden = data;
     });
@@ -53,6 +55,13 @@ export class ProductComponent implements OnInit {
     this.currentSlide = index;
   }
 
+  verificarCliente(){
+    const clienteString = localStorage.getItem('orden');
+          const infoString = localStorage.getItem('info')
+          if (clienteString !== null && infoString !== null) {
+            this.cliente = JSON.parse(clienteString);
+          }
+  }
   cargarProductosSeleccionados() {
     const productosString = localStorage.getItem('productos');
     if (productosString) {
@@ -69,6 +78,9 @@ export class ProductComponent implements OnInit {
           console.log(response, 'producto');
 
           this.producto = response[0];
+
+
+          ///CARRUSEL
           if (this.producto.cod_categoria == "ALMB1" || this.producto.cod_categoria == "ALMB2" || this.producto.cod_categoria == "ALMB3") {
             this.slides = [
               { src: '../../../assets/catalago/almillas0-6.jpg', title: 'Slide 1' },
@@ -111,6 +123,8 @@ export class ProductComponent implements OnInit {
               { src: '../../../assets/catalago/prueba.jpeg', title: 'Slide 1' }
             ];
           }
+          ///FIN CARRUSEL
+
         } else {
           //console.log('Error');
         }

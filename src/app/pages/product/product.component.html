@@ -36,9 +36,31 @@
           <p class="mr-2">{{item.color.label}}</p>
         </div>
         <div class="col-span-2 min-w-70 max-w-70">
-          <input #cantidadEmpaquesInput type="number" placeholder="10"
+          <input #cantidadEmpaquesInput type="number" placeholder="10" *ngIf="cliente.Condicion !== 'Distribuidor'"
             (input)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value, item.genero)"
             class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
+            matTooltip="Cantidad de empaques">
+
+          <input #cantidadEmpaquesInput type="number" placeholder="10" *ngIf="cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'ALMB1'
+          || producto.cod_categoria == 'JSCO1' || producto.cod_categoria == 'JSCU1'"
+            (input)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value, item.genero)"
+            class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
+            value="100"
+            matTooltip="Cantidad de empaques">
+
+            <input #cantidadEmpaquesInput type="number" placeholder="10" *ngIf="cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'ALMB2'
+          || producto.cod_categoria == 'ALMB3' || producto.cod_categoria == 'SEMB1'"
+            (input)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value, item.genero)"
+            class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
+            value="25"
+            matTooltip="Cantidad de empaques">
+
+            <input #cantidadEmpaquesInput type="number" placeholder="10" *ngIf="cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'BODB1'
+          || producto.cod_categoria == 'BODB2' || producto.cod_categoria == 'CPDB1' || producto.cod_categoria == 'GTRI1' || producto.cod_categoria == 'MONB1'
+          || producto.cod_categoria == 'MONB2' || producto.cod_categoria == 'MONB3' || producto.cod_categoria == 'MCUA1' || producto.cod_categoria == 'FTRI1'"
+            (input)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value, item.genero)"
+            class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
+            value="50"
             matTooltip="Cantidad de empaques">
         </div>
         <div class="col-span-1">
