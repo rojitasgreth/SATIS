@@ -140,7 +140,9 @@ export class VisualizeOrdenComponent implements OnInit {
   };
 
   finalizarOrden() {
-    if (this.productos !== null) {
+    console.log('PRODUCTOSSS', this.productos.length);
+
+    if (this.productos !== null && this.productos.length !== 0) {
       Swal.fire({
         icon: 'warning',
         title: '¿Desea finalizar la orden?',
@@ -176,13 +178,13 @@ export class VisualizeOrdenComponent implements OnInit {
 
             Swal.fire({
               icon: 'warning',
-              title: '¿Desea enviar la orden de compra?',
-              text: 'Puede realizar el envío en este momento o más tarde desde el inicio: Abriendo el detalle del ticket de color amarillo.',
-              confirmButtonText: 'Si, enviar en este momento.',
+              title: '¿Esta seguro que desea finalizar la orden?',
+              text: 'Verifique haber agregado todos los productos, ya que después no los podrá agregar a esta misma orden.',
+              confirmButtonText: 'Si, finalizar en este momento.',
               confirmButtonColor: '#28B463',
               showConfirmButton: true,
               cancelButtonColor: '#E74C3C',
-              cancelButtonText: 'No, enviar más tarde.',
+              cancelButtonText: 'No, volver.',
               showCancelButton: true
             }).then((result) => {
               if (result.isConfirmed) {
@@ -212,36 +214,11 @@ export class VisualizeOrdenComponent implements OnInit {
                   }
                 );
 
-              } else {
-                this.clienteFinal.correo = false;
-                const data = {
-                  cliente: this.clienteFinal,
-                  detalle: this.productos
-                }
-
-                this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
-                  (response: any) => {
-                    if (response == 'Insercion correcta') {
-                      console.log(response);
-                      localStorage.removeItem('orden');
-                      localStorage.removeItem('productos');
-                      this.router.navigate(['/home']);
-
-                    } else {
-                      console.log('Error');
-                    }
-                  },
-                  (error: any) => {
-                    console.error("Error", error);
-                  }
-                );
               }
             });
-
           } else {
             console.error('El objeto cliente almacenado en localStorage es nulo.');
           }
-
         }
       });
     } else {

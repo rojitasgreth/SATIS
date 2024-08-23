@@ -55,7 +55,7 @@ import { DetailsComponent } from './pages/details/details.component';
     MatRadioModule,
     MatTooltipModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

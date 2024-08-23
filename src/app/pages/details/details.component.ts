@@ -32,6 +32,8 @@ export class DetailsComponent implements OnInit{
         (response: any) => {
           console.log(response);
           this.productos = response;
+          console.log(this.productos, 'ES ESTA VERGAAA');
+
         },
         (error: any) => {
           console.error("Error", error);

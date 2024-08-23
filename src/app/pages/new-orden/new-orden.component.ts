@@ -18,6 +18,7 @@ export class NewOrdenComponent implements OnInit {
       id: [''],
       Condicion: ['', Validators.required],
       tipo_envio: [''],
+      RIFL: ['J', Validators.required],
       RIF: ['', Validators.required],
       telefono: ['', [Validators.required, Validators.pattern('^(0424|0412|0414|0416|0426|0248|0281|0282|0283|0285|0292|0240|0247|0278|0243|0244|0246|0273|0278|0284|0285|0286|0288|0289|0241|0242|0243|0245|0249|0258|0287|0212|0259|0268|0269|0279|0235|0238|0246|0247|0251|0252|0253|0271|0274|0275|0234|0239|0287|0291|0292|0295|0255|0256|0257|0272|0293|0294|0276|0277|0278|0272|0254|0261|0262|0263|0264|0265|0266|0267)[0-9]{7}$')]],
       //fecha: ['', Validators.required],
@@ -36,8 +37,12 @@ export class NewOrdenComponent implements OnInit {
     });
   }
   consultarCliente() {
-    let rifCliente = { "RIF": this.ordenForm.get('RIF')?.value }
+    let form = this.ordenForm.value;
+    let rif = form.RIFL + '-' + form.RIF;
+    form.RIF = rif;
+    let rifCliente = { "RIF": form.RIF }
 
+    console.log(rif, 'clienteee');
 
     this.http.post(`${environment.BASE_URL_API}/listarCliente`, rifCliente).subscribe(
       (response: any) => {
@@ -75,40 +80,47 @@ export class NewOrdenComponent implements OnInit {
     );
   }
 
-  async enviarCliente(){
+  async enviarCliente() {
     if (this.ordenForm.valid) {
       console.log(this.existe);
 
       if (!this.existe) {
-        await this.http.post(`${environment.BASE_URL_API}/insertarCliente`, this.ordenForm.value).subscribe(
-          (response: any) => {
-            console.log(response, 'respuesta insercion');
+        let form = this.ordenForm.value;
+        let rif = form.RIFL + '-' + form.RIF;
+        form.RIF = rif;
+        console.log(form);
 
-              this.ordenForm.patchValue({
-                id: response
-              })
-            this.cdr.detectChanges();
-            console.log(this.ordenForm.value, 'clienteee');
-            localStorage.setItem('orden', JSON.stringify(this.ordenForm.value));
-          },
-          (error: any) => {
-            console.error("Error", error);
-          }
-        );
+         await this.http.post(`${environment.BASE_URL_API}/insertarCliente`, form).subscribe(
+           (response: any) => {
+             console.log(response, 'respuesta insercion');
+
+               this.ordenForm.patchValue({
+                 id: response
+               })
+             this.cdr.detectChanges();
+             localStorage.setItem('orden', JSON.stringify(form));
+           },
+           (error: any) => {
+             console.error("Error", error);
+           }
+         );
+       }
+       this.router.navigate(['/catalog']);
+      } else {
+        Swal.fire({
+          title: 'Por favor, complete todos los campos',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 6000
+        });
       }
-      this.router.navigate(['/catalog']);
-    } else {
-      Swal.fire({
-        title: 'Por favor, complete todos los campos',
-        icon: 'error',
-        showConfirmButton: false,
-        timer: 6000
-      })
-    }
   }
 
-  continuar(){
-    localStorage.setItem('orden', JSON.stringify(this.ordenForm.value));
+  continuar() {
+    let form = this.ordenForm.value;
+    let rif = form.RIFL + '-' + form.RIF;
+    form.RIF = rif;
+    localStorage.setItem('orden', JSON.stringify(form));
     this.router.navigate(['/catalog']);
   }
 

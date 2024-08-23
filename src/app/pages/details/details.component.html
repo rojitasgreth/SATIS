@@ -11,18 +11,18 @@
   <div class="container ml-60 pl-40 mt-8" style="height: 100%;">
     <div class="text-xl ml-20" style="max-width: 990px;" *ngFor="let item of productos">
       <div class="bg-white shadow-md p-4 flex max-w-50">
-        <img src="../../../assets/catalago/prueba.jpg" alt="Imagen del producto" class="w-40 rounded-md mb-4">
+        <img src="{{item.img}}" alt="Imagen del producto" class="w-40 rounded-md mb-4">
         <table class="border-2 text-center ml-5">
           <tr class="border-2">
-            <td colspan="3"><p class="text-lg font-semibold">{{ item.descripcion_producto }}</p></td>
+            <td colspan="3"><p class="text-lg font-semibold">{{ item.descripcion }}</p></td>
           </tr>
           <tr class="border-2">
             <td class="border-2 min-w-80 max-w-80"><p class="text-black-600">Unidades: {{ item.cantidad_piezas }}</p></td>
             <td colspan="2" class="border-2"><p class="text-black-600">Precio: {{ item.precio }} $</p></td>
           </tr>
           <tr class="border-2">
-            <td class="border-2" *ngIf="item.genero === 'M'"><p class="text-black-600">Género: Varón </p></td>
-            <td class="border-2" *ngIf="item.genero === 'F'"><p class="text-black-600">Género: Hembra </p></td>
+            <td class="border-2" *ngIf="item.genero === 'V'"><p class="text-black-600">Género: Varón </p></td>
+            <td class="border-2" *ngIf="item.genero === 'H'"><p class="text-black-600">Género: Hembra </p></td>
             <td class="border-2 min-w-80 max-w-80"><p class="text-black-600">Color: {{ item.descripcion_color }}</p></td>
             <td class="border-2 min-w-20 max-w-20"><p class="text-black-600">Cant: {{ item.cantidad }}</p></td>
           </tr>

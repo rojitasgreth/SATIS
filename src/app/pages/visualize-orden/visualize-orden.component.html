@@ -12,7 +12,7 @@
   <div class="container ml-60 pl-40 mt-8" style="height: 100%;">
     <div class="text-xl ml-20" style="max-width: 990px;" *ngFor="let item of productos">
       <div class="bg-white shadow-md p-4 flex max-w-50">
-        <img src="../../../assets/catalago/prueba.jpg" alt="Imagen del producto" class="w-40 rounded-md mb-4">
+        <img src="{{item.img}}" alt="Imagen del producto" class="w-40 rounded-md mb-4">
         <table class="border-2 text-center ml-5">
           <tr class="border-2">
             <td colspan="3"><p class="text-lg font-semibold">{{ item.descripcion_producto }}</p></td>

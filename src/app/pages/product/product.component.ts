@@ -5,6 +5,7 @@ import { OtherService } from 'src/app/services/other.service';
 import { environment } from 'src/environment/environment';
 import Swal from 'sweetalert2';
 
+
 interface Color {
   value: number,
   label: string
@@ -24,8 +25,10 @@ export class ProductComponent implements OnInit {
   clienteFinal: any;
   //colores: any[] = [];
   colorSeleccionado: any;
-  coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color:string, cantidad: number, cod_categoria: string }[] = [];
+  coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color: string, cantidad: number, cod_categoria: string, img: string }[] = [];
   coloresMostrar: { genero: string, color: Color, cantidad: number }[] = [];
+  slides: any[] = [];
+  currentSlide = 0;
   constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
   ngOnInit(): void {
     this.service.setOrden();
@@ -38,6 +41,17 @@ export class ProductComponent implements OnInit {
       this.consultarProducto(this.cod);
     });
   }
+  prevSlide() {
+    this.currentSlide = (this.currentSlide > 0) ? this.currentSlide - 1 : this.slides.length - 1;
+  }
+
+  nextSlide() {
+    this.currentSlide = (this.currentSlide < this.slides.length - 1) ? this.currentSlide + 1 : 0;
+  }
+
+  goToSlide(index: number) {
+    this.currentSlide = index;
+  }
 
   cargarProductosSeleccionados() {
     const productosString = localStorage.getItem('productos');
@@ -47,13 +61,56 @@ export class ProductComponent implements OnInit {
   }
 
   consultarProducto(cod: any) {
-    const data = { "Condicion": this.orden.Condicion, "Envio": this.orden.tipo_envio, "Codigo": cod };
+    let form = JSON.parse(this.orden);
+    const data = { "Condicion": form.Condicion, "Envio": form.tipo_envio, "Codigo": cod };
     this.http.post(`${environment.BASE_URL_API}/listarProductoIndividual`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
-          //console.log(response, 'producto');
+          console.log(response, 'producto');
 
           this.producto = response[0];
+          if (this.producto.cod_categoria == "ALMB1" || this.producto.cod_categoria == "ALMB2" || this.producto.cod_categoria == "ALMB3") {
+            this.slides = [
+              { src: '../../../assets/catalago/almillas0-6.jpg', title: 'Slide 1' },
+              { src: '../../../assets/catalago/almillas6-9.jpg', title: 'Slide 2' },
+              { src: '../../../assets/catalago/almillas9-12.jpg', title: 'Slide 3' },
+              { src: '../../../assets/catalago/almillas.jpg', title: 'Slide 4' },
+              { src: '../../../assets/catalago/almillas2.jpg', title: 'Slide 5' },
+              { src: '../../../assets/catalago/almillas3.jpg', title: 'Slide 6' },
+              { src: '../../../assets/catalago/almillas4.jpg', title: 'Slide 7' }
+            ];
+          } else if (this.producto.cod_categoria == "BODB1") {
+            this.slides = [
+              { src: '../../../assets/catalago/body.jpg', title: 'Slide 1' },
+              { src: '../../../assets/catalago/body2.jpg', title: 'Slide 2' },
+              { src: '../../../assets/catalago/bodyNina.jpg', title: 'Slide 3' },
+              { src: '../../../assets/catalago/bodyNina2.jpg', title: 'Slide 4' }
+            ];
+          } else if (this.producto.cod_categoria == "CPDB1") {
+            this.slides = [
+              { src: '../../../assets/catalago/conjunto.jpg', title: 'Slide 1' },
+              { src: '../../../assets/catalago/conjunto2.jpg', title: 'Slide 2' },
+              { src: '../../../assets/catalago/conjunto4.jpg', title: 'Slide 4' },
+              { src: '../../../assets/catalago/conjunto5.jpg', title: 'Slide 5' },
+              { src: '../../../assets/catalago/conjuntoh.jpg', title: 'Slide 6' },
+              { src: '../../../assets/catalago/conjuntoh2.jpg', title: 'Slide 7' },
+              { src: '../../../assets/catalago/conjuntoh3.jpg', title: 'Slide 8' },
+              { src: '../../../assets/catalago/conjuntoh4.jpg', title: 'Slide 9' },
+              { src: '../../../assets/catalago/conjuntoh5.jpg', title: 'Slide 10' },
+              { src: '../../../assets/catalago/conjuntoh6.jpg', title: 'Slide 11' },
+            ];
+          } else  if (this.producto.cod_categoria == "MONB1") {
+            this.slides = [
+              { src: '../../../assets/catalago/monoTradicional.jpg', title: 'Slide 1' },
+              { src: '../../../assets/catalago/monoTradicional2.jpg', title: 'Slide 2' },
+              { src: '../../../assets/catalago/monoTradicional3.jpg', title: 'Slide 3' },
+              { src: '../../../assets/catalago/monoTradicional4.jpg', title: 'Slide 4' }
+            ];
+          } else {
+            this.slides = [
+              { src: '../../../assets/catalago/prueba.jpeg', title: 'Slide 1' }
+            ];
+          }
         } else {
           //console.log('Error');
         }
@@ -114,7 +171,8 @@ export class ProductComponent implements OnInit {
           cod_color: this.colorSeleccionado.value,
           color: this.colorSeleccionado.label,
           cantidad: 0,
-          cod_categoria: this.producto.cod_categoria
+          cod_categoria: this.producto.cod_categoria,
+          img: this.producto.img
         });
 
         this.coloresMostrar.push({
@@ -243,13 +301,13 @@ export class ProductComponent implements OnInit {
           }
           Swal.fire({
             icon: 'warning',
-            title: '¿Desea enviar la orden de compra?',
-            text: 'Puede realizar el envío en este momento o más tarde desde el inicio: Abriendo el detalle del ticket de color amarillo.',
-            confirmButtonText: 'Si, enviar en este momento.',
+            title: '¿Esta seguro que desea finalizar la orden?',
+            text: 'Verifique haber agregado todos los productos, ya que después no los podrá agregar a esta misma orden.',
+            confirmButtonText: 'Si, finalizar en este momento.',
             confirmButtonColor: '#28B463',
             showConfirmButton: true,
             cancelButtonColor: '#E74C3C',
-            cancelButtonText: 'No, enviar más tarde.',
+            cancelButtonText: 'No, volver.',
             showCancelButton: true
           }).then((result) => {
             if (result.isConfirmed) {
@@ -279,29 +337,6 @@ export class ProductComponent implements OnInit {
                 }
               );
 
-            } else {
-              this.clienteFinal.correo = false;
-              const data = {
-                cliente: this.clienteFinal,
-                detalle: this.coloresSeleccionados
-              }
-
-              this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
-                (response: any) => {
-                  if (response == 'Insercion correcta') {
-                    console.log(response);
-                    localStorage.removeItem('orden');
-                    localStorage.removeItem('productos');
-                    this.router.navigate(['/home']);
-
-                  } else {
-                    console.log('Error');
-                  }
-                },
-                (error: any) => {
-                  console.error("Error", error);
-                }
-              );
             }
           })
         }
