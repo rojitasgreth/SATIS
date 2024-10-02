@@ -19,7 +19,7 @@ export class EditProdcutComponent implements OnInit {
   producto: any;
   listaColores: Color[] = [];
   generoSeleccionado: string = '';
-  colorInicial: string = '';
+  colorInicial: any;
   colorSeleccionado: Color = { value: 0, label: '' };
   cantidad: number = 0;
 
@@ -31,7 +31,9 @@ export class EditProdcutComponent implements OnInit {
     if (dato !== null) {
       this.producto = JSON.parse(dato);
       this.generoSeleccionado = this.producto.genero;
-      this.colorInicial = this.producto.cod_color;
+      this.colorInicial = { value: this.producto.cod_color, label: this.producto.color}
+      console.log(this.producto);
+
       this.colorSeleccionado = this.producto.cod_color;
       this.cantidad = this.producto.cantidad;
       this.consultarColores(this.producto.cod_categoria, this.producto.genero);
@@ -48,6 +50,9 @@ export class EditProdcutComponent implements OnInit {
       (response: any) => {
         if (response !== 'VACIO') {
           this.listaColores = response.map((dato: any) => ({ value: dato.codigo_color, label: dato.descripcion_color }));
+          this.listaColores = this.listaColores.filter((producto:any) => producto.value !== this.colorInicial.value);
+          console.log(this.listaColores, 'estooo');
+
         } else {
           this.listaColores = [];
         }

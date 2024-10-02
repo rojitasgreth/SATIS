@@ -101,21 +101,25 @@ export class NewOrdenComponent implements OnInit {
             timer: 3000
                   })
                 } else {
-                  this.ordenForm.patchValue({
+                  console.log(response, 'esta es la respuestaaaa');
+
+                  /* this.ordenForm.patchValue({
                     id: response
-                  })
+                  }) */
+
+                  form.id = response;
                 this.cdr.detectChanges();
                 localStorage.setItem('orden', JSON.stringify(form));
                 this.router.navigate(['/catalog']);
                 }
-               
+
            },
            (error: any) => {
              console.error("Error", error);
            }
          );
        }
-       
+
       } else {
         Swal.fire({
           title: 'Por favor, complete todos los campos',

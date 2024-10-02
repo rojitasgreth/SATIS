@@ -264,6 +264,8 @@ export class ProductComponent implements OnInit {
       /* const productoString = JSON.stringify(this.coloresSeleccionados);
       const producto2 = productoString.slice(1, -1);
       localStorage.setItem('productos', JSON.stringify(producto2)); */
+      console.log(this.coloresSeleccionados, 'coloresss');
+
       localStorage.setItem('productos', JSON.stringify(this.coloresSeleccionados));
       this.router.navigate(['/catalog']);
     }
