@@ -56,8 +56,8 @@
             matTooltip="Cantidad de empaques">
 
             <input #cantidadEmpaquesInput type="number" placeholder="10" *ngIf="cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'BODB1'
-          || producto.cod_categoria == 'BODB2' || producto.cod_categoria == 'CPDB1' || producto.cod_categoria == 'GTRI1' || producto.cod_categoria == 'MONB1'
-          || producto.cod_categoria == 'MONB2' || producto.cod_categoria == 'MONB3' || producto.cod_categoria == 'MCUA1' || producto.cod_categoria == 'FTRI1'"
+          || cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'BODB2' || cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'CPDB1' ||  cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'GTRI1' || cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'MONB1'
+          || cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'MONB2' || cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'MONB3' || cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'MCUA1' || cliente.Condicion == 'Distribuidor' && producto.cod_categoria == 'FTRI1'"
             (input)="agregarCantidad(item.color.value, cantidadEmpaquesInput.value, item.genero)"
             class="w-20 h-10 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
             value="50"

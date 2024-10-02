@@ -40,12 +40,13 @@
           <option value="V">V</option>
           <option value="E">E</option>
         </select>
-        <input matInput type="text" formControlName="RIF" placeholder="170333337" maxlength="9"
+        <input matInput type="text" formControlName="RIF" placeholder="170333337" maxlength="9" minlength="9"
           onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
           class="h-12 w-45 ml-3 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-7"
           (blur)="consultarCliente()">
         </div>
 
+        <mat-error *ngIf="ordenForm.get('RIF')?.touched && ordenForm.get('RIF')?.value.length != 9">RIF inválido.</mat-error>
         <mat-error *ngIf="ordenForm.get('RIF')?.touched && ordenForm.get('RIF')?.hasError('required')">El RIF del
           cliente es requerido.</mat-error>
       </div>

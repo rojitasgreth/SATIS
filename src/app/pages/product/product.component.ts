@@ -343,10 +343,22 @@ export class ProductComponent implements OnInit {
                     this.router.navigate(['/home']);
 
                   } else {
+                    Swal.fire({
+                      title: "Ha ocurrido un inconveniente",
+                      icon: "warning",
+                      showConfirmButton: false,
+              timer: 3000
+                    })
                     console.log('Error');
                   }
                 },
                 (error: any) => {
+                  Swal.fire({
+                    title: "Ha ocurrido un inconveniente",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 3000
+                  })
                   console.error("Error", error);
                 }
               );

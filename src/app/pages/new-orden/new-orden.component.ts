@@ -93,19 +93,29 @@ export class NewOrdenComponent implements OnInit {
          await this.http.post(`${environment.BASE_URL_API}/insertarCliente`, form).subscribe(
            (response: any) => {
              console.log(response, 'respuesta insercion');
-
-               this.ordenForm.patchValue({
-                 id: response
-               })
-             this.cdr.detectChanges();
-             localStorage.setItem('orden', JSON.stringify(form));
+                if (response && response.code == 204) {
+                  Swal.fire({
+                    title: "Ha ocurrido un inconveniente",
+                    icon: "warning",
+                    showConfirmButton: false,
+            timer: 3000
+                  })
+                } else {
+                  this.ordenForm.patchValue({
+                    id: response
+                  })
+                this.cdr.detectChanges();
+                localStorage.setItem('orden', JSON.stringify(form));
+                this.router.navigate(['/catalog']);
+                }
+               
            },
            (error: any) => {
              console.error("Error", error);
            }
          );
        }
-       this.router.navigate(['/catalog']);
+       
       } else {
         Swal.fire({
           title: 'Por favor, complete todos los campos',
