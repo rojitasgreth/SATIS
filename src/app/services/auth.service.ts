@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-   
+
   private _auth = new BehaviorSubject<any>(null);
   auth$ = this._auth.asObservable();
 
@@ -17,12 +17,12 @@ export class AuthService {
 
   setAuth() {
     const auth = localStorage.getItem('auth');
-    console.log(auth, 'veaaa');
-    
+    // console.log(auth, 'veaaa');
+
     this._auth.next(auth);
   }
 
-  setInfoAuth(){
+  setInfoAuth() {
     const obj = localStorage.getItem('info')
     this._infoAuth.next(obj);
   }

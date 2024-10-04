@@ -7,16 +7,16 @@ import { environment } from 'src/environment/environment';
   selector: 'app-details',
   templateUrl: './details.component.html'
 })
-export class DetailsComponent implements OnInit{
-  parametro:string = '';
+export class DetailsComponent implements OnInit {
+  parametro: string = '';
   productos: any;
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router){}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => this.parametro = params['orden']);
     this.consultarOrden();
   }
 
-  consultarOrden(){
+  consultarOrden() {
     let infoString = localStorage.getItem('info');
 
     if (infoString !== null) {
@@ -30,9 +30,9 @@ export class DetailsComponent implements OnInit{
 
       this.http.post(`${environment.BASE_URL_API}/listarDetalles`, data).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           this.productos = response;
-          console.log(this.productos, 'ES ESTA VERGAAA');
+          // console.log(this.productos, 'ES ESTA VERGAAA');
 
         },
         (error: any) => {
@@ -43,7 +43,7 @@ export class DetailsComponent implements OnInit{
 
   }
 
-  volver(){
+  volver() {
     this.router.navigate(['home']);
   }
 }

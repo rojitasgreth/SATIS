@@ -8,26 +8,26 @@ import { Router } from '@angular/router';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit{
+export class MenuComponent implements OnInit {
   menuExpanded: boolean = true;
   orden: any;
-  constructor(private service: MenuService, private _route: Router){}
+  constructor(private service: MenuService, private _route: Router) { }
   ngOnInit(): void {
-    this.service.menu$.subscribe(estatus=>{
-      console.log(estatus);
+    this.service.menu$.subscribe(estatus => {
+      // console.log(estatus);
       if (estatus == null) {
         this.menuExpanded = true;
-      }else {
+      } else {
         this.menuExpanded = estatus;
       }
     });
 
     this.orden = localStorage.getItem('orden');
   }
-  toogleMenu(){
+  toogleMenu() {
     this.menuExpanded = !this.menuExpanded;
   }
-  cerrarSesion(){
+  cerrarSesion() {
     localStorage.clear();
     this._route.navigate(['/login'])
   }

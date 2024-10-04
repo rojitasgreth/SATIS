@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private route: Router,
     private authService: AuthService
-  ){
+  ) {
     this.loginForm = this._formBuilder.group({
       usuario: ['', Validators.required],
       clave: ['', Validators.required]
@@ -25,20 +25,20 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('hola', this.loginForm.get('usuario'));
+    // console.log('hola', this.loginForm.get('usuario'));
     if (localStorage.getItem('auth')) {
       this.route.navigate(['/home']);
     }
   }
 
-  logIn(){
+  logIn() {
     if (this.loginForm.valid) {
       const formData = this.loginForm.value;
-      console.log(formData.usuario, 'hola');
+      // console.log(formData.usuario, 'hola');
 
       this.http.post(`${environment.BASE_URL_API}/login`, formData).subscribe(
         (response: any) => {
-          console.log(response.rol);
+          // console.log(response.rol);
 
           if (response == 'No existe el usuario.') {
             Swal.fire({
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
               timer: 3000
             })
           } else if (response.rol == 'Vendedor') {
-            console.log('aquii');
+            // console.log('aquii');
 
             const auth = 'true';
             localStorage.setItem('auth', auth);
@@ -70,8 +70,8 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('info', JSON.stringify(response))
             this.authService.setInfoAuth();
             this.route.navigate(['/home']);
-          }else {
-            console.log('admin');
+          } else {
+            // console.log('admin');
             localStorage.setItem('info', JSON.stringify(response))
             this.authService.setInfoAuth();
           }
@@ -81,8 +81,8 @@ export class LoginComponent implements OnInit {
         }
 
       )
-    }else {
-      console.log('No valido');
+    } else {
+      // console.log('No valido');
 
     }
 

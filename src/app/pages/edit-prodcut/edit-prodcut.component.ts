@@ -24,15 +24,17 @@ export class EditProdcutComponent implements OnInit {
   cantidad: number = 0;
 
 
-  constructor(private http: HttpClient, private _matDialog: MatDialog, private router: Router) {}
+  constructor(private http: HttpClient, private _matDialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     let dato = localStorage.getItem('editProduct');
     if (dato !== null) {
       this.producto = JSON.parse(dato);
       this.generoSeleccionado = this.producto.genero;
-      this.colorInicial = { value: this.producto.cod_color, label: this.producto.color}
-      console.log(this.producto);
+      this.colorInicial = { value: this.producto.cod_color, label: this.producto.color }
+      // console.log(this.colorInicial, 'color inicial');
+
+      // console.log(this.producto);
 
       this.colorSeleccionado = this.producto.cod_color;
       this.cantidad = this.producto.cantidad;
@@ -50,8 +52,8 @@ export class EditProdcutComponent implements OnInit {
       (response: any) => {
         if (response !== 'VACIO') {
           this.listaColores = response.map((dato: any) => ({ value: dato.codigo_color, label: dato.descripcion_color }));
-          this.listaColores = this.listaColores.filter((producto:any) => producto.value !== this.colorInicial.value);
-          console.log(this.listaColores, 'estooo');
+          this.listaColores = this.listaColores.filter((producto: any) => producto.value !== this.colorInicial.value);
+          // console.log(this.listaColores, 'estooo son los colores');
 
         } else {
           this.listaColores = [];
@@ -64,6 +66,7 @@ export class EditProdcutComponent implements OnInit {
   }
 
   editar() {
+    // console.log(this.colorSeleccionado.value, this.colorInicial.value, this.cantidad);
 
     if (this.colorSeleccionado.value !== undefined && this.cantidad !== null) {
       let data = {
@@ -77,56 +80,119 @@ export class EditProdcutComponent implements OnInit {
         genero: this.producto.genero,
         precio: this.producto.precio
       };
-      console.log(data);
+      // console.log(data);
 
       let change = localStorage.getItem('productos');
 
       if (change !== null) {
         let productos = JSON.parse(change);
 
-        function actualizarProducto(productos: any, data: any, color:any) {
-          console.log(productos, color);
+        function actualizarProducto(productos: any, data: any, color: any) {
+          // console.log(productos, color);
 
           // Encuentra el objeto que coincida con los criterios
-          let producto = productos.find((p:any) =>
-              p.cod_categoria === data.cod_categoria &&
-              p.categoria_producto === data.categoria_producto &&
-              p.genero === data.genero &&
-              p.cod_color === color
+          let producto = productos.find((p: any) =>
+            p.cod_categoria === data.cod_categoria &&
+            p.categoria_producto === data.categoria_producto &&
+            p.genero === data.genero &&
+            p.cod_color === color.value
 
           );
-          console.log(producto);
+          // console.log(producto);
 
           // Si se encuentra el objeto, actualiza sus propiedades
           if (producto) {
-              producto.cantidad = data.cantidad;
-              producto.cantidad_piezas = data.cantidad_piezas;
-              producto.cod_color = data.cod_color;
-              producto.color = data.color;
-              producto.descripcion_producto = data.descripcion_producto;
-              producto.precio = data.precio;
+            producto.cantidad = data.cantidad;
+            producto.cantidad_piezas = data.cantidad_piezas;
+            producto.cod_color = data.cod_color;
+            producto.color = data.color;
+            producto.descripcion_producto = data.descripcion_producto;
+            producto.precio = data.precio;
           }
+        }
+
+        // Llama a la función para actualizar el producto
+        actualizarProducto(productos, data, this.colorInicial);
+
+        // Verifica el resultado
+        // console.log(productos);
+
+        localStorage.setItem('productos', JSON.stringify(productos));
+        localStorage.removeItem('editProduct');
+
+        Swal.fire({
+          title: 'Producto editado',
+          icon: 'success',
+          confirmButtonColor: '#0097A7'
+        });
+
+        this.router.navigate(['/visualize-orden']);
+
       }
 
-      // Llama a la función para actualizar el producto
-      actualizarProducto(productos, data, this.colorInicial);
+    } else if (this.colorSeleccionado.value == undefined && this.colorInicial.value !== undefined && this.cantidad !== null) {
+      // console.log(this.cantidad, 'cantidaaaaaaaaaa');
 
-      // Verifica el resultado
-      console.log(productos);
+      let data = {
+        cantidad: this.cantidad,
+        cantidad_piezas: this.producto.cantidad_piezas,
+        categoria_producto: this.producto.categoria_producto,
+        cod_categoria: this.producto.cod_categoria,
+        cod_color: this.colorInicial.value,
+        color: this.colorInicial.label,
+        descripcion_producto: this.producto.descripcion_producto,
+        genero: this.producto.genero,
+        precio: this.producto.precio
+      };
+      // console.log(data);
 
-      localStorage.setItem('productos', JSON.stringify(productos));
-      localStorage.removeItem('editProduct');
+      let change = localStorage.getItem('productos');
 
-      Swal.fire({
-        title: 'Producto editado',
-        icon: 'success',
-        confirmButtonColor: '#0097A7'
-      });
+      if (change !== null) {
+        let productos = JSON.parse(change);
 
-      this.router.navigate(['/visualize-orden']);
+        function actualizarProducto(productos: any, data: any, color: any) {
+          console.log(productos, data, color, 'que es estoooooo');
+
+          // Encuentra el objeto que coincida con los criterios
+          let producto = productos.find((p: any) =>
+            p.cod_categoria === data.cod_categoria &&
+            p.categoria_producto === data.categoria_producto &&
+            p.genero === data.genero &&
+            p.cod_color === color.value
+
+          );
+           console.log(producto);
+
+          // Si se encuentra el objeto, actualiza sus propiedades
+          if (producto) {
+            producto.cantidad = data.cantidad;
+            producto.cantidad_piezas = data.cantidad_piezas;
+            producto.cod_color = data.cod_color;
+            producto.color = data.color;
+            producto.descripcion_producto = data.descripcion_producto;
+            producto.precio = data.precio;
+          }
+        }
+
+        // Llama a la función para actualizar el producto
+        actualizarProducto(productos, data, this.colorInicial);
+
+        // Verifica el resultado
+        // console.log(productos);
+
+        localStorage.setItem('productos', JSON.stringify(productos));
+        localStorage.removeItem('editProduct');
+
+        Swal.fire({
+          title: 'Producto editado',
+          icon: 'success',
+          confirmButtonColor: '#0097A7'
+        });
+
+        this.router.navigate(['/visualize-orden']);
 
       }
-
     } else {
       Swal.fire({
         title: 'Por favor, complete los campos',
@@ -145,7 +211,7 @@ export class EditProdcutComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed', result);
+      // console.log('Dialog closed', result);
     });
   }
 }

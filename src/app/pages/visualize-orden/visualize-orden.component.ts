@@ -31,7 +31,7 @@ export class VisualizeOrdenComponent implements OnInit {
     const clienteString = localStorage.getItem('orden');
     if (clienteString !== null) {
       this.orden = JSON.parse(clienteString);
-      console.log(this.orden);
+      // console.log(this.orden);
 
     } else {
       this.router.navigate(['/home']);
@@ -43,7 +43,7 @@ export class VisualizeOrdenComponent implements OnInit {
     const productoString = localStorage.getItem('productos');
     if (productoString !== null) {
       this.productos = JSON.parse(productoString);
-      console.log(this.productos);
+      // console.log(this.productos);
 
     } else {
       this.productos = null;
@@ -92,7 +92,7 @@ export class VisualizeOrdenComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('holaa');
+      // console.log('holaa');
 
     });
   }
@@ -121,7 +121,7 @@ export class VisualizeOrdenComponent implements OnInit {
   }
 
   borrarProd(item: any) {
-    console.log(item);
+    // console.log(item);
 
     Swal.fire({
       title: '¿Está seguro desea eliminar este producto?',
@@ -133,14 +133,14 @@ export class VisualizeOrdenComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.productos = this.productos.filter((producto: any) => !this.objetosSonIguales(producto, item));
-        console.log(this.productos);
+        // console.log(this.productos);
         localStorage.setItem('productos', JSON.stringify(this.productos));
       }
     });
   };
 
   finalizarOrden() {
-    console.log('PRODUCTOSSS', this.productos.length);
+    // console.log('PRODUCTOSSS', this.productos.length);
 
     if (this.productos !== null && this.productos.length !== 0) {
       Swal.fire({
@@ -194,13 +194,13 @@ export class VisualizeOrdenComponent implements OnInit {
                   detalle: this.productos
                 }
 
-                console.log(data);
+                // console.log(data);
 
 
                 this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
                   (response: any) => {
                     if (response == 'Insercion correcta') {
-                      console.log(response);
+                      // console.log(response);
                       localStorage.removeItem('orden');
                       localStorage.removeItem('productos');
                       this.router.navigate(['/home']);
@@ -212,7 +212,7 @@ export class VisualizeOrdenComponent implements OnInit {
                         showConfirmButton: false,
                         timer: 3000
                       })
-                      console.log('Error');
+                      // console.log('Error');
                     }
                   },
                   (error: any) => {

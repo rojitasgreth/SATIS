@@ -91,8 +91,36 @@
               d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
           </svg>
         </span>
-        <input matInput type="text" formControlName="estado" placeholder="Estado"
-          class="h-12 pl-10 pr-3 w-full bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+        <!-- <input matInput type="text" formControlName="estado" placeholder="Estado"
+          class="h-12 pl-10 pr-3 w-full bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"> -->
+          <select formControlName="estado" placeholder="Estado" class="h-12 pl-10 pr-3 w-full bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+            <option value="" disabled selected>Seleccione un estado</option>
+            <option value="AMAZONAS">AMAZONAS</option>
+            <option value="ANZOATEGUI">ANZOATEGUI</option>
+            <option value="APURE">APURE</option>
+            <option value="ARAGUA">ARAGUA</option>
+            <option value="BARINAS">BARINAS</option>
+            <option value="BOLIVAR">BOLIVAR</option>
+            <option value="CARABOBO">CARABOBO</option>
+            <option value="COJEDES">COJEDES</option>
+            <option value="DELTA AMACURO">DELTA AMACURO</option>
+            <option value="DISTRITO CAPITAL">DISTRITO CAPITAL</option>
+            <option value="FALCON">FALCON</option>
+            <option value="GUARICO">GUARICO</option>
+            <option value="LA GUAIRA">LA GUAIRA</option>
+            <option value="COJEDES">COJEDES</option>
+            <option value="LARA">LARA</option>
+            <option value="MERIDA">MERIDA</option>
+            <option value="MIRANDA">MIRANDA</option>
+            <option value="MONAGAS">MONAGAS</option>
+            <option value="NUEVA ESPARTA">NUEVA ESPARTA</option>
+            <option value="PORTUGUESA">PORTUGUESA</option>
+            <option value="SUCRE">SUCRE</option>
+            <option value="TACHIRA">TACHIRA</option>
+            <option value="TRUJILLO">TRUJILLO</option>
+            <option value="YARACUY">YARACUY</option>
+            <option value="SUCRE">ZULIA</option>
+          </select>
       </div>
 
       <div class="relative">
@@ -104,7 +132,7 @@
               d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
           </svg>
         </span>
-        <input matInput type="text" formControlName="calle" placeholder="Calle o Avenida"
+        <input matInput type="text" formControlName="calle" placeholder="Calle o Avenida" maxlength="80"
           class="h-12 pl-10 pr-3 w-full mt-5 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
       </div>
 
@@ -117,7 +145,7 @@
               d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
           </svg>
         </span>
-        <input matInput type="text" formControlName="edificio" placeholder="Edificio/local"
+        <input matInput type="text" formControlName="edificio" placeholder="Edificio/local" maxlength="80"
           class="h-12 pl-10 pr-3 w-full mt-5 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
       </div>
     </div>

@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.menu$.subscribe(estatus => {
-      console.log(estatus);
+      // console.log(estatus);
       if (estatus == null) {
         this.menuExpanded = true;
       } else {
@@ -34,12 +34,12 @@ export class HomeComponent implements OnInit {
     this.authService.infoAuth$.subscribe(data => {
       data = JSON.parse(data);
       this.idUsuario = data.id;
-      console.log(this.idUsuario, 'id');
+      // console.log(this.idUsuario, 'id');
       this.consultarOrdenes();
     });
   }
 
-  crearOrden(){
+  crearOrden() {
     if (localStorage.getItem('orden')) {
       Swal.fire({
         icon: 'info',
@@ -61,11 +61,11 @@ export class HomeComponent implements OnInit {
 
     this.http.post(`${environment.BASE_URL_API}/listarOrdenes`, idUser).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (response !== 'NO') {
           this.ordenes = response;
-        }else {
+        } else {
           this.ordenes = null;
         }
         this.cdr.detectChanges();
@@ -74,10 +74,10 @@ export class HomeComponent implements OnInit {
         console.error("Error", error);
       }
     );
-    console.log(this.ordenes);
+    // console.log(this.ordenes);
   }
 
-  verDetalles(orden: any){
+  verDetalles(orden: any) {
     this.router.navigate(['details', orden]);
   }
 }

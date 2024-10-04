@@ -42,11 +42,11 @@ export class NewOrdenComponent implements OnInit {
     form.RIF = rif;
     let rifCliente = { "RIF": form.RIF }
 
-    console.log(rif, 'clienteee');
+    // console.log(rif, 'clienteee');
 
     this.http.post(`${environment.BASE_URL_API}/listarCliente`, rifCliente).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (response === 'VACIO' || response.code === 204) {
           this.existe = false;
@@ -58,7 +58,7 @@ export class NewOrdenComponent implements OnInit {
           this.ordenForm.get('edificio')?.reset();
 
         } else {
-          console.log('existe');
+          // console.log('existe');
           this.existe = true;
           this.ordenForm.patchValue({
             id: response.id,
@@ -70,7 +70,7 @@ export class NewOrdenComponent implements OnInit {
             edificio: response.edificio
           });
         }
-        console.log(this.existe);
+        // console.log(this.existe);
 
         this.cdr.detectChanges();
       },
@@ -82,52 +82,52 @@ export class NewOrdenComponent implements OnInit {
 
   async enviarCliente() {
     if (this.ordenForm.valid) {
-      console.log(this.existe);
+      // console.log(this.existe);
 
       if (!this.existe) {
         let form = this.ordenForm.value;
         let rif = form.RIFL + '-' + form.RIF;
         form.RIF = rif;
-        console.log(form);
+        // console.log(form);
 
-         await this.http.post(`${environment.BASE_URL_API}/insertarCliente`, form).subscribe(
-           (response: any) => {
-             console.log(response, 'respuesta insercion');
-                if (response && response.code == 204) {
-                  Swal.fire({
-                    title: "Ha ocurrido un inconveniente",
-                    icon: "warning",
-                    showConfirmButton: false,
-            timer: 3000
-                  })
-                } else {
-                  console.log(response, 'esta es la respuestaaaa');
+        await this.http.post(`${environment.BASE_URL_API}/insertarCliente`, form).subscribe(
+          (response: any) => {
+            // console.log(response, 'respuesta insercion');
+            if (response && response.code == 204) {
+              Swal.fire({
+                title: "Ha ocurrido un inconveniente",
+                icon: "warning",
+                showConfirmButton: false,
+                timer: 3000
+              })
+            } else {
+              // console.log(response, 'esta es la respuestaaaa');
 
-                  /* this.ordenForm.patchValue({
-                    id: response
-                  }) */
+              /* this.ordenForm.patchValue({
+                id: response
+              }) */
 
-                  form.id = response;
-                this.cdr.detectChanges();
-                localStorage.setItem('orden', JSON.stringify(form));
-                this.router.navigate(['/catalog']);
-                }
+              form.id = response;
+              this.cdr.detectChanges();
+              localStorage.setItem('orden', JSON.stringify(form));
+              this.router.navigate(['/catalog']);
+            }
 
-           },
-           (error: any) => {
-             console.error("Error", error);
-           }
-         );
-       }
-
-      } else {
-        Swal.fire({
-          title: 'Por favor, complete todos los campos',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 6000
-        });
+          },
+          (error: any) => {
+            console.error("Error", error);
+          }
+        );
       }
+
+    } else {
+      Swal.fire({
+        title: 'Por favor, complete todos los campos',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 6000
+      });
+    }
   }
 
   continuar() {

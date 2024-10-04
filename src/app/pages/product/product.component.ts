@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
   producto: any;
   generoSeleccionado: any;
   clienteFinal: any;
-  cliente : any;
+  cliente: any;
   //colores: any[] = [];
   colorSeleccionado: any;
   coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color: string, cantidad: number, cod_categoria: string, img: string }[] = [];
@@ -55,12 +55,12 @@ export class ProductComponent implements OnInit {
     this.currentSlide = index;
   }
 
-  verificarCliente(){
+  verificarCliente() {
     const clienteString = localStorage.getItem('orden');
-          const infoString = localStorage.getItem('info')
-          if (clienteString !== null && infoString !== null) {
-            this.cliente = JSON.parse(clienteString);
-          }
+    const infoString = localStorage.getItem('info')
+    if (clienteString !== null && infoString !== null) {
+      this.cliente = JSON.parse(clienteString);
+    }
   }
   cargarProductosSeleccionados() {
     const productosString = localStorage.getItem('productos');
@@ -75,7 +75,7 @@ export class ProductComponent implements OnInit {
     this.http.post(`${environment.BASE_URL_API}/listarProductoIndividual`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
-          console.log(response, 'producto');
+          // console.log(response, 'producto');
 
           this.producto = response[0];
 
@@ -111,7 +111,7 @@ export class ProductComponent implements OnInit {
               { src: '../../../assets/catalago/conjuntoh5.jpg', title: 'Slide 10' },
               { src: '../../../assets/catalago/conjuntoh6.jpg', title: 'Slide 11' },
             ];
-          } else  if (this.producto.cod_categoria == "MONB1") {
+          } else if (this.producto.cod_categoria == "MONB1") {
             this.slides = [
               { src: '../../../assets/catalago/monoTradicional.jpg', title: 'Slide 1' },
               { src: '../../../assets/catalago/monoTradicional2.jpg', title: 'Slide 2' },
@@ -172,8 +172,8 @@ export class ProductComponent implements OnInit {
 
 
       if (this.colorSeleccionado) {
-        console.log(this.colorSeleccionado, 'que tieneee');
-        console.log(this.producto, 'prodcutooo');
+        // console.log(this.colorSeleccionado, 'que tieneee');
+        // console.log(this.producto, 'prodcutooo');
 
 
         this.coloresSeleccionados.push({
@@ -196,31 +196,31 @@ export class ProductComponent implements OnInit {
         });
         //console.log(this.coloresSeleccionados, 'este es el color seleccionado');
       } else {
-        console.log('No se ha seleccionado ningún color.');
+        // console.log('No se ha seleccionado ningún color.');
       }
     } else {
-      console.log('No se ha seleccionado ningún color o género.');
+      // console.log('No se ha seleccionado ningún color o género.');
     }
   }
 
   agregarCantidad(cod: any, cantidad: any, genero: any) {
-    console.log(cod, cantidad, 'esto se recibe');
+    // console.log(cod, cantidad, 'esto se recibe');
 
-    console.log(this.producto);
+    // console.log(this.producto);
 
-    console.log(this.coloresSeleccionados);
+    // console.log(this.coloresSeleccionados);
 
 
     const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_categoria === this.producto.cod_categoria && genero === color.genero);
-    console.log(index);
+    // console.log(index);
 
     if (index !== -1) {
       this.coloresSeleccionados[index].cantidad = parseInt(cantidad);
-      console.log('Cantidad actualizada:', this.coloresSeleccionados[index]);
+      // console.log('Cantidad actualizada:', this.coloresSeleccionados[index]);
     } else {
-      console.log('No se encontró ningún color con el código', cod);
+      // console.log('No se encontró ningún color con el código', cod);
     }
-    console.log(this.coloresSeleccionados);
+    // console.log(this.coloresSeleccionados);
   }
 
   eliminarColor(cod: any) {
@@ -231,9 +231,9 @@ export class ProductComponent implements OnInit {
     if (index !== -1) {
       this.coloresSeleccionados.splice(index, 1);
       this.coloresMostrar.splice(index, 1);
-      // console.log('Color eliminado.');
+      //// console.log('Color eliminado.');
     } else {
-      // console.log('No se encontró ningún color con el código', cod);
+      //// console.log('No se encontró ningún color con el código', cod);
     }
 
     //console.log(this.coloresSeleccionados);
@@ -241,10 +241,10 @@ export class ProductComponent implements OnInit {
   }
 
   continuar() {
-    // console.log(this.coloresSeleccionados.length, 'longitudd');
+    //// console.log(this.coloresSeleccionados.length, 'longitudd');
 
     if (this.coloresSeleccionados.length == 0) {
-      //  console.log('holaa');
+      // // console.log('holaa');
 
       Swal.fire({
         icon: 'warning',
@@ -264,7 +264,7 @@ export class ProductComponent implements OnInit {
       /* const productoString = JSON.stringify(this.coloresSeleccionados);
       const producto2 = productoString.slice(1, -1);
       localStorage.setItem('productos', JSON.stringify(producto2)); */
-      console.log(this.coloresSeleccionados, 'coloresss');
+      // console.log(this.coloresSeleccionados, 'coloresss');
 
       localStorage.setItem('productos', JSON.stringify(this.coloresSeleccionados));
       this.router.navigate(['/catalog']);
@@ -333,13 +333,13 @@ export class ProductComponent implements OnInit {
                 detalle: this.coloresSeleccionados
               }
 
-              console.log(data);
+              // console.log(data);
 
 
               this.http.post(`${environment.BASE_URL_API}/insertarOrden`, data).subscribe(
                 (response: any) => {
                   if (response == 'Insercion correcta') {
-                    console.log(response);
+                    // console.log(response);
                     localStorage.removeItem('orden');
                     localStorage.removeItem('productos');
                     this.router.navigate(['/home']);
@@ -349,9 +349,9 @@ export class ProductComponent implements OnInit {
                       title: "Ha ocurrido un inconveniente",
                       icon: "warning",
                       showConfirmButton: false,
-              timer: 3000
+                      timer: 3000
                     })
-                    console.log('Error');
+                    // console.log('Error');
                   }
                 },
                 (error: any) => {
