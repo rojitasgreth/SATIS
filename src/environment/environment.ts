@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
+    production: false,
     BASE_URL_API: 'https://satis.work.gd/satis',
-    BASE_URL: 'https://satis.work.gd/'
+    BASE_URL: 'https://satis.work.gd'
 };
