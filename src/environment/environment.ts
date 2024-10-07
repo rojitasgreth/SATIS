@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
-    BASE_URL_API: 'http://localhost:5000/satis',
-    BASE_URL: 'http://vitae-cal.apn.gob.ve/vitae'
-};  
+    production: true,
+    BASE_URL_API: 'https://satis.work.gd/satis',
+    BASE_URL: 'https://satis.work.gd/'
+};
