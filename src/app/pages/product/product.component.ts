@@ -168,13 +168,12 @@ export class ProductComponent implements OnInit {
     if (value && this.generoSeleccionado) {
       this.colorSeleccionado = this.listaColores.find(color => value == color.value);
 
-      //console.log(this.colorSeleccionado, 'que es estooo');
-
-
       if (this.colorSeleccionado) {
-        // console.log(this.colorSeleccionado, 'que tieneee');
-        // console.log(this.producto, 'prodcutooo');
-
+        console.log(this.cliente);
+        let cantidadPorDefecto = 0;
+        if (this.cliente.Condicion == 'Distribuidor') {
+          cantidadPorDefecto = this.obtenerCantidadPorDefecto(this.producto.cod_categoria);
+        }
 
         this.coloresSeleccionados.push({
           genero: this.generoSeleccionado,
@@ -184,7 +183,7 @@ export class ProductComponent implements OnInit {
           precio: this.producto.precio,
           cod_color: this.colorSeleccionado.value,
           color: this.colorSeleccionado.label,
-          cantidad: 0,
+          cantidad: cantidadPorDefecto,
           cod_categoria: this.producto.cod_categoria,
           img: this.producto.img
         });
@@ -192,19 +191,48 @@ export class ProductComponent implements OnInit {
         this.coloresMostrar.push({
           genero: this.generoSeleccionado,
           color: this.colorSeleccionado,
-          cantidad: 0
+          cantidad: cantidadPorDefecto
         });
-        //console.log(this.coloresSeleccionados, 'este es el color seleccionado');
+
+        this.agregarCantidad(this.colorSeleccionado.value, cantidadPorDefecto, this.generoSeleccionado);
+
+        console.log(this.coloresSeleccionados, 'este es el color seleccionado');
       } else {
-        // console.log('No se ha seleccionado ningún color.');
+        console.log('No se ha seleccionado ningún color.');
       }
     } else {
-      // console.log('No se ha seleccionado ningún color o género.');
+      console.log('No se ha seleccionado ningún color o género.');
     }
   }
 
+  obtenerCantidadPorDefecto(codCategoria: string): number {
+    switch (codCategoria) {
+      case 'ALMB1':
+      case 'JSCO1':
+      case 'JSCU1':
+        return 100;
+      case 'ALMB2':
+      case 'ALMB3':
+      case 'SEMB1':
+        return 25;
+      case 'BODB1':
+      case 'BODB2':
+      case 'CPDB1':
+      case 'GTRI1':
+      case 'MONB1':
+      case 'MONB2':
+      case 'MONB3':
+      case 'MCUA1':
+      case 'FTRI1':
+        return 50;
+      default:
+        return 0;
+    }
+  }
+
+
   agregarCantidad(cod: any, cantidad: any, genero: any) {
-    // console.log(cod, cantidad, 'esto se recibe');
+    console.log(cod, cantidad, 'esto se recibe');
 
     // console.log(this.producto);
 
