@@ -1,0 +1,71 @@
+<div class="bg-slate-200 min-h-screen flex flex-col">
+  <app-menu></app-menu>
+
+  <div class="flex-grow flex justify-center items-start pt-20">
+    <!-- Contenedor centrado -->
+    <div class="w-full max-w-4xl px-4">
+      <!-- Componente de paginador centrado debajo de la tabla -->
+      <div class="flex justify-end mb-4">
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+      <!-- Tabla centrada con ancho limitado -->
+      <table mat-table [dataSource]="dataSource" matSort class="table table-bordered bg-white text-black border-black w-full">
+
+        <ng-container matColumnDef="cedula">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Cédula</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.cedula }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="primer_nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Nombre</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.primer_nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="segundo_nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Segundo nombre</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.segundo_nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="primer_apellido">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Apellido</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.primer_apellido }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha_nacimiento">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Fecha de Nacimiento</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.fecha_nacimiento }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="telefono">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Teléfono</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">0{{ row.telefono }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="correo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Correo</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.correo }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="usuario">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Usuario</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.usuario }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="clave">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Clave</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.clave }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="rol">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Rol</th>
+          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.rol }}</td>
+        </ng-container>
+
+        <!-- Definir las filas para la cabecera y contenido -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+  </div>
+</div>

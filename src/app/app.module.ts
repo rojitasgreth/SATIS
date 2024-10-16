@@ -25,7 +25,10 @@ import { VisualizeOrdenComponent } from './pages/visualize-orden/visualize-orden
 import { VisualizeClientComponent } from './pages/visualize-client/visualize-client.component';
 import { EditProdcutComponent } from './pages/edit-prodcut/edit-prodcut.component';
 import { DetailsComponent } from './pages/details/details.component';
-
+import { UsersComponent } from './pages/admin/users/users.component';
+import { PaginatorComponent } from './pages/paginator/paginator.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +42,8 @@ import { DetailsComponent } from './pages/details/details.component';
     VisualizeOrdenComponent,
     VisualizeClientComponent,
     EditProdcutComponent,
-    DetailsComponent
+    DetailsComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +60,9 @@ import { DetailsComponent } from './pages/details/details.component';
     MatTooltipModule,
     FormsModule,
     MatDialogModule,
+    PaginatorComponent,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

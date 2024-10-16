@@ -70,10 +70,14 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('info', JSON.stringify(response))
             this.authService.setInfoAuth();
             this.route.navigate(['/home']);
-          } else {
-            // console.log('admin');
+          } else if (response.rol == 'Admin') {
+            console.log('admin');
+            const auth = 'true';
+            localStorage.setItem('auth', auth);
+            this.authService.setAuth();
             localStorage.setItem('info', JSON.stringify(response))
             this.authService.setInfoAuth();
+            this.route.navigate(['/admin/users']);
           }
         },
         (error) => {

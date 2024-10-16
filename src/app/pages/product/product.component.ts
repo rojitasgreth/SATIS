@@ -276,7 +276,7 @@ export class ProductComponent implements OnInit {
 
       Swal.fire({
         icon: 'warning',
-        text: 'No ha seleccionado ningún color. ¿Está seguro de volver al catálago?',
+        text: 'No ha seleccionado ningún color. ¿Está seguro de volver al catálogo?',
         confirmButtonText: 'Si',
         confirmButtonColor: '#28B463',
         showConfirmButton: true,
