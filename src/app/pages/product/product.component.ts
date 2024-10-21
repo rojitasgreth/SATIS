@@ -252,7 +252,8 @@ export class ProductComponent implements OnInit {
   }
 
   eliminarColor(cod: any) {
-    //console.log('Eliminar color con código:', cod);
+    console.log(this.coloresSeleccionados, 'antes');
+    console.log('Eliminar color con código:', cod);
 
     const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color);
 
@@ -264,7 +265,7 @@ export class ProductComponent implements OnInit {
       //// console.log('No se encontró ningún color con el código', cod);
     }
 
-    //console.log(this.coloresSeleccionados);
+    console.log(this.coloresSeleccionados, 'ya eliminado');
 
   }
 
