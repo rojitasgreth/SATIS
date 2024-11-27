@@ -1,71 +1,191 @@
-<div class="bg-slate-200 min-h-screen flex flex-col">
-  <app-menu></app-menu>
+<app-menu></app-menu>
+<div class="bg-white min-h-screen flex">
 
-  <div class="flex-grow flex justify-center items-start pt-20">
-    <!-- Contenedor centrado -->
-    <div class="w-full max-w-4xl px-4">
-      <!-- Componente de paginador centrado debajo de la tabla -->
-      <div class="flex justify-end mb-4">
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <!-- Contenedor principal ajustado para no chocar con el menú -->
+  <div class="flex-1 p-8 sm:p-10">
+    <!-- Header con el título y el buscador en la misma línea -->
+    <div
+      class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0 ml-5">
+      <div class="w-full bg-white h-10 fuse-mat-rounded sm:min-w-64 text-black flex items-center justify-between">
+        <h1>Listado de usuarios</h1>
+        <div class="flex items-center">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="filter_alt"></mat-icon>
+          <input class="border-2 border-cyan-700 rounded-lg p-2 focus:outline-none focus:ring-cyan-500 focus:ring-1"
+            (keyup)="applyFilter($event)" autocomplete="off" placeholder="Nombre, rol, correo..." #input>
+        </div>
       </div>
-      <!-- Tabla centrada con ancho limitado -->
-      <table mat-table [dataSource]="dataSource" matSort class="table table-bordered bg-white text-black border-black w-full">
-
-        <ng-container matColumnDef="cedula">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Cédula</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.cedula }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="primer_nombre">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Nombre</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.primer_nombre }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="segundo_nombre">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Segundo nombre</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.segundo_nombre }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="primer_apellido">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Apellido</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.primer_apellido }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="fecha_nacimiento">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Fecha de Nacimiento</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.fecha_nacimiento }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="telefono">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Teléfono</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">0{{ row.telefono }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="correo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Correo</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.correo }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="usuario">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Usuario</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.usuario }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="clave">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Clave</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.clave }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="rol">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black border-black">Rol</th>
-          <td mat-cell *matCellDef="let row" class="text-black border-black">{{ row.rol }}</td>
-        </ng-container>
-
-        <!-- Definir las filas para la cabecera y contenido -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
     </div>
 
+    <!-- Tabla centrada al lado derecho del menú -->
+
+    <!-- <div class="flex overflow-x-auto">
+      <div class="w-full max-w-full p-3">
+        <table mat-table [dataSource]="dataSource" matSort class="min-w-5xl bg-white border-2 border-black rounded-lg shadow-lg text-black w-full text-center">
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="bg-gray-200 text-black">Acciones</th>
+            <td mat-cell *matCellDef="let row" class="text-black">
+              <button mat-icon-button color="primary" (click)="editar(row)">
+                <mat-icon matTooltip="EDITAR">edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="eliminar(row)">
+                <mat-icon matTooltip="ELIMINAR">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cedula">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Cédula</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.cedula }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="primer_nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Primer nombre</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.primer_nombre }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="segundo_nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Segundo nombre</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.segundo_nombre }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="primer_apellido">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Apellido</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.primer_apellido }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="fecha_nacimiento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Fecha de nacimiento</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.fecha_nacimiento }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Teléfono</th>
+            <td mat-cell *matCellDef="let row" class="text-black">0{{ row.telefono }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="correo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Correo</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.correo }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Usuario</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.usuario }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="clave">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Clave</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.clave }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Rol</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.rol }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="9">No se encontraron datos asociados al filtro</td>
+          </tr>
+          </table>
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-4">
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                         itemsPerPageLabel="Elementos por página:"
+                         nextPageLabel="Siguiente página"
+                         previousPageLabel="Página anterior"
+                         class="bg-white text-black">
+      </mat-paginator>
+    </div> -->
+
+
+    <div class="flex overflow-x-auto shadow-lg">
+      <div class="w-full max-w-full p-3">
+        <table mat-table [dataSource]="dataSource" matSort
+          class="min-w-5xl bg-white border-2 border-black rounded-lg text-black w-full text-center">
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="bg-gray-200 text-black">Acciones</th>
+            <td mat-cell *matCellDef="let row" class="text-black">
+              <button mat-icon-button color="primary" (click)="editar(row)">
+                <mat-icon matTooltip="EDITAR">edit</mat-icon>
+              </button>
+              <button *ngIf="row.estatus == 'Activo'" mat-icon-button color="warn" (click)="desactivar(row)">
+                <mat-icon matTooltip="DESACTIVAR">person_off</mat-icon>
+              </button>
+              <button *ngIf="row.estatus != 'Activo'"  mat-icon-button color="warn" (click)="activar(row)">
+                <mat-icon matTooltip="ACTIVAR">person</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cedula">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Cédula</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.cedula }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="primer_nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Primer nombre</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.primer_nombre }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="segundo_nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Segundo nombre</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.segundo_nombre }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="primer_apellido">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Apellido</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.primer_apellido }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="fecha_nacimiento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Fecha de nacimiento
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.fecha_nacimiento }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Teléfono</th>
+            <td mat-cell *matCellDef="let row" class="text-black">0{{ row.telefono }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="correo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Correo</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.correo }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Usuario</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.usuario }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="clave">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Clave</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.clave }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Rol</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.rol }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="9">No se encontraron datos asociados al filtro</td>
+          </tr>
+        </table>
+        <div class="flex justify-center mt-2">
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+            class="bg-white text-black">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

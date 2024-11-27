@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
             this.authService.setInfoAuth();
             this.route.navigate(['/home']);
           } else if (response.rol == 'Admin') {
-            console.log('admin');
+            // console.log('admin');
             const auth = 'true';
             localStorage.setItem('auth', auth);
             this.authService.setAuth();

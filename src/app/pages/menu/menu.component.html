@@ -1,4 +1,4 @@
-<div *ngIf="menuExpanded" class="fixed inset-y-0 left-0 bg-cyan-700 shadow-md overflow-y-auto" style="width: 15%;">
+<!-- <div *ngIf="menuExpanded" class="fixed inset-y-0 left-0 bg-cyan-700 shadow-md overflow-y-auto" style="width: 15%;">
     <div>
         <h1 class="text-2xl font-extrabold text-cyan-200 p-4">SATIS</h1>
 
@@ -37,7 +37,9 @@
         <a class="p-3 text-2xl">Cerrar sesión</a>
     </div>
     </div>
-</div>
+</div> -->
+
+
 
 
 <!-- <div *ngIf="!menuExpanded" class="fixed inset-y-0 left-0 w-30 bg-cyan-700 shadow-md overflow-y-auto mt-8">
@@ -61,3 +63,58 @@
 
     </div>
 </div> -->
+<nav class="bg-cyan-700">  <div
+  class="w-full flex flex-wrap items-center justify-between mx-auto py-4"
+>
+  <div class="flex items-center space-x-8">
+    <a href="#" class="flex items-center ">
+      <span class="self-center text-2xl  pl-5 font-semibold whitespace-nowrap text-cyan-50"
+        >S A T I S</span
+      >
+    </a>
+    <ul class="flex space-x-6">
+      <li>
+        <a
+          routerLink="/home"
+          routerLinkActive="underline"
+          [routerLinkActiveOptions]="{exact: true}"
+          class="block hover:underline text-white text-xl"
+          aria-current="page"
+          >Inicio</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/catalog"
+          routerLinkActive="underline"
+          class="block hover:underline text-white text-xl"
+          >Catálago</a
+        >
+      </li>
+      <li>
+        <a
+        routerLink="/admin/users"
+        routerLinkActive="underline"
+          class="block hover:underline text-white text-xl"
+          >Gestión de usuarios</a
+        >
+      </li>
+      <li *ngIf="orden">
+        <a
+        routerLink="/visualize-orden"
+        routerLinkActive="underline"
+          class="block hover:underline text-white text-xl"
+          >Visualizar orden</a
+        >
+      </li>
+      <li>
+        <a
+          (click)="cerrarSesion()"
+          class="block hover:underline text-white text-xl"
+          >Cerrar sesión</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+</nav>

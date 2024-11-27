@@ -6,3 +6,14 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+::ng-deep .mat-mdc-paginator-range-label,
+::ng-deep .mat-mdc-paginator-page-size-label,
+::ng-deep .mat-mdc-paginator-page-size .mat-mdc-form-field .mat-option-text,
+::ng-deep .mat-mdc-paginator-page-size .mat-mdc-select-value-text {
+  color: black !important;
+}
+
+::ng-deep .mat-mdc-paginator-navigation-icon {
+  color: black !important;
+}

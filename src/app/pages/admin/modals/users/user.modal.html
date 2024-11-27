@@ -1,0 +1,92 @@
+<div class="scroll-container bg-white" style="width: 600px;">
+  <div style="display: flex; justify-content: flex-end;" class="p-4">
+    <button mat-icon-button (click)="cerrar('cierre')" [tabIndex]="1" class="text-black font-bold">
+       X
+    </button>
+  </div>
+
+  <div class="flex justify-center items-center h-full">
+    <form [formGroup]="usuariosForm" class="form-grid">
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Cédula:</label>
+        <input type="text" [formControlName]="'cedula'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full">
+      </div>
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Primer nombre:</label>
+        <input type="text" [formControlName]="'primer_nombre'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Segundo nombre:</label>
+        <input type="text" [formControlName]="'segundo_nombre'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Apellido:</label>
+        <input type="text" [formControlName]="'primer_apellido'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Fecha de nacimieto:</label>
+        <input type="text" [formControlName]="'fecha_nacimiento'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Telefono:</label>
+        <input type="tel" [formControlName]="'telefono'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Correo electrónico:</label>
+        <input type="text" [formControlName]="'correo'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Usuario:</label>
+        <input type="text" [formControlName]="'usuario'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Clave:</label>
+        <input type="text" [formControlName]="'clave'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Rol:</label>
+        <input type="text" [formControlName]="'rol'" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <button type="button"
+        class="bg-cyan-700 text-white rounded-md text-lg"
+        (click)="actualizarEmpleado()">
+          Actualizar datos
+        </button>
+      </div>
+      </form>
+  </div>
+</div>
+<style>
+  .scroll-container {
+    max-height: 700px;
+    /* Establece la altura máxima */
+    overflow-y: auto;
+    /* Activa el desplazamiento vertical si el contenido excede la altura máxima */
+    scroll-padding: 10%;
+    /* Establece el relleno del área de desplazamiento */
+    padding: 20px;
+    /* Añade espacio dentro del contenedor */
+
+  }
+
+  .responsive-container {
+    width: 100%;
+    max-width: 1500px;
+    /* o el ancho máximo deseado */
+    min-width: 300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    /* Espacio a los lados del contenedor */
+  }
+</style>

@@ -5,7 +5,6 @@ import { OtherService } from 'src/app/services/other.service';
 import { environment } from 'src/environment/environment';
 import Swal from 'sweetalert2';
 
-
 interface Color {
   value: number,
   label: string
@@ -27,7 +26,7 @@ export class ProductComponent implements OnInit {
   //colores: any[] = [];
   colorSeleccionado: any;
   coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color: string, cantidad: number, cod_categoria: string, img: string }[] = [];
-  coloresMostrar: { genero: string, color: Color, cantidad: number }[] = [];
+  coloresMostrar: { genero: string, color: Color, cantidad: number, cod_categoria: string }[] = [];
   slides: any[] = [];
   currentSlide = 0;
   constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
@@ -169,7 +168,7 @@ export class ProductComponent implements OnInit {
       this.colorSeleccionado = this.listaColores.find(color => value == color.value);
 
       if (this.colorSeleccionado) {
-        console.log(this.cliente);
+       // console.log(this.cliente);
         let cantidadPorDefecto = 0;
         if (this.cliente.Condicion == 'Distribuidor') {
           cantidadPorDefecto = this.obtenerCantidadPorDefecto(this.producto.cod_categoria);
@@ -191,17 +190,18 @@ export class ProductComponent implements OnInit {
         this.coloresMostrar.push({
           genero: this.generoSeleccionado,
           color: this.colorSeleccionado,
-          cantidad: cantidadPorDefecto
+          cantidad: cantidadPorDefecto,
+          cod_categoria:this.producto.cod_categoria
         });
 
         this.agregarCantidad(this.colorSeleccionado.value, cantidadPorDefecto, this.generoSeleccionado);
 
-        console.log(this.coloresSeleccionados, 'este es el color seleccionado');
+       // console.log(this.coloresSeleccionados, 'este es el color seleccionado');
       } else {
-        console.log('No se ha seleccionado ningún color.');
+       // console.log('No se ha seleccionado ningún color.');
       }
     } else {
-      console.log('No se ha seleccionado ningún color o género.');
+     // console.log('No se ha seleccionado ningún color o género.');
     }
   }
 
@@ -232,42 +232,47 @@ export class ProductComponent implements OnInit {
 
 
   agregarCantidad(cod: any, cantidad: any, genero: any) {
-    console.log(cod, cantidad, 'esto se recibe');
+    console.log(this.coloresSeleccionados, ' colores agregados');
 
-    // console.log(this.producto);
-
-    // console.log(this.coloresSeleccionados);
-
-
-    const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_categoria === this.producto.cod_categoria && genero === color.genero);
+   const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_categoria === this.producto.cod_categoria && genero === color.genero);
     // console.log(index);
 
     if (index !== -1) {
       this.coloresSeleccionados[index].cantidad = parseInt(cantidad);
-      // console.log('Cantidad actualizada:', this.coloresSeleccionados[index]);
-    } else {
-      // console.log('No se encontró ningún color con el código', cod);
     }
-    // console.log(this.coloresSeleccionados);
   }
 
-  eliminarColor(cod: any) {
-    console.log(this.coloresSeleccionados, 'antes');
-    console.log('Eliminar color con código:', cod);
+  eliminarColor(cod: any, cod_categoria: string) {
+    console.log(this.coloresMostrar, 'antes mostrar');
+    console.log(this.colorSeleccionado, 'antes seleccionado');
+    console.log('Eliminar:', cod, cod_categoria);
 
-    const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color);
+    // Buscar y eliminar el color en coloresSeleccionados
+    const indexSeleccionado = this.coloresSeleccionados.findIndex(
+        color => cod === color.cod_color && cod_categoria === color.cod_categoria
+    );
 
-    if (index !== -1) {
-      this.coloresSeleccionados.splice(index, 1);
-      this.coloresMostrar.splice(index, 1);
-      //// console.log('Color eliminado.');
-    } else {
-      //// console.log('No se encontró ningún color con el código', cod);
+    if (indexSeleccionado !== -1) {
+        this.coloresSeleccionados.splice(indexSeleccionado, 1);
     }
 
-    console.log(this.coloresSeleccionados, 'ya eliminado');
+    // Buscar y eliminar el color en coloresMostrar
+    const indexMostrar = this.coloresMostrar.findIndex(
+        color => cod === color.color.value && cod_categoria === color.cod_categoria
+    );
 
-  }
+    if (indexMostrar !== -1) {
+        this.coloresMostrar.splice(indexMostrar, 1);
+    }
+
+    console.log('Color eliminado.');
+    console.log(this.coloresMostrar, 'despues mostrar');
+    console.log(this.coloresSeleccionados, 'despues seleccionado');
+
+    // Detectar cambios para actualizar la vista
+    this.cdr.detectChanges();
+}
+
 
   continuar() {
     //// console.log(this.coloresSeleccionados.length, 'longitudd');
@@ -294,7 +299,7 @@ export class ProductComponent implements OnInit {
       const producto2 = productoString.slice(1, -1);
       localStorage.setItem('productos', JSON.stringify(producto2)); */
       // console.log(this.coloresSeleccionados, 'coloresss');
-
+      localStorage.removeItem('productos');
       localStorage.setItem('productos', JSON.stringify(this.coloresSeleccionados));
       this.router.navigate(['/catalog']);
     }

@@ -29,6 +29,8 @@ import { UsersComponent } from './pages/admin/users/users.component';
 import { PaginatorComponent } from './pages/paginator/paginator.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +50,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CommonModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatInputModule,
@@ -60,9 +63,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTooltipModule,
     FormsModule,
     MatDialogModule,
-    PaginatorComponent,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

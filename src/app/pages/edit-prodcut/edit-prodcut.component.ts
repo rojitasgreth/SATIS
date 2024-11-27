@@ -152,7 +152,7 @@ export class EditProdcutComponent implements OnInit {
         let productos = JSON.parse(change);
 
         function actualizarProducto(productos: any, data: any, color: any) {
-          console.log(productos, data, color, 'que es estoooooo');
+         // console.log(productos, data, color, 'que es estoooooo');
 
           // Encuentra el objeto que coincida con los criterios
           let producto = productos.find((p: any) =>
@@ -162,7 +162,7 @@ export class EditProdcutComponent implements OnInit {
             p.cod_color === color.value
 
           );
-           console.log(producto);
+          // console.log(producto);
 
           // Si se encuentra el objeto, actualiza sus propiedades
           if (producto) {
