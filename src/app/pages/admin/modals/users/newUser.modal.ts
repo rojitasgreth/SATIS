@@ -9,49 +9,38 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 @Component({
-  selector: 'user-edit',
+  selector: 'user-new',
   standalone:true,
   imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatDatepickerModule, MatIconModule],
-  templateUrl: './user.modal.html',
+  templateUrl: './newUser.modal.html',
   encapsulation: ViewEncapsulation.None
 })
 
-export class userModalComponent implements OnInit {
+export class newUserModalComponent {
   usuariosForm: FormGroup;
-  datosUsuario: any;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-    public matDialogRef: MatDialogRef<userModalComponent>,
+  constructor(
+    public matDialogRef: MatDialogRef<newUserModalComponent>,
     private _formBuilder: FormBuilder,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
   ) {
-    console.log(data, 'es estooooooooo');
-    this.datosUsuario = data;
     const regex = /^[0-9]+$/;
     this.usuariosForm = this._formBuilder.group({
-      cedula: [this.datosUsuario.cedula, Validators.required],
-      primer_nombre: [this.datosUsuario.primer_nombre, Validators.required],
-      segundo_nombre: [this.datosUsuario.segundo_nombre, Validators.required],
-      primer_apellido: [this.datosUsuario.primer_apellido, Validators.required],
-      fecha_nacimiento: [this.datosUsuario.fecha_nacimiento, Validators.required],
-      telefono: [this.datosUsuario.telefono, [Validators.required, Validators.pattern(regex)]],
-      correo: [this.datosUsuario.correo, Validators.required],
-      usuario: [this.datosUsuario.usuario, Validators.required],
-      clave: [this.datosUsuario.clave, Validators.required],
-      rol: [this.datosUsuario.rol, Validators.required],
+      cedula: ['', Validators.required],
+      primer_nombre: ['', Validators.required],
+      segundo_nombre: ['', Validators.required],
+      primer_apellido: ['', Validators.required],
+      fecha_nacimiento: ['', Validators.required],
+      telefono: ['', [Validators.required, Validators.pattern(regex)]],
+      correo: ['', Validators.required],
+      usuario: ['', Validators.required],
+      clave: ['', Validators.required],
+      rol: ['', Validators.required],
       estatus: ['Activo']
     });
-
-    console.log(this.usuariosForm.value);
-
   }
 
 
-
-  ngOnInit(): void {
-
-
-  }
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -69,13 +58,12 @@ export class userModalComponent implements OnInit {
     this.matDialogRef.close(result);
   };
 
-  actualizarEmpleado(){
+  agregarEmpleado(){
 
     let form = this.usuariosForm.value;
-    form.id = this.datosUsuario.id;
-    this.http.post(`${environment.BASE_URL_API}/modificarEmpleado`, form).subscribe(
+    this.http.post(`${environment.BASE_URL_API}/insertarEmpleado`, form).subscribe(
       (response) => {
-        if (response == 'Modificacion correcta') {
+        if (response == 'Insercion correcta') {
           this.showSuccessMessage();
           this.cerrar('exitoso');
         }
@@ -88,7 +76,7 @@ export class userModalComponent implements OnInit {
   showSuccessMessage() {
     Swal.fire({
       icon: 'success',
-      title: 'Informacion actualizada exitosamente',
+      title: 'Empleado cargado exitosamente',
       showConfirmButton: false,
       timer: 3000
     });
