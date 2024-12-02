@@ -25,8 +25,8 @@ export class ProductComponent implements OnInit {
   cliente: any;
   //colores: any[] = [];
   colorSeleccionado: any;
-  coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color: string, cantidad: number, cod_categoria: string, img: string }[] = [];
-  coloresMostrar: { genero: string, color: Color, cantidad: number, cod_categoria: string }[] = [];
+  coloresSeleccionados: { genero: string, categoria_producto: string, descripcion_producto: string, cantidad_piezas: string, precio: string, cod_color: number, color: string, cantidad: number, cod_producto: string, img: string }[] = [];
+  coloresMostrar: { genero: string, color: Color, cantidad: number, cod_producto: string }[] = [];
   slides: any[] = [];
   currentSlide = 0;
   constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
@@ -74,13 +74,13 @@ export class ProductComponent implements OnInit {
     this.http.post(`${environment.BASE_URL_API}/listarProductoIndividual`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
-          // console.log(response, 'producto');
+          console.log(response, 'producto');
 
           this.producto = response[0];
 
 
           ///CARRUSEL
-          if (this.producto.cod_categoria == "ALMB1" || this.producto.cod_categoria == "ALMB2" || this.producto.cod_categoria == "ALMB3") {
+          if (this.producto.cod_producto == "ALMB1" || this.producto.cod_producto == "ALMB2" || this.producto.cod_producto == "ALMB3") {
             this.slides = [
               { src: '../../../assets/catalago/almillas0-6.jpg', title: 'Slide 1' },
               { src: '../../../assets/catalago/almillas6-9.jpg', title: 'Slide 2' },
@@ -90,14 +90,14 @@ export class ProductComponent implements OnInit {
               { src: '../../../assets/catalago/almillas3.jpg', title: 'Slide 6' },
               { src: '../../../assets/catalago/almillas4.jpg', title: 'Slide 7' }
             ];
-          } else if (this.producto.cod_categoria == "BODB1") {
+          } else if (this.producto.cod_producto == "BODB1") {
             this.slides = [
               { src: '../../../assets/catalago/body.jpg', title: 'Slide 1' },
               { src: '../../../assets/catalago/body2.jpg', title: 'Slide 2' },
               { src: '../../../assets/catalago/bodyNina.jpg', title: 'Slide 3' },
               { src: '../../../assets/catalago/bodyNina2.jpg', title: 'Slide 4' }
             ];
-          } else if (this.producto.cod_categoria == "CPDB1") {
+          } else if (this.producto.cod_producto == "CPDB1") {
             this.slides = [
               { src: '../../../assets/catalago/conjunto.jpg', title: 'Slide 1' },
               { src: '../../../assets/catalago/conjunto2.jpg', title: 'Slide 2' },
@@ -110,7 +110,7 @@ export class ProductComponent implements OnInit {
               { src: '../../../assets/catalago/conjuntoh5.jpg', title: 'Slide 10' },
               { src: '../../../assets/catalago/conjuntoh6.jpg', title: 'Slide 11' },
             ];
-          } else if (this.producto.cod_categoria == "MONB1") {
+          } else if (this.producto.cod_producto == "MONB1") {
             this.slides = [
               { src: '../../../assets/catalago/monoTradicional.jpg', title: 'Slide 1' },
               { src: '../../../assets/catalago/monoTradicional2.jpg', title: 'Slide 2' },
@@ -136,7 +136,7 @@ export class ProductComponent implements OnInit {
 
   consultarColores(cod: string, genero: string) {
     const data = {
-      "cod_categoria": cod,
+      "cod_producto": cod,
       "genero": genero
     };
 
@@ -168,10 +168,10 @@ export class ProductComponent implements OnInit {
       this.colorSeleccionado = this.listaColores.find(color => value == color.value);
 
       if (this.colorSeleccionado) {
-       // console.log(this.cliente);
+        // console.log(this.cliente);
         let cantidadPorDefecto = 0;
         if (this.cliente.Condicion == 'Distribuidor') {
-          cantidadPorDefecto = this.obtenerCantidadPorDefecto(this.producto.cod_categoria);
+          cantidadPorDefecto = this.obtenerCantidadPorDefecto(this.producto.cod_producto);
         }
 
         this.coloresSeleccionados.push({
@@ -183,7 +183,7 @@ export class ProductComponent implements OnInit {
           cod_color: this.colorSeleccionado.value,
           color: this.colorSeleccionado.label,
           cantidad: cantidadPorDefecto,
-          cod_categoria: this.producto.cod_categoria,
+          cod_producto: this.producto.cod_producto,
           img: this.producto.img
         });
 
@@ -191,17 +191,17 @@ export class ProductComponent implements OnInit {
           genero: this.generoSeleccionado,
           color: this.colorSeleccionado,
           cantidad: cantidadPorDefecto,
-          cod_categoria:this.producto.cod_categoria
+          cod_producto: this.producto.cod_producto
         });
 
         this.agregarCantidad(this.colorSeleccionado.value, cantidadPorDefecto, this.generoSeleccionado);
 
-       // console.log(this.coloresSeleccionados, 'este es el color seleccionado');
+        // console.log(this.coloresSeleccionados, 'este es el color seleccionado');
       } else {
-       // console.log('No se ha seleccionado ningún color.');
+        // console.log('No se ha seleccionado ningún color.');
       }
     } else {
-     // console.log('No se ha seleccionado ningún color o género.');
+      // console.log('No se ha seleccionado ningún color o género.');
     }
   }
 
@@ -234,7 +234,7 @@ export class ProductComponent implements OnInit {
   agregarCantidad(cod: any, cantidad: any, genero: any) {
     console.log(this.coloresSeleccionados, ' colores agregados');
 
-   const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_categoria === this.producto.cod_categoria && genero === color.genero);
+    const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_producto === this.producto.cod_producto && genero === color.genero);
     // console.log(index);
 
     if (index !== -1) {
@@ -242,27 +242,27 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  eliminarColor(cod: any, cod_categoria: string) {
+  eliminarColor(cod: any, cod_producto: string) {
     console.log(this.coloresMostrar, 'antes mostrar');
     console.log(this.colorSeleccionado, 'antes seleccionado');
-    console.log('Eliminar:', cod, cod_categoria);
+    console.log('Eliminar:', cod, cod_producto);
 
     // Buscar y eliminar el color en coloresSeleccionados
     const indexSeleccionado = this.coloresSeleccionados.findIndex(
-        color => cod === color.cod_color && cod_categoria === color.cod_categoria
+      color => cod === color.cod_color && cod_producto === color.cod_producto
     );
 
     if (indexSeleccionado !== -1) {
-        this.coloresSeleccionados.splice(indexSeleccionado, 1);
+      this.coloresSeleccionados.splice(indexSeleccionado, 1);
     }
 
     // Buscar y eliminar el color en coloresMostrar
     const indexMostrar = this.coloresMostrar.findIndex(
-        color => cod === color.color.value && cod_categoria === color.cod_categoria
+      color => cod === color.color.value && cod_producto === color.cod_producto
     );
 
     if (indexMostrar !== -1) {
-        this.coloresMostrar.splice(indexMostrar, 1);
+      this.coloresMostrar.splice(indexMostrar, 1);
     }
 
     console.log('Color eliminado.');
@@ -271,7 +271,7 @@ export class ProductComponent implements OnInit {
 
     // Detectar cambios para actualizar la vista
     this.cdr.detectChanges();
-}
+  }
 
 
   continuar() {

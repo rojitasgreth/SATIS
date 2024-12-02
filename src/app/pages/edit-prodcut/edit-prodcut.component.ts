@@ -38,13 +38,13 @@ export class EditProdcutComponent implements OnInit {
 
       this.colorSeleccionado = this.producto.cod_color;
       this.cantidad = this.producto.cantidad;
-      this.consultarColores(this.producto.cod_categoria, this.producto.genero);
+      this.consultarColores(this.producto.cod_producto, this.producto.genero);
     }
   }
 
   consultarColores(cod: string, genero: string) {
     const data = {
-      "cod_categoria": cod,
+      "cod_producto": cod,
       "genero": genero
     };
 
@@ -73,7 +73,7 @@ export class EditProdcutComponent implements OnInit {
         cantidad: this.cantidad,
         cantidad_piezas: this.producto.cantidad_piezas,
         categoria_producto: this.producto.categoria_producto,
-        cod_categoria: this.producto.cod_categoria,
+        cod_producto: this.producto.cod_producto,
         cod_color: this.colorSeleccionado.value,
         color: this.colorSeleccionado.label,
         descripcion_producto: this.producto.descripcion_producto,
@@ -92,7 +92,7 @@ export class EditProdcutComponent implements OnInit {
 
           // Encuentra el objeto que coincida con los criterios
           let producto = productos.find((p: any) =>
-            p.cod_categoria === data.cod_categoria &&
+            p.cod_producto === data.cod_producto &&
             p.categoria_producto === data.categoria_producto &&
             p.genero === data.genero &&
             p.cod_color === color.value
@@ -137,7 +137,7 @@ export class EditProdcutComponent implements OnInit {
         cantidad: this.cantidad,
         cantidad_piezas: this.producto.cantidad_piezas,
         categoria_producto: this.producto.categoria_producto,
-        cod_categoria: this.producto.cod_categoria,
+        cod_producto: this.producto.cod_producto,
         cod_color: this.colorInicial.value,
         color: this.colorInicial.label,
         descripcion_producto: this.producto.descripcion_producto,
@@ -156,7 +156,7 @@ export class EditProdcutComponent implements OnInit {
 
           // Encuentra el objeto que coincida con los criterios
           let producto = productos.find((p: any) =>
-            p.cod_categoria === data.cod_categoria &&
+            p.cod_producto === data.cod_producto &&
             p.categoria_producto === data.categoria_producto &&
             p.genero === data.genero &&
             p.cod_color === color.value

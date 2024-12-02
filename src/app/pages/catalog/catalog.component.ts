@@ -32,11 +32,13 @@ export class CatalogComponent implements OnInit {
   consultarProductos() {
     const data = { "Condicion": this.orden.Condicion, "Envio": this.orden.tipo_envio };
 
-    // console.log(data);
+    //console.log(data);
 
     this.http.post(`${environment.BASE_URL_API}/listarProductos`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
+          console.log(response);
+
           this.productos = response;
           this.extraerCategorias();
         } else {

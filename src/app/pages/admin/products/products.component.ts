@@ -10,7 +10,7 @@ import { newProductModalComponent } from '../modals/users/newProduct.modal';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environment/environment';
 export interface UserData {
-  cod_categoria: string;
+  cod_producto: string;
   categoria: string;
   descripcion: string;
   cantidad_piezas: number;
@@ -29,7 +29,7 @@ export interface UserData {
 })
 export class ProductsComponent {
   displayedColumns: string[] = [
-    'acciones', 'cod_categoria', 'categoria', 'descripcion', 'cantidad_piezas',
+    'acciones', 'cod_producto', 'categoria', 'descripcion', 'cantidad_piezas',
     'precio', 'total', 'precio_con_envio', 'total_con_envio', 'precio_dist', 'total_dist'
   ];
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
@@ -69,7 +69,7 @@ export class ProductsComponent {
     this.consultarData();
   }
 
-  nuevoUsuario(){
+  nuevoUsuario() {
     const dialogRef = this._matDialog.open(newProductModalComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -82,8 +82,8 @@ export class ProductsComponent {
     this._changeDetectorRef.detectChanges();
   }
 
-  nuevoColor(){
-    
+  nuevoColor() {
+
   }
 
   editar(row: any): void {
@@ -200,7 +200,7 @@ export class ProductsComponent {
       showCancelButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        let data = {id: row.id};
+        let data = { id: row.id };
         this.http.post(`${environment.BASE_URL_API}/eliminarEmpleado`, data).subscribe(
           (response) => {
             if (response == 'Eliminacion exitosa') {

@@ -43,7 +43,7 @@ export class VisualizeOrdenComponent implements OnInit {
     const productoString = localStorage.getItem('productos');
     if (productoString !== null) {
       this.productos = JSON.parse(productoString);
-      // console.log(this.productos);
+      console.log(this.productos);
 
     } else {
       this.productos = null;
