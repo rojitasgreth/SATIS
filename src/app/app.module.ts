@@ -31,6 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { ProductsComponent } from './pages/admin/products/products.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { CommonModule } from '@angular/common';
     VisualizeClientComponent,
     EditProdcutComponent,
     DetailsComponent,
-    UsersComponent
+    UsersComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,

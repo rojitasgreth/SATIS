@@ -1,0 +1,112 @@
+<app-menu></app-menu>
+<div class="bg-white min-h-screen flex">
+
+  <!-- Contenedor principal ajustado para no chocar con el menú -->
+  <div class="flex-1 p-8 sm:p-10">
+    <!-- Header con el título y el buscador en la misma línea -->
+    <div
+      class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0 ml-5">
+      <div class="w-full bg-white h-10 fuse-mat-rounded sm:min-w-64 text-black flex items-center justify-between">
+        <h1 class="items-center">Listado de productos  <mat-icon matTooltip="Nuevo producto" (click)="nuevoUsuario()">add_circle</mat-icon></h1>
+
+        <div class="flex items-center">
+          <button class="bg-cyan-700 p-2 text-white text-md rounded-2xl flex items-center" (click)="nuevoColor()">Agregar nuevo color</button>
+        </div>
+
+        <div class="flex items-center">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="filter_alt"></mat-icon>
+          <input class="border-2 border-cyan-700 rounded-lg p-2 focus:outline-none focus:ring-cyan-500 focus:ring-1"
+            (keyup)="applyFilter($event)" autocomplete="off" placeholder="Nombre, rol, correo..." #input>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex overflow-x-auto shadow-lg">
+      <div class="w-full max-w-full p-3">
+        <table mat-table [dataSource]="dataSource" matSort
+          class="min-w-5xl bg-white border-2 border-black rounded-lg text-black w-full text-center">
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="bg-gray-200 text-black">Acciones</th>
+            <td mat-cell *matCellDef="let row" class="text-black flex">
+              <button mat-icon-button color="primary" class="pt-4" (click)="editar(row)">
+                <mat-icon matTooltip="EDITAR PRODUCTO">edit</mat-icon>
+              </button>
+              <button *ngIf="row.activo == true" class="pt-4" mat-icon-button color="warn" (click)="desactivar(row)">
+                <mat-icon matTooltip="DESACTIVAR PRODUCTO">archive</mat-icon>
+              </button>
+              <button *ngIf="row.activo != true" class="pt-4" mat-icon-button color="warn" (click)="activar(row)">
+                <mat-icon matTooltip="ACTIVAR PRODUCTO">beenhere</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" class="pt-4" (click)="eliminar(row)">
+                <mat-icon matTooltip="ELIMINAR PRODUCTO">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cod_categoria">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Cod</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.cod_categoria }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Categoría</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.categoria }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Descripción</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.descripcion }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad_piezas">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Cant. piezas</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.cantidad_piezas }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Precio
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.precio }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Total</th>
+            <td mat-cell *matCellDef="let row" class="text-black">0{{ row.total }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="precio_con_envio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Precio con envío</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.precio_con_envio }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total_con_envio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Total con envío</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.total_con_envio }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="precio_dist">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Precio dist</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.precio_dist }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total_dist">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Total dist</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.total_dist }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="9">No se encontraron datos asociados al filtro</td>
+          </tr>
+        </table>
+        <div class="flex justify-center mt-2">
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]" class="bg-stone-300 text-black rounded-lg">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,104 @@
+<div class="scroll-container bg-white" style="width: 600px;">
+  <div style="display: flex; justify-content: flex-end;" class="p-4">
+    <button mat-icon-button (click)="cerrar('cierre')" [tabIndex]="1" class="text-black font-bold">
+      X
+    </button>
+  </div>
+
+  <div class="flex justify-center items-center h-full">
+    <form [formGroup]="usuariosForm" class="form-grid">
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Código de categoría:</label>
+        <!-- <input type="text" [formControlName]="'cod_categoria'" maxlength="30"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full"> -->
+          <select [formControlName]="'cod_categoria'" placeholder="Codigo categoria" class="h-12 pl-2 pr-3 w-full bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+              <option *ngFor="let categoria of opcionesCategorias"
+               [value]="categoria.value">{{ categoria.value }} - {{ categoria.label }}</option>
+          </select>
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Descripción</label>
+        <input type="text" [formControlName]="'descripcion'" maxlength="100" (input)="onText($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Cantidad de piezas</label>
+        <input type="number" [formControlName]="'cantidad_piezas'" (input)="onInput($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Precio:</label>
+        <input type="number" [formControlName]="'precio'" (input)="onInput($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Total:</label>
+        <input type="number" [formControlName]="'total'" (input)="onInput($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Precio con envío:</label>
+        <input type="number" [formControlName]="'precio_con_envio'" (input)="onInput($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Total con envío</label>
+        <input type="number" [formControlName]="'total_con_envio'" (input)="onInput($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Precio distribuidor:</label>
+        <input type="number" [formControlName]="'precio_dist'" (input)="onInput($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Total distribuidor:</label>
+        <input type="number" [formControlName]="'total_dist'" (input)="onInput($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Detalle</label>
+        <input type="text" [formControlName]="'detalle'" maxlength="150" (input)="onText($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <button type="button" class="bg-cyan-700 text-white rounded-md text-lg" (click)="agregarProducto()">
+          Agregar producto
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<style>
+  .scroll-container {
+    max-height: 700px;
+    /* Establece la altura máxima */
+    overflow-y: auto;
+    /* Activa el desplazamiento vertical si el contenido excede la altura máxima */
+    scroll-padding: 10%;
+    /* Establece el relleno del área de desplazamiento */
+    padding: 20px;
+    /* Añade espacio dentro del contenedor */
+
+  }
+
+  .responsive-container {
+    width: 100%;
+    max-width: 1500px;
+    /* o el ancho máximo deseado */
+    min-width: 300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    /* Espacio a los lados del contenedor */
+  }
+</style>

@@ -24,16 +24,16 @@
           <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef class="bg-gray-200 text-black">Acciones</th>
             <td mat-cell *matCellDef="let row" class="text-black flex">
-              <button mat-icon-button color="primary" (click)="editar(row)">
+              <button mat-icon-button color="primary" class="pt-4"  (click)="editar(row)">
                 <mat-icon matTooltip="EDITAR">edit</mat-icon>
               </button>
-              <button *ngIf="row.estatus == 'Activo'" mat-icon-button color="warn" (click)="desactivar(row)">
+              <button *ngIf="row.estatus == 'Activo'" class="pt-4"  mat-icon-button color="warn" (click)="desactivar(row)">
                 <mat-icon matTooltip="DESACTIVAR">person_off</mat-icon>
               </button>
-              <button *ngIf="row.estatus != 'Activo'" mat-icon-button color="warn" (click)="activar(row)">
+              <button *ngIf="row.estatus != 'Activo'" class="pt-4"  mat-icon-button color="warn" (click)="activar(row)">
                 <mat-icon matTooltip="ACTIVAR">person</mat-icon>
               </button>
-              <button mat-icon-button color="warn" (click)="eliminar(row)">
+              <button mat-icon-button color="warn" class="pt-4" (click)="eliminar(row)">
                 <mat-icon matTooltip="ELIMINAR">delete</mat-icon>
               </button>
             </td>
@@ -98,7 +98,7 @@
           </tr>
         </table>
         <div class="flex justify-center mt-2">
-          <mat-paginator [pageSizeOptions]="[10, 25, 100]" class="bg-cyan-700 text-black">
+          <mat-paginator [pageSizeOptions]="[5,10, 25, 100]" class="bg-stone-300 text-black rounded-lg">
           </mat-paginator>
         </div>
       </div>
