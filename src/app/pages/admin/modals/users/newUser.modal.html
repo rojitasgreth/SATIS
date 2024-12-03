@@ -11,25 +11,37 @@
         <label class="mb-1">Cédula:</label>
         <input type="text" [formControlName]="'cedula'" maxlength="10"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full">
+        <p class="text-red-500"
+          *ngIf="usuariosForm.get('cedula')?.hasError('required') && usuariosForm.get('cedula')?.touched">
+          Campo requerido</p>
       </div>
+
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Primer nombre:</label>
         <input type="text" [formControlName]="'primer_nombre'" maxlength="50" (input)="onText($event)"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+        <p class="text-red-500"
+          *ngIf="usuariosForm.get('primer_nombre')?.hasError('required') && usuariosForm.get('primer_nombre')?.touched">
+          Campo requerido</p>
       </div>
-
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Segundo nombre:</label>
         <input type="text" [formControlName]="'segundo_nombre'" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]+"
           (input)="onText($event)" maxlength="50"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+        <p class="text-red-500"
+          *ngIf="usuariosForm.get('segundo_nombre')?.hasError('required') && usuariosForm.get('segundo_nombre')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Apellido:</label>
         <input type="text" [formControlName]="'primer_apellido'" (input)="onText($event)" maxlength="50"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+        <p class="text-red-500"
+          *ngIf="usuariosForm.get('primer_apellido')?.hasError('required') && usuariosForm.get('primer_apellido')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
@@ -37,6 +49,9 @@
         <input type="date" class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 pr-8"
           [formControlName]="'fecha_nacimiento'" min="1920-01-01" max="2023-12-31">
         <mat-hint>DD/MM/YYYY</mat-hint>
+        <p class="text-red-500"
+          *ngIf="usuariosForm.get('fecha_nacimiento')?.hasError('required') && usuariosForm.get('fecha_nacimiento')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
@@ -44,24 +59,36 @@
         <input type="tel" [formControlName]="'telefono'"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2"
           (input)="onInput($event)">
+        <p class="text-red-500"
+          *ngIf="usuariosForm.get('telefono')?.hasError('required') && usuariosForm.get('telefono')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Correo electrónico:</label>
         <input type="text" [formControlName]="'correo'"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('correo')?.hasError('required') && usuariosForm.get('correo')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Usuario:</label>
         <input type="text" [formControlName]="'usuario'"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('usuario')?.hasError('required') && usuariosForm.get('usuario')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Clave:</label>
         <input type="text" [formControlName]="'clave'"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('clave')?.hasError('required') && usuariosForm.get('clave')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
@@ -71,6 +98,9 @@
           <option value="Vendedor">Vendedor</option>
           <option value="Admin">Admin</option>
         </select>
+        <p class="text-red-500"
+          *ngIf="usuariosForm.get('rol')?.hasError('required') && usuariosForm.get('rol')?.touched">
+          Campo requerido</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">

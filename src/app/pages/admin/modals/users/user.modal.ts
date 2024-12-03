@@ -71,6 +71,11 @@ export class userModalComponent implements OnInit {
 
   actualizarEmpleado(){
 
+    if (this.usuariosForm.invalid) {
+      this.showInvalidMessage();
+      this.usuariosForm.markAllAsTouched();
+    } else {
+
     let form = this.usuariosForm.value;
     form.id = this.datosUsuario.id;
     this.http.post(`${environment.BASE_URL_API}/modificarEmpleado`, form).subscribe(
@@ -82,8 +87,17 @@ export class userModalComponent implements OnInit {
 
       }
     )
+    }
   }
 
+  showInvalidMessage() {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Por favor, complete todos los campos',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
 
   showSuccessMessage() {
     Swal.fire({

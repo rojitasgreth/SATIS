@@ -60,16 +60,21 @@ export class newUserModalComponent {
 
   agregarEmpleado(){
 
-    let form = this.usuariosForm.value;
-    this.http.post(`${environment.BASE_URL_API}/insertarEmpleado`, form).subscribe(
-      (response) => {
-        if (response == 'Insercion correcta') {
-          this.showSuccessMessage();
-          this.cerrar('exitoso');
-        }
+    if (this.usuariosForm.invalid) {
+      this.showInvalidMessage();
+      this.usuariosForm.markAllAsTouched();
+    } else {
+      let form = this.usuariosForm.value;
+      this.http.post(`${environment.BASE_URL_API}/insertarEmpleado`, form).subscribe(
+        (response) => {
+          if (response == 'Insercion correcta') {
+            this.showSuccessMessage();
+            this.cerrar('exitoso');
+          }
 
-      }
-    )
+        }
+      )
+    }
   }
 
 
@@ -77,6 +82,15 @@ export class newUserModalComponent {
     Swal.fire({
       icon: 'success',
       title: 'Empleado cargado exitosamente',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
+
+  showInvalidMessage() {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Por favor, complete todos los campos',
       showConfirmButton: false,
       timer: 3000
     });

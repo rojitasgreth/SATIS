@@ -71,7 +71,7 @@
 
           <ng-container matColumnDef="total">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Total</th>
-            <td mat-cell *matCellDef="let row" class="text-black">0{{ row.total }}</td>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.total }}</td>
           </ng-container>
 
           <ng-container matColumnDef="precio_con_envio">
