@@ -10,6 +10,7 @@ import { newProductModalComponent } from '../modals/products/newProduct.modal';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environment/environment';
 import { productModalComponent } from '../modals/products/product.modal';
+import { colorProductModalComponent } from '../modals/products/colorProduct.modal';
 export interface UserData {
   cod_producto: string;
   categoria: string;
@@ -83,8 +84,19 @@ export class ProductsComponent {
     this._changeDetectorRef.detectChanges();
   }
 
-  nuevoColor() {
+  nuevoColor(row: any) {
+    const dialogRef = this._matDialog.open(colorProductModalComponent, {
+      data: row
+    });
 
+    dialogRef.afterClosed().subscribe((result) => {
+      //console.log("Compose dialog was closed!");
+      if (result == 'exitoso') {
+        this.consultarData();
+      }
+
+    });
+    this._changeDetectorRef.detectChanges();
   }
 
   editar(row: any): void {
