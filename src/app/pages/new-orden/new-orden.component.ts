@@ -121,6 +121,7 @@ export class NewOrdenComponent implements OnInit {
       }
 
     } else {
+      this.ordenForm.markAllAsTouched();
       Swal.fire({
         title: 'Por favor, complete todos los campos',
         icon: 'error',

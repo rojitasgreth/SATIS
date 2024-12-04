@@ -6,7 +6,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { environment } from 'src/environment/environment';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
