@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environment/environment";
 import Swal from "sweetalert2";
@@ -30,12 +30,27 @@ export class colorProductModalComponent {
     console.log(this.productoData);
 
     this.coloresForm = this._formBuilder.group({
+      colores: this._formBuilder.array([])
+    });
+
+    this.createColor();
+  }
+
+  get colores() {
+    return this.coloresForm.get('colores') as FormArray;
+  }
+
+  createColor() {
+    console.log('holaaaa');
+
+    const colorFormGroup = this._formBuilder.group({
       codigo_color: ['', Validators.required],
       descripcion_color: ['', Validators.required],
       cod_producto: [this.productoData.cod_producto, Validators.required],
       genero: ['', Validators.required]
     });
-  }
+    this.colores.push(colorFormGroup);
+  };
 
   cerrar(result: string): void {
 
@@ -43,12 +58,12 @@ export class colorProductModalComponent {
     this.matDialogRef.close(result);
   };
 
-  agregarColor(){
+  agregarColor() {
     if (this.coloresForm.invalid) {
       this.showInvalidMessage();
       this.coloresForm.markAllAsTouched();
     } else {
-      let form = [this.coloresForm.value];
+      let form = this.coloresForm.value;
       console.log(form);
 
       this.http.post(`${environment.BASE_URL_API}/insertarColores`, form).subscribe(
