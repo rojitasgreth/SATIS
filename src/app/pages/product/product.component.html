@@ -10,13 +10,13 @@
     <!-- Selección de género -->
     <div class="flex flex-wrap items-center mt-10 lg:mt-20">
       <p class="text-lg lg:text-2xl mr-4">Seleccionar género:</p>
-      <div class="flex items-center space-x-4 mt-2">
+      <div class="flex items-center space-x-4 align-middle">
         <label for="hembra" class="flex items-center space-x-2">
-          <input type="radio" id="hembra" name="genero" value="hembra" (click)="consultarColores(producto?.cod_producto, 'H')" class="ml-2">
+          <input type="radio" id="hembra" name="genero" value="hembra" (click)="consultarColores(producto?.cod_producto, 'H')" class="ml-2 align-middle">
           <span class="text-lg lg:text-2xl">Hembra</span>
         </label>
         <label for="varon" class="flex items-center space-x-2">
-          <input type="radio" id="varon" name="genero" value="varon" (click)="consultarColores(producto?.cod_producto, 'V')">
+          <input type="radio" id="varon" name="genero" value="varon" (click)="consultarColores(producto?.cod_producto, 'V')" class="align-middle">
           <span class="text-lg lg:text-2xl">Varón</span>
         </label>
       </div>
