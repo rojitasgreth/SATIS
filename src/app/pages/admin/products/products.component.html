@@ -10,10 +10,6 @@
         <h1 class="items-center">Listado de productos  <mat-icon matTooltip="Nuevo producto" (click)="nuevoUsuario()">add_circle</mat-icon></h1>
 
         <div class="flex items-center">
-          <button class="bg-cyan-700 p-2 text-white text-md rounded-2xl flex items-center" (click)="nuevoColor()">Agregar nuevo color</button>
-        </div>
-
-        <div class="flex items-center">
           <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="filter_alt"></mat-icon>
           <input class="border-2 border-cyan-700 rounded-lg p-2 focus:outline-none focus:ring-cyan-500 focus:ring-1"
             (keyup)="applyFilter($event)" autocomplete="off" placeholder="Nombre, rol, correo..." #input>
@@ -31,14 +27,14 @@
               <button mat-icon-button color="primary" class="pt-4" (click)="editar(row)">
                 <mat-icon matTooltip="EDITAR PRODUCTO">edit</mat-icon>
               </button>
+              <button mat-icon-button color="primary" class="pt-4" (click)="nuevoColor(row)">
+                <mat-icon matTooltip="AGREGAR COLOR">palette</mat-icon>
+              </button>
               <button *ngIf="row.activo == true" class="pt-4" mat-icon-button color="warn" (click)="desactivar(row)">
                 <mat-icon matTooltip="DESACTIVAR PRODUCTO">archive</mat-icon>
               </button>
               <button *ngIf="row.activo != true" class="pt-4" mat-icon-button color="warn" (click)="activar(row)">
                 <mat-icon matTooltip="ACTIVAR PRODUCTO">beenhere</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" class="pt-4" (click)="eliminar(row)">
-                <mat-icon matTooltip="ELIMINAR PRODUCTO">delete</mat-icon>
               </button>
             </td>
           </ng-container>

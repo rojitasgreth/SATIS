@@ -63,66 +63,90 @@
 
     </div>
 </div> -->
-<nav class="bg-cyan-700">  <div
-  class="w-full flex flex-wrap items-center justify-between mx-auto py-4"
->
-  <div class="flex items-center space-x-8">
-    <a href="#" class="flex items-center ">
-      <span class="self-center text-2xl  pl-5 font-semibold whitespace-nowrap text-cyan-50"
-        >S A T I S</span
-      >
+<nav class="bg-cyan-700">
+  <div class="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between px-4 py-4">
+    <!-- Botón Hamburger para pantallas pequeñas -->
+    <button
+      class="inline-flex items-center p-2 ml-3 text-sm text-white rounded-lg xl:hidden hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+      aria-controls="navbar-menu"
+      aria-expanded="false"
+      (click)="toogleMenu()"
+    >
+      <span class="sr-only">Abrir menú</span>
+      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+      </svg>
+    </button>
+    <!-- Logo -->
+    <a href="#" class="flex items-center">
+      <span class="self-center text-2xl font-semibold whitespace-nowrap text-cyan-50">
+        S A T I S
+      </span>
     </a>
-    <ul class="flex space-x-6">
-      <li>
-        <a
-          routerLink="/home"
-          routerLinkActive="underline"
-          [routerLinkActiveOptions]="{exact: true}"
-          class="block hover:underline text-white text-xl"
-          aria-current="page"
-          >Inicio</a
-        >
-      </li>
-      <li>
-        <a
-          routerLink="/catalog"
-          routerLinkActive="underline"
-          class="block hover:underline text-white text-xl"
-          >Catálago</a
-        >
-      </li>
-      <li>
-        <a
-        routerLink="/admin/users"
-        routerLinkActive="underline"
-          class="block hover:underline text-white text-xl"
-          >Gestión de usuarios</a
-        >
-      </li>
-      <li>
-        <a
-        routerLink="/admin/products"
-        routerLinkActive="underline"
-          class="block hover:underline text-white text-xl"
-          >Gestión de productos</a
-        >
-      </li>
-      <li *ngIf="orden">
-        <a
-        routerLink="/visualize-orden"
-        routerLinkActive="underline"
-          class="block hover:underline text-white text-xl"
-          >Visualizar orden</a
-        >
-      </li>
-      <li>
-        <a
-          (click)="cerrarSesion()"
-          class="block hover:underline text-white text-xl"
-          >Cerrar sesión</a
-        >
-      </li>
-    </ul>
+
+    <!-- Menú principal -->
+    <div
+      class="w-full md:flex md:w-auto hidden"
+      id="navbar-menu"
+      [class.hidden]="!menuExpanded"
+    >
+      <ul class="flex flex-col md:flex-row md:space-x-6 md:items-center w-full">
+        <li>
+          <a
+            routerLink="/home"
+            routerLinkActive="underline"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="block py-2 md:py-0 text-white text-xl hover:underline"
+          >Inicio</a>
+        </li>
+        <li>
+          <a
+            routerLink="/catalog"
+            routerLinkActive="underline"
+            class="block py-2 md:py-0 text-white text-xl hover:underline"
+          >Catálogo</a>
+        </li>
+        <li *ngIf="info.rol == 'Admin'">
+          <a
+            routerLink="/admin/users"
+            routerLinkActive="underline"
+            class="block py-2 md:py-0 text-white text-xl hover:underline"
+          >Gestión de usuarios</a>
+        </li>
+        <li *ngIf="info.rol == 'Admin'">
+          <a
+            routerLink="/admin/products"
+            routerLinkActive="underline"
+            class="block py-2 md:py-0 text-white text-xl hover:underline"
+          >Gestión de productos</a>
+        </li>
+        <li *ngIf="orden">
+          <a
+            routerLink="/visualize-orden"
+            routerLinkActive="underline"
+            class="block py-2 md:py-0 text-white text-xl hover:underline"
+          >Visualizar orden</a>
+        </li>
+
+        <li *ngIf="isMobile">
+          <a
+            class="block py-2 md:py-0 text-white text-xl hover:underline md:hidden"
+            (click)="cerrarSesion()"
+          >Cerrar sesión</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Cerrar sesión -->
+    <div class="mt-4 md:mt-0" *ngIf="!isMobile">
+      <a
+        (click)="cerrarSesion()"
+        class="flex items-center space-x-2 text-white text-xl hover:underline"
+      >
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar sesión</span>
+      </a>
+    </div>
   </div>
-</div>
 </nav>
+

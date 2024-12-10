@@ -6,9 +6,11 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { userModalComponent } from '../modals/users/user.modal';
-import { newProductModalComponent } from '../modals/users/newProduct.modal';
+import { newProductModalComponent } from '../modals/products/newProduct.modal';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environment/environment';
+import { productModalComponent } from '../modals/products/product.modal';
+import { colorProductModalComponent } from '../modals/products/colorProduct.modal';
 export interface UserData {
   cod_producto: string;
   categoria: string;
@@ -34,7 +36,7 @@ export class ProductsComponent {
   ];
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
   usersCount: number = 0;
-  usuariosForm: FormGroup;
+  productosForm: FormGroup;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -45,18 +47,18 @@ export class ProductsComponent {
     private _matDialog: MatDialog,
     private _formBuilder: FormBuilder,
   ) {
-    this.usuariosForm = this._formBuilder.group({
-      cedula: [],
-      primer_nombre: [],
-      segundo_nombre: [],
-      primer_apellido: [],
-      fecha_nacimiento: [],
-      telefono: [],
-      correo: [],
-      usuario: [],
-      clave: [],
-      rol: [],
-      estatus: [],
+    this.productosForm = this._formBuilder.group({
+      cod_producto: [],
+      descripcion: [],
+      cantidad_piezas: [],
+      precio: [],
+      total: [],
+      precio_con_envio: [],
+      total_con_envio: [],
+      precio_dist: [],
+      total_dist: [],
+      detalle: [],
+      activo: [],
     });
   }
 
@@ -82,13 +84,24 @@ export class ProductsComponent {
     this._changeDetectorRef.detectChanges();
   }
 
-  nuevoColor() {
+  nuevoColor(row: any) {
+    const dialogRef = this._matDialog.open(colorProductModalComponent, {
+      data: row
+    });
 
+    dialogRef.afterClosed().subscribe((result) => {
+      //console.log("Compose dialog was closed!");
+      if (result == 'exitoso') {
+        this.consultarData();
+      }
+
+    });
+    this._changeDetectorRef.detectChanges();
   }
 
   editar(row: any): void {
 
-    const dialogRef = this._matDialog.open(userModalComponent, {
+    const dialogRef = this._matDialog.open(productModalComponent, {
       data: row
     });
 
@@ -106,7 +119,7 @@ export class ProductsComponent {
 
     Swal.fire({
       title: "¿Está seguro que desea desactivar el producto seleccionado?",
-      text: `Una vez desactivado no estará disponible en el catálago`,
+      text: `Una vez desactivado no estará disponible en el catálogo`,
       confirmButtonText: 'Si, desactivar',
       confirmButtonColor: '#0097A7',
       cancelButtonText: 'Cancelar',
@@ -114,25 +127,11 @@ export class ProductsComponent {
       showCancelButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuariosForm.patchValue({
-          cedula: row.cedula,
-          primer_nombre: row.primer_nombre,
-          segundo_nombre: row.segundo_nombre,
-          primer_apellido: row.primer_apellido,
-          fecha_nacimiento: row.fecha_nacimiento,
-          telefono: row.telefono,
-          correo: row.correo,
-          usuario: row.usuario,
-          clave: row.clave,
-          rol: row.rol,
-          estatus: ['Inactivo']
-        });
 
-        let form = this.usuariosForm.value;
-        form.id = row.id;
-        this.http.post(`${environment.BASE_URL_API}/modificarEmpleado`, form).subscribe(
+        let form = { cod_producto: row.cod_producto }
+        this.http.post(`${environment.BASE_URL_API}/eliminarProducto`, form).subscribe(
           (response) => {
-            if (response == 'Modificacion correcta') {
+            if (response == 'Eliminacion logica exitosa') {
               this.showSuccessMessage();
               this.consultarData();
               this._changeDetectorRef.detectChanges();
@@ -149,7 +148,7 @@ export class ProductsComponent {
 
     Swal.fire({
       title: "¿Está seguro que desea desactivar el producto seleccionado?",
-      text: `Una vez desactivado no estará disponible en el catálago`,
+      text: `Una vez desactivado no estará disponible en el catálogo`,
       confirmButtonText: 'Si, activar',
       confirmButtonColor: '#0097A7',
       cancelButtonText: 'Cancelar',
@@ -157,7 +156,7 @@ export class ProductsComponent {
       showCancelButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuariosForm.patchValue({
+        this.productosForm.patchValue({
           cedula: row.cedula,
           primer_nombre: row.primer_nombre,
           segundo_nombre: row.segundo_nombre,
@@ -171,7 +170,7 @@ export class ProductsComponent {
           estatus: ['Activo']
         });
 
-        let form = this.usuariosForm.value;
+        let form = this.productosForm.value;
         form.id = row.id;
         this.http.post(`${environment.BASE_URL_API}/modificarEmpleado`, form).subscribe(
           (response) => {
