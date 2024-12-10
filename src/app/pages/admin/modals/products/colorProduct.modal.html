@@ -1,39 +1,42 @@
-<div class="scroll-container bg-white" style="width: 600px;">
+<div class="scroll-auto" style="width: 600px; max-height: 700px">
+  <div class="bg-white">
   <div style="display: flex; justify-content: flex-end;" class="p-4">
     <button mat-icon-button (click)="cerrar('cierre')" [tabIndex]="1" class="text-black font-bold">
       X
     </button>
   </div>
 
-  <h1 class="flex justify-center text-cyan-700 font-bold">Agregar nuevo color</h1>
+  <h1 class="flex justify-center text-cyan-700 font-bold">Agregar nuevo color <mat-icon class="mt-1 ml-2 cursor-pointer" (click)="createColor()" matTooltip="Nuevo producto">add_circle</mat-icon></h1>
 
-  <div class="flex justify-center items-center h-full">
-    <form [formGroup]="coloresForm" class="form-grid">
+  <div class="flex justify-center items-center h-full" [formGroup]="coloresForm">
+    <form formArrayName="colores" class="form-grid">
+      <ng-container *ngFor="let color of colores.controls; let i = index">
+        <div [formGroupName]="i">
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Código de producto:</label>
         <input type="text" [formControlName]="'cod_producto'" maxlength="30"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full text-gray-600" readonly>
-        <p class="text-red-500"
+        <!-- <p class="text-red-500"
           *ngIf="coloresForm.get('cod_producto')?.hasError('required') && coloresForm.get('cod_producto')?.touched">
-          Campo requerido</p>
+          Campo requerido</p> -->
       </div>
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Código de color:</label>
         <input type="number" [formControlName]="'codigo_color'"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full">
-        <p class="text-red-500"
+        <!-- <p class="text-red-500"
           *ngIf="coloresForm.get('codigo_color')?.hasError('required') && coloresForm.get('codigo_color')?.touched">
-          Campo requerido</p>
+          Campo requerido</p> -->
       </div>
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Descripción del color:</label>
         <input type="text" [formControlName]="'descripcion_color'" maxlength="30"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full">
-        <p class="text-red-500"
+        <!-- <p class="text-red-500"
           *ngIf="coloresForm.get('descripcion_color')?.hasError('required') && coloresForm.get('descripcion_color')?.touched">
-          Campo requerido</p>
+          Campo requerido</p> -->
       </div>
 
       <div class="flex flex-col mb-4 w-80">
@@ -42,13 +45,13 @@
           <option value="H">Hembra</option>
           <option value="V">Varón</option>
         </select>
-        <p class="text-red-500"
+        <!-- <p class="text-red-500"
           *ngIf="coloresForm.get('genero')?.hasError('required') && coloresForm.get('genero')?.touched">
-          Campo requerido</p>
+          Campo requerido</p> -->
       </div>
+      </div>
+    </ng-container>
 
-      <mat-icon matTooltip="Nuevo producto">add_circle</mat-icon>
-e
       <div class="flex flex-col mb-4 w-80">
         <button type="button" class="bg-cyan-700 text-white rounded-md text-lg" (click)="agregarColor()">
           Agregar color
@@ -57,5 +60,5 @@ e
 
     </form>
   </div>
-
+</div>
 </div>
