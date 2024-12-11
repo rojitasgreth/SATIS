@@ -2,16 +2,20 @@
 <div class="bg-white min-h-screen flex">
 
   <!-- Contenedor principal ajustado para no chocar con el menú -->
-  <div class="flex-1 p-8 sm:p-10">
+  <div class="flex-1 p-4 sm:p-8">
     <!-- Header con el título y el buscador en la misma línea -->
     <div
-      class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0 ml-5">
+      class="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center mb-6 space-y-4 lg:space-y-0">
       <div class="w-full bg-white h-10 fuse-mat-rounded sm:min-w-64 text-black flex items-center justify-between">
-        <h1 class="items-center">Listado de usuarios  <mat-icon matTooltip="Nuevo personal" (click)="nuevoUsuario()">add_circle</mat-icon></h1>
+        <h1 class="text-lg font-bold flex items-center">
+          Listado de usuarios
+          <mat-icon matTooltip="Nuevo personal" (click)="nuevoUsuario()" class="ml-2 cursor-pointer">add_circle</mat-icon>
+        </h1>
 
-        <div class="flex items-center">
+        <div class="flex items-center space-x-2">
           <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="filter_alt"></mat-icon>
-          <input class="border-2 border-cyan-700 rounded-lg p-2 focus:outline-none focus:ring-cyan-500 focus:ring-1"
+          <input
+            class="border-2 border-cyan-700 rounded-lg p-2 focus:outline-none focus:ring-cyan-500 focus:ring-1 text-sm w-64"
             (keyup)="applyFilter($event)" autocomplete="off" placeholder="Nombre, rol, correo..." #input>
         </div>
       </div>
@@ -20,20 +24,20 @@
     <div class="flex overflow-x-auto shadow-lg">
       <div class="w-full max-w-full p-3">
         <table mat-table [dataSource]="dataSource" matSort
-          class="min-w-5xl bg-white border-2 border-black rounded-lg text-black w-full text-center">
+          class="min-w-full bg-white border-2 border-black rounded-lg text-black text-sm w-full">
           <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef class="bg-gray-200 text-black">Acciones</th>
-            <td mat-cell *matCellDef="let row" class="text-black flex">
-              <button mat-icon-button color="primary" class="pt-4"  (click)="editar(row)">
+            <td mat-cell *matCellDef="let row" class="text-black flex justify-center space-x-2">
+              <button mat-icon-button color="primary" (click)="editar(row)">
                 <mat-icon matTooltip="EDITAR">edit</mat-icon>
               </button>
-              <button *ngIf="row.estatus == 'Activo'" class="pt-4"  mat-icon-button color="warn" (click)="desactivar(row)">
+              <button *ngIf="row.estatus == 'Activo'" mat-icon-button color="warn" (click)="desactivar(row)">
                 <mat-icon matTooltip="DESACTIVAR">person_off</mat-icon>
               </button>
-              <button *ngIf="row.estatus != 'Activo'" class="pt-4"  mat-icon-button color="warn" (click)="activar(row)">
+              <button *ngIf="row.estatus != 'Activo'" mat-icon-button color="warn" (click)="activar(row)">
                 <mat-icon matTooltip="ACTIVAR">person</mat-icon>
               </button>
-              <button mat-icon-button color="warn" class="pt-4" (click)="eliminar(row)">
+              <button mat-icon-button color="warn" (click)="eliminar(row)">
                 <mat-icon matTooltip="ELIMINAR">delete</mat-icon>
               </button>
             </td>
@@ -60,8 +64,7 @@
           </ng-container>
 
           <ng-container matColumnDef="fecha_nacimiento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Fecha de nacimiento
-            </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Fecha de nacimiento</th>
             <td mat-cell *matCellDef="let row" class="text-black">{{ row.fecha_nacimiento }}</td>
           </ng-container>
 
@@ -94,12 +97,11 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell text-center" colspan="9">No se encontraron datos asociados al filtro</td>
+            <td class="mat-cell text-center text-gray-500" colspan="9">No se encontraron datos asociados al filtro</td>
           </tr>
         </table>
-        <div class="flex justify-center mt-2">
-          <mat-paginator [pageSizeOptions]="[5,10, 25, 100]" class="bg-stone-300 text-black rounded-lg">
-          </mat-paginator>
+        <div class="flex justify-center mt-4">
+          <mat-paginator [pageSizeOptions]="[5,10, 25, 100]" class="bg-stone-300 text-black rounded-lg"></mat-paginator>
         </div>
       </div>
     </div>
