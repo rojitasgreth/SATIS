@@ -18,7 +18,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 export class newProductModalComponent implements OnInit {
   productosForm: FormGroup;
+  categoriaForm: FormGroup;
   opcionesCategorias: any[] = [];
+  cargarCategoria: boolean = false;
+  imagenes: File[] = [];
+  fileError: boolean = false;
   constructor(
     public matDialogRef: MatDialogRef<newProductModalComponent>,
     private _formBuilder: FormBuilder,
@@ -38,6 +42,11 @@ export class newProductModalComponent implements OnInit {
       total_dist: ['', Validators.required],
       detalle: ['', Validators.required]
     });
+
+    this.categoriaForm = this._formBuilder.group({
+      cod_categoria: ['', Validators.required],
+      categoria: ['', Validators.required]
+    })
   }
 
   ngOnInit(): void {
@@ -125,25 +134,117 @@ export class newProductModalComponent implements OnInit {
   };
 
   agregarProducto() {
-    console.log(this.productosForm.value);
-    if (this.productosForm.invalid) {
-      this.showInvalidMessage();
-      this.productosForm.markAllAsTouched();
-    } else {
-      console.log(this.productosForm.value);
+  console.log(this.imagenes);
 
-      let form = this.productosForm.value;
-      this.http.post(`${environment.BASE_URL_API}/insertarProducto`, form).subscribe(
+  if (this.productosForm.invalid) {
+    this.showInvalidMessage();
+    this.productosForm.markAllAsTouched();
+  } else {
+    // Subir las imágenes y esperar la URL de la primera imagen
+    this.subirImagenes().then((primeraImagenUrl) => {
+      if (primeraImagenUrl !== "error") {
+      console.log(primeraImagenUrl, 'esta es la url');
+
+        let form = this.productosForm.value;
+        form.img = primeraImagenUrl; // Asignar la URL de la primera imagen al formulario
+  console.log(form, 'esto enviaaa');
+
+        // Insertar el producto con la URL de la imagen
+        this.http.post(`${environment.BASE_URL_API}/insertarProducto`, form).subscribe(
+          (response) => {
+            console.log(response);
+            if (response === 'Inserción correcta') {
+              this.showSuccessMessage();
+              this.cerrar('exitoso');
+            } else {
+              this.showWrongMessage();
+            }
+          },
+          (error) => {
+            console.error('Error al insertar producto:', error);
+          }
+        );
+      } else {
+        console.error("Error al subir imágenes");
+        this.showWrongMessage();
+      }
+    });
+  }
+}
+
+// Subir imágenes y devolver la URL de la primera imagen
+subirImagenes(): Promise<string> {
+  return new Promise((resolve) => {
+    console.log('Subiendo imágenes...');
+
+    if (this.imagenes && this.imagenes.length > 0) {
+      const file = this.imagenes[0]; // Tomar solo la primera imagen
+      const formData = new FormData();
+      formData.append('imagen', file); // Clave esperada por el backend
+
+      this.http.post(`${environment.BASE_URL_API}/CargarImagen`, formData).subscribe(
+        (response: any) => {
+          console.log('Imagen subida correctamente:', response);
+          const rutaAbsoluta = response.data.path;
+          const rutaRelativa = rutaAbsoluta.replace(/^.*\/assets/, '../../../assets');
+          resolve(rutaRelativa); // Devolver la URL de la imagen subida
+        },
+        (error) => {
+          console.error('Error al subir la imagen:', error);
+          resolve("error"); // En caso de error, devolver "error"
+        }
+      );
+    } else {
+      console.error('No hay imágenes para subir');
+      resolve("error");
+    }
+  });
+}
+
+
+  nuevaCategoria() {
+    this.cargarCategoria = !this.cargarCategoria;
+  }
+
+  agregarCategoria() {
+    if (this.categoriaForm.invalid) {
+      this.showInvalidMessage();
+      this.categoriaForm.markAllAsTouched();
+    } else {
+      let form = this.categoriaForm.value;
+      this.http.post(`${environment.BASE_URL_API}/insertarCategoria`, form).subscribe(
         (response) => {
-          if (response == 'Inserción correcta') {
-            this.showSuccessMessage();
-            this.cerrar('exitoso');
+          console.log(response);
+
+          if (response == 'Insercion correcta') {
+            this.cargarCategoria
+            this.showSuccessMessageCat();
+            this.nuevaCategoria();
+            this.consultarCategoria();
           } else {
             this.showWrongMessage();
           }
         }
       )
     }
+  }
+
+  onImageUpload(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const files = input.files;
+    this.imagenes = []; // Reinicia la lista de imágenes
+
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.type === 'image/jpeg' || file.type === 'image/png') {
+          this.imagenes.push(file);
+        }
+      }
+    }
+
+    // Validar si el número de imágenes está entre 1 y 5
+    this.fileError = this.imagenes.length < 1 || this.imagenes.length > 5;
   }
 
   showInvalidMessage() {
@@ -162,6 +263,16 @@ export class newProductModalComponent implements OnInit {
       text: 'Recuerde agregarle los colores disponibles del producto en "Agregar nuevo color"',
       showConfirmButton: false,
       timer: 3000
+    });
+  }
+
+  showSuccessMessageCat() {
+    Swal.fire({
+      icon: 'success',
+      title: 'Categoría cargada exitosamente',
+      text: 'Ya puede visualizar esta nueva categoría',
+      showConfirmButton: false,
+      timer: 5000
     });
   }
 
