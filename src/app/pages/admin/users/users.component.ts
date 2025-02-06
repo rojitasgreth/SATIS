@@ -193,7 +193,7 @@ export class UsersComponent implements OnInit {
     Swal.fire({
       title: "¿Está seguro que desea eliminar el personal seleccionado?",
       text: `${row.primer_nombre} ${row.primer_apellido} es el usuario seleccionado`,
-      confirmButtonText: 'Si, activar',
+      confirmButtonText: 'Si, eliminar',
       confirmButtonColor: '#0097A7',
       cancelButtonText: 'Cancelar',
       cancelButtonColor: '#D32F2F',
