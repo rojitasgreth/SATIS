@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'product-new',
   standalone: true,
@@ -134,22 +135,22 @@ export class newProductModalComponent implements OnInit {
   };
 
   agregarProducto() {
-  console.log(this.imagenes);
+    console.log(this.imagenes);
 
-  if (this.productosForm.invalid) {
-    this.showInvalidMessage();
-    this.productosForm.markAllAsTouched();
-  } else {
-    // Subir las imágenes y esperar la URL de la primera imagen
-    this.subirImagenes().then((primeraImagenUrl) => {
-      if (primeraImagenUrl !== "error") {
-      console.log(primeraImagenUrl, 'esta es la url');
+    if (this.productosForm.invalid) {
+      this.showInvalidMessage();
+      this.productosForm.markAllAsTouched();
+    } else {
+      // Subir las imágenes y esperar la URL de la primera imagen
+      this.subirImagenes().then((primeraImagenUrl) => {
+        if (primeraImagenUrl !== "error") {
+          console.log(primeraImagenUrl, 'esta es la url');
 
-        let form = this.productosForm.value;
-        form.img = primeraImagenUrl; // Asignar la URL de la primera imagen al formulario
-  console.log(form, 'esto enviaaa');
+          let form = this.productosForm.value;
+          form.img = primeraImagenUrl; // Asignar la URL de la primera imagen al formulario
+          console.log(form, 'esto enviaaa');
 
-        // Insertar el producto con la URL de la imagen
+          // Insertar el producto con la URL de la imagen
         this.http.post(`${environment.BASE_URL_API}/insertarProducto`, form).subscribe(
           (response) => {
             console.log(response);
@@ -164,43 +165,49 @@ export class newProductModalComponent implements OnInit {
             console.error('Error al insertar producto:', error);
           }
         );
+        } else {
+          console.error("Error al subir imágenes");
+          this.showWrongMessage();
+        }
+      });
+    }
+  }
+
+  // Subir imágenes y devolver la URL de la primera imagen
+  subirImagenes(): Promise<string> {
+    return new Promise((resolve) => {
+      console.log('Subiendo imágenes...');
+
+      if (this.imagenes && this.imagenes.length > 0) {
+        const file = this.imagenes[0]; // Tomar solo la primera imagen
+        const formData = new FormData();
+        formData.append('imagen', file); // Clave esperada por el backend
+
+        this.http.post(`${environment.BASE_URL_API}/CargarImagen`, formData).subscribe(
+          (response: any) => {
+            console.log('Imagen subida correctamente:', response);
+            const rutaAbsoluta = response.data.path;
+
+            const ruta = rutaAbsoluta.replace(/^.*[\\/]assets/, '../../../assets');
+
+            // Normalizar las barras invertidas a barras normales para que funcione en Angular
+            const rutaRelativa = ruta.replace(/\\/g, '/');
+           // const rutaRelativa = '../../../assets/' + path.replace(/\\/g, '/');
+            console.log(rutaAbsoluta, rutaRelativa, 'esto es asiiiiiiii');
+
+            resolve(rutaRelativa); // Devolver la URL de la imagen subida
+          },
+          (error) => {
+            console.error('Error al subir la imagen:', error);
+            resolve("error"); // En caso de error, devolver "error"
+          }
+        );
       } else {
-        console.error("Error al subir imágenes");
-        this.showWrongMessage();
+        console.error('No hay imágenes para subir');
+        resolve("error");
       }
     });
   }
-}
-
-// Subir imágenes y devolver la URL de la primera imagen
-subirImagenes(): Promise<string> {
-  return new Promise((resolve) => {
-    console.log('Subiendo imágenes...');
-
-    if (this.imagenes && this.imagenes.length > 0) {
-      const file = this.imagenes[0]; // Tomar solo la primera imagen
-      const formData = new FormData();
-      formData.append('imagen', file); // Clave esperada por el backend
-
-      this.http.post(`${environment.BASE_URL_API}/CargarImagen`, formData).subscribe(
-        (response: any) => {
-          console.log('Imagen subida correctamente:', response);
-          const rutaAbsoluta = response.data.path;
-          
-          const rutaRelativa = rutaAbsoluta.replace(/^.*\/assets/, '../../../assets');
-          resolve(rutaRelativa); // Devolver la URL de la imagen subida
-        },
-        (error) => {
-          console.error('Error al subir la imagen:', error);
-          resolve("error"); // En caso de error, devolver "error"
-        }
-      );
-    } else {
-      console.error('No hay imágenes para subir');
-      resolve("error");
-    }
-  });
-}
 
 
   nuevaCategoria() {
@@ -265,7 +272,7 @@ subirImagenes(): Promise<string> {
       title: 'Producto cargado exitosamente',
       text: 'Recuerde agregarle los colores disponibles del producto en "Agregar nuevo color"',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
@@ -277,7 +284,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       title: 'Categoría cargada exitosamente',
       text: 'Ya puede visualizar esta nueva categoría',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
       timer: 5000
     });
@@ -288,7 +295,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'warning',
       title: 'Ha ocurrido un inconveniente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
