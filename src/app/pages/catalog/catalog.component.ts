@@ -45,7 +45,9 @@ export class CatalogComponent implements OnInit {
           Swal.fire({
             title: 'Error',
             icon: 'error',
-            showConfirmButton: false,
+            showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
             timer: 2000
           })
         }
@@ -68,7 +70,9 @@ export class CatalogComponent implements OnInit {
           Swal.fire({
             title: 'Error',
             icon: 'error',
-            showConfirmButton: false,
+            showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
             timer: 2000
           })
         }

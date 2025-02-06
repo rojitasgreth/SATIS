@@ -8,7 +8,7 @@
         <label class="mb-1">Condiciones:</label>
         <select formControlName="Condicion"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
-          <option value="" disabled selected>Seleccione una condición</option>
+          <option value="" class="pl-6" disabled selected>Seleccione una condición</option>
           <option value="15 días">15 días</option>
           <option value="30 días">30 días</option>
           <option value="Por abonos">Por abonos</option>
@@ -23,7 +23,7 @@
         <label class="mb-1">Tipo de envío:</label>
         <select formControlName="tipo_envio"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
-          <option value="" disabled selected>Seleccione tipo de envío</option>
+          <option value="" class="pl-6" disabled selected>Seleccione tipo de envío</option>
           <option value="Capital">Capital</option>
           <option value="Nacional">Nacional</option>
         </select>
@@ -46,7 +46,7 @@
             <option value="E">E</option>
           </select>
           <input matInput type="text" formControlName="RIF" placeholder="170333337" maxlength="9" minlength="9"
-            class="h-12 w-full ml-3 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-7"
+            class="h-12 w-full ml-3 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4"
             (blur)="consultarCliente()" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
         <mat-error *ngIf="ordenForm.get('RIF')?.touched && ordenForm.get('RIF')?.value.length != 9">RIF inválido.
@@ -59,7 +59,7 @@
       <div class="flex flex-col">
         <label class="mb-1">Teléfono:</label>
         <input matInput type="tel" formControlName="telefono" placeholder="04120000000" maxlength="11"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-7">
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
         <mat-error *ngIf="ordenForm.get('telefono')?.touched && ordenForm.get('telefono')?.hasError('required')">
           El teléfono es requerido.
         </mat-error>
@@ -71,7 +71,7 @@
       <div class="flex flex-col">
         <label class="mb-1">Cliente:</label>
         <input matInput type="text" formControlName="cliente" placeholder="Nombre ejemplo C.A"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-7">
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
         <mat-error *ngIf="ordenForm.get('cliente')?.touched && ordenForm.get('cliente')?.hasError('required')">
           El nombre del cliente es requerido.
         </mat-error>
@@ -80,7 +80,7 @@
       <div class="flex flex-col">
         <label class="mb-1">Correo electrónico:</label>
         <input matInput type="email" formControlName="email" placeholder="ejemplo@ejemplo.com"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-7">
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
         <mat-error *ngIf="ordenForm.get('email')?.touched && ordenForm.get('email')?.hasError('required')">
           El correo electrónico es requerido.
         </mat-error>
@@ -122,23 +122,23 @@
       <div class="flex flex-col">
         <label class="mb-1">Calle o Avenida:</label>
         <input matInput type="text" formControlName="calle" placeholder="Calle o Avenida" maxlength="80"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-6">
       </div>
       <div class="flex flex-col">
         <label class="mb-1">Edificio o Local:</label>
         <input matInput type="text" formControlName="edificio" placeholder="Edificio/local" maxlength="80"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-6">
       </div>
     </div>
 
     <!-- Botón -->
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-6">
       <button class="bg-cyan-700 p-3 text-white text-md rounded-xl" *ngIf="!existe" (click)="enviarCliente()">
         Continuar
       </button>
     </div>
 
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-6">
       <button class="bg-cyan-700 p-3 text-white text-md rounded-xl" *ngIf="existe" (click)="continuar()">
         Continuar
       </button>

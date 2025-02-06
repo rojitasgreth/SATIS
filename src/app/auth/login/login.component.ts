@@ -44,22 +44,28 @@ export class LoginComponent implements OnInit {
             Swal.fire({
               title: 'Usuario no existe.',
               icon: 'error',
-              showConfirmButton: false,
-              timer: 3000
+              showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
             })
           } else if (response == 'Credenciales incorrectas.') {
             Swal.fire({
               title: 'Credenciales incorrectas.',
               icon: 'error',
-              showConfirmButton: false,
-              timer: 3000
+              showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
             })
           } else if (response == 'Usuario inactivo.') {
             Swal.fire({
               title: 'Usuario inactivo.',
               icon: 'error',
-              showConfirmButton: false,
-              timer: 3000
+              showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
             })
           } else if (response.rol == 'Vendedor') {
             // console.log('aquii');

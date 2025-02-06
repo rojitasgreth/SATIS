@@ -382,8 +382,10 @@ export class ProductComponent implements OnInit {
                     Swal.fire({
                       title: "Ha ocurrido un inconveniente",
                       icon: "warning",
-                      showConfirmButton: false,
-                      timer: 3000
+                      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
                     })
                     // console.log('Error');
                   }
@@ -392,8 +394,10 @@ export class ProductComponent implements OnInit {
                   Swal.fire({
                     title: "Ha ocurrido un inconveniente",
                     icon: "warning",
-                    showConfirmButton: false,
-                    timer: 3000
+                    showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
                   })
                   console.error("Error", error);
                 }

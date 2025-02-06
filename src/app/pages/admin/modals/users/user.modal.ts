@@ -94,8 +94,10 @@ export class userModalComponent implements OnInit {
     Swal.fire({
       icon: 'warning',
       title: 'Por favor, complete todos los campos',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 
@@ -103,8 +105,10 @@ export class userModalComponent implements OnInit {
     Swal.fire({
       icon: 'success',
       title: 'Informacion actualizada exitosamente',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 }

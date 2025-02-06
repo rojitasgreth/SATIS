@@ -18,6 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 
 export class newUserModalComponent {
   usuariosForm: FormGroup;
+  showPassword: boolean = false;
   constructor(
     public matDialogRef: MatDialogRef<newUserModalComponent>,
     private _formBuilder: FormBuilder,
@@ -26,7 +27,7 @@ export class newUserModalComponent {
   ) {
     const regex = /^[0-9]+$/;
     this.usuariosForm = this._formBuilder.group({
-      cedula: ['', Validators.required],
+      cedula: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(9)]],
       primer_nombre: ['', Validators.required],
       segundo_nombre: ['', Validators.required],
       primer_apellido: ['', Validators.required],
@@ -34,13 +35,16 @@ export class newUserModalComponent {
       telefono: ['', [Validators.required, Validators.pattern(regex)]],
       correo: ['', Validators.required],
       usuario: ['', Validators.required],
-      clave: ['', Validators.required],
+      clave: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(12)]],
+      clave2: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(12)]],
       rol: ['', Validators.required],
       estatus: ['Activo']
     });
   }
 
-
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -64,6 +68,17 @@ export class newUserModalComponent {
       this.showInvalidMessage();
       this.usuariosForm.markAllAsTouched();
     } else {
+
+      if (this.usuariosForm.get('clave')?.value !== this.usuariosForm.get('clave2')?.value) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Las contraseñas no conciden',
+          showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
+        });
+      }
       let form = this.usuariosForm.value;
       this.http.post(`${environment.BASE_URL_API}/insertarEmpleado`, form).subscribe(
         (response) => {
@@ -82,17 +97,21 @@ export class newUserModalComponent {
     Swal.fire({
       icon: 'success',
       title: 'Empleado cargado exitosamente',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 
   showInvalidMessage() {
     Swal.fire({
       icon: 'warning',
-      title: 'Por favor, complete todos los campos',
-      showConfirmButton: false,
-      timer: 3000
+      title: 'Por favor, complete todos los campos correctamente',
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 }

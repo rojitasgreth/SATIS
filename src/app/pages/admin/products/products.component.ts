@@ -242,8 +242,10 @@ export class ProductsComponent {
     Swal.fire({
       icon: 'success',
       title: 'Informacion actualizada exitosamente',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 
@@ -251,8 +253,10 @@ export class ProductsComponent {
     Swal.fire({
       icon: 'success',
       title: 'Usuario eliminado exitosamente',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 }

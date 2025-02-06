@@ -83,8 +83,10 @@ export class colorProductModalComponent {
     Swal.fire({
       icon: 'warning',
       title: 'Por favor, complete todos los campos',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 
@@ -92,8 +94,10 @@ export class colorProductModalComponent {
     Swal.fire({
       icon: 'success',
       title: 'Color cargado exitosamente',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 
@@ -101,8 +105,10 @@ export class colorProductModalComponent {
     Swal.fire({
       icon: 'warning',
       title: 'Ha ocurrido un inconveniente',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 }

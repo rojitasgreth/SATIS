@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
         icon: 'info',
         title: 'Ya posee una orden en proceso.',
         text: 'Por favor, finalice antes de crear una nueva orden.',
-        timer: 3000
+
       })
     } else {
       this.router.navigate(['/purchase-order']);

@@ -12,10 +12,13 @@
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Cédula:</label>
         <input type="text" [formControlName]="'cedula'" maxlength="10"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full">
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full" minlength="5" maxlength="9">
         <p class="text-red-500"
           *ngIf="usuariosForm.get('cedula')?.hasError('required') && usuariosForm.get('cedula')?.touched">
           Campo requerido</p>
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('cedula')?.hasError('minlength') && usuariosForm.get('cedula')?.touched">
+          La cédula solicita minimo 5 caracteres</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
@@ -60,10 +63,14 @@
         <label class="mb-1">Telefono:</label>
         <input type="tel" [formControlName]="'telefono'"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2"
-          (input)="onInput($event)">
+          (input)="onInput($event)"
+          maxlength="11" minlength="10">
         <p class="text-red-500"
           *ngIf="usuariosForm.get('telefono')?.hasError('required') && usuariosForm.get('telefono')?.touched">
           Campo requerido</p>
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('telefono')?.hasError('minlength') && usuariosForm.get('telefono')?.touched">
+          El telefono debe poseer minimo 10 digitos</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
@@ -86,11 +93,31 @@
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Clave:</label>
-        <input type="text" [formControlName]="'clave'"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
+        <input [type]="showPassword ? 'text' : 'password'" [formControlName]="'clave'"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2" minlength="5" maxlength="12">
           <p class="text-red-500"
           *ngIf="usuariosForm.get('clave')?.hasError('required') && usuariosForm.get('clave')?.touched">
           Campo requerido</p>
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('clave')?.hasError('minlength') && usuariosForm.get('clave')?.touched">
+          La clave debe ser de minimo 5 caracteres</p>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <button type="button" class="focus:outline-none text-slate-950" (click)="toggleShowPassword()">
+              <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+            </button>
+          </div>
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Confirmar clave:</label>
+        <input type="password" [formControlName]="'clave2'"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2" minlength="5" maxlength="12">
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('clave2')?.hasError('required') && usuariosForm.get('clave')?.touched">
+          Campo requerido</p>
+          <p class="text-red-500"
+          *ngIf="usuariosForm.get('clave2')?.value !== usuariosForm.get('clave')?.value">
+          Las claves no coinciden</p>
       </div>
 
       <div class="flex flex-col mb-4 w-80">
@@ -107,7 +134,7 @@
 
       <div class="flex flex-col mb-4 w-80">
         <button type="button" class="bg-cyan-700 text-white rounded-md text-lg" (click)="agregarEmpleado()">
-          Actualizar datos
+          Agregar nuevo empleado
         </button>
       </div>
     </form>

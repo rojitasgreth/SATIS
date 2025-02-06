@@ -97,8 +97,10 @@ export class NewOrdenComponent implements OnInit {
               Swal.fire({
                 title: "Ha ocurrido un inconveniente",
                 icon: "warning",
-                showConfirmButton: false,
-                timer: 3000
+                showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
               })
             } else {
               // console.log(response, 'esta es la respuestaaaa');
@@ -125,7 +127,9 @@ export class NewOrdenComponent implements OnInit {
       Swal.fire({
         title: 'Por favor, complete todos los campos',
         icon: 'error',
-        showConfirmButton: false,
+        showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
         timer: 6000
       });
     }

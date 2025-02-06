@@ -251,8 +251,10 @@ subirImagenes(): Promise<string> {
     Swal.fire({
       icon: 'warning',
       title: 'Por favor, complete todos los campos',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+      confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 
@@ -261,8 +263,10 @@ subirImagenes(): Promise<string> {
       icon: 'success',
       title: 'Producto cargado exitosamente',
       text: 'Recuerde agregarle los colores disponibles del producto en "Agregar nuevo color"',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 
@@ -271,7 +275,9 @@ subirImagenes(): Promise<string> {
       icon: 'success',
       title: 'Categoría cargada exitosamente',
       text: 'Ya puede visualizar esta nueva categoría',
-      showConfirmButton: false,
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
       timer: 5000
     });
   }
@@ -280,8 +286,10 @@ subirImagenes(): Promise<string> {
     Swal.fire({
       icon: 'warning',
       title: 'Ha ocurrido un inconveniente',
-      showConfirmButton: false,
-      timer: 3000
+      showConfirmButton: true,
+confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
     });
   }
 }
