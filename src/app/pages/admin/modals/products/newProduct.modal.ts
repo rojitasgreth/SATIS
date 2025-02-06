@@ -186,6 +186,7 @@ subirImagenes(): Promise<string> {
         (response: any) => {
           console.log('Imagen subida correctamente:', response);
           const rutaAbsoluta = response.data.path;
+          
           const rutaRelativa = rutaAbsoluta.replace(/^.*\/assets/, '../../../assets');
           resolve(rutaRelativa); // Devolver la URL de la imagen subida
         },
