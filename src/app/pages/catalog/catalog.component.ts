@@ -37,7 +37,7 @@ export class CatalogComponent implements OnInit {
     this.http.post(`${environment.BASE_URL_API}/listarProductos`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
-          console.log(response);
+          //console.log(response);
 
           this.productos = response;
           this.extraerCategorias();
@@ -46,8 +46,8 @@ export class CatalogComponent implements OnInit {
             title: 'Error',
             icon: 'error',
             showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+            confirmButtonAriaLabel: 'De acuerdo',
+            confirmButtonColor: '#0097A7',
             timer: 2000
           })
         }
@@ -71,8 +71,8 @@ confirmButtonAriaLabel: 'De acuerdo',
             title: 'Error',
             icon: 'error',
             showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+            confirmButtonAriaLabel: 'De acuerdo',
+            confirmButtonColor: '#0097A7',
             timer: 2000
           })
         }

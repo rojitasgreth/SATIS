@@ -30,7 +30,7 @@ export class DetailsComponent implements OnInit {
 
       this.http.post(`${environment.BASE_URL_API}/listarDetalles`, data).subscribe(
         (response: any) => {
-          console.log(response);
+          //console.log(response);
           this.productos = response;
           // console.log(this.productos, 'ES ESTA VERGAAA');
 

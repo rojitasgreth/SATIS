@@ -41,7 +41,7 @@ export class MenuComponent implements OnInit {
   toogleMenu() {
     this.menuExpanded = !this.menuExpanded;
 
-    console.log(this.menuExpanded);
+    //console.log(this.menuExpanded);
 
   }
   cerrarSesion() {

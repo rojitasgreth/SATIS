@@ -27,7 +27,7 @@ export class colorProductModalComponent {
   ) {
     const regex = /^[0-9]+$/;
     this.productoData = data;
-    console.log(this.productoData);
+    //console.log(this.productoData);
 
     this.coloresForm = this._formBuilder.group({
       colores: this._formBuilder.array([])
@@ -41,7 +41,7 @@ export class colorProductModalComponent {
   }
 
   createColor() {
-    console.log('holaaaa');
+    //console.log('holaaaa');
 
     const colorFormGroup = this._formBuilder.group({
       codigo_color: ['', Validators.required],
@@ -64,7 +64,7 @@ export class colorProductModalComponent {
       this.coloresForm.markAllAsTouched();
     } else {
       let form = this.coloresForm.value;
-      console.log(form);
+      //console.log(form);
 
       this.http.post(`${environment.BASE_URL_API}/insertarColores`, form).subscribe(
         (response) => {
@@ -74,6 +74,16 @@ export class colorProductModalComponent {
           } else {
             this.showWrongMessage();
           }
+        },
+        (error) => {
+          Swal.fire({
+            icon: 'warning',
+            title: 'El codigo del color ya existe',
+            showConfirmButton: true,
+            confirmButtonAriaLabel: 'De acuerdo',
+            confirmButtonColor: '#0097A7',
+
+          });
         }
       )
     }
@@ -84,7 +94,7 @@ export class colorProductModalComponent {
       icon: 'warning',
       title: 'Por favor, complete todos los campos',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
@@ -95,7 +105,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'success',
       title: 'Color cargado exitosamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
@@ -106,7 +116,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'warning',
       title: 'Ha ocurrido un inconveniente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });

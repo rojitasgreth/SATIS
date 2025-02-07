@@ -74,56 +74,21 @@ export class ProductComponent implements OnInit {
     this.http.post(`${environment.BASE_URL_API}/listarProductoIndividual`, data).subscribe(
       (response: any) => {
         if (response !== 'VACIO') {
-          console.log(response, 'producto');
+          //console.log(response, 'producto');
 
-          this.producto = response[0];
+          this.producto = response.data[0];
+          //console.log(this.producto);
+
+          const imagenes = response.imagenes;
+          //console.log(imagenes);
 
 
-          ///CARRUSEL
-          if (this.producto.cod_producto == "ALMB1" || this.producto.cod_producto == "ALMB2" || this.producto.cod_producto == "ALMB3") {
-            this.slides = [
-              { src: '../../../assets/catalago/almillas0-6.jpg', title: 'Slide 1' },
-              { src: '../../../assets/catalago/almillas6-9.jpg', title: 'Slide 2' },
-              { src: '../../../assets/catalago/almillas9-12.jpg', title: 'Slide 3' },
-              { src: '../../../assets/catalago/almillas.jpg', title: 'Slide 4' },
-              { src: '../../../assets/catalago/almillas2.jpg', title: 'Slide 5' },
-              { src: '../../../assets/catalago/almillas3.jpg', title: 'Slide 6' },
-              { src: '../../../assets/catalago/almillas4.jpg', title: 'Slide 7' }
-            ];
-          } else if (this.producto.cod_producto == "BODB1") {
-            this.slides = [
-              { src: '../../../assets/catalago/body.jpg', title: 'Slide 1' },
-              { src: '../../../assets/catalago/body2.jpg', title: 'Slide 2' },
-              { src: '../../../assets/catalago/bodyNina.jpg', title: 'Slide 3' },
-              { src: '../../../assets/catalago/bodyNina2.jpg', title: 'Slide 4' }
-            ];
-          } else if (this.producto.cod_producto == "CPDB1") {
-            this.slides = [
-              { src: '../../../assets/catalago/conjunto.jpg', title: 'Slide 1' },
-              { src: '../../../assets/catalago/conjunto2.jpg', title: 'Slide 2' },
-              { src: '../../../assets/catalago/conjunto4.jpg', title: 'Slide 4' },
-              { src: '../../../assets/catalago/conjunto5.jpg', title: 'Slide 5' },
-              { src: '../../../assets/catalago/conjuntoh.jpg', title: 'Slide 6' },
-              { src: '../../../assets/catalago/conjuntoh2.jpg', title: 'Slide 7' },
-              { src: '../../../assets/catalago/conjuntoh3.jpg', title: 'Slide 8' },
-              { src: '../../../assets/catalago/conjuntoh4.jpg', title: 'Slide 9' },
-              { src: '../../../assets/catalago/conjuntoh5.jpg', title: 'Slide 10' },
-              { src: '../../../assets/catalago/conjuntoh6.jpg', title: 'Slide 11' },
-            ];
-          } else if (this.producto.cod_producto == "MONB1") {
-            this.slides = [
-              { src: '../../../assets/catalago/monoTradicional.jpg', title: 'Slide 1' },
-              { src: '../../../assets/catalago/monoTradicional2.jpg', title: 'Slide 2' },
-              { src: '../../../assets/catalago/monoTradicional3.jpg', title: 'Slide 3' },
-              { src: '../../../assets/catalago/monoTradicional4.jpg', title: 'Slide 4' }
-            ];
-          } else {
-            this.slides = [
-              { src: '../../../assets/catalago/prueba.jpeg', title: 'Slide 1' }
-            ];
+          for (let img of imagenes) {
+            //console.log(img, 'es estooo');
+
+            this.slides.push({ src: img.imagen, title: 'Carrusel de fotos' });
           }
-          ///FIN CARRUSEL
-
+          //console.log(this.slides, 'final');
         } else {
           //console.log('Error');
         }
@@ -232,7 +197,7 @@ export class ProductComponent implements OnInit {
 
 
   agregarCantidad(cod: any, cantidad: any, genero: any) {
-    console.log(this.coloresSeleccionados, ' colores agregados');
+    //console.log(this.coloresSeleccionados, ' colores agregados');
 
     const index = this.coloresSeleccionados.findIndex(color => cod === color.cod_color && color.cod_producto === this.producto.cod_producto && genero === color.genero);
     // console.log(index);
@@ -243,9 +208,9 @@ export class ProductComponent implements OnInit {
   }
 
   eliminarColor(cod: any, cod_producto: string) {
-    console.log(this.coloresMostrar, 'antes mostrar');
-    console.log(this.colorSeleccionado, 'antes seleccionado');
-    console.log('Eliminar:', cod, cod_producto);
+    //console.log(this.coloresMostrar, 'antes mostrar');
+    //console.log(this.colorSeleccionado, 'antes seleccionado');
+    //console.log('Eliminar:', cod, cod_producto);
 
     // Buscar y eliminar el color en coloresSeleccionados
     const indexSeleccionado = this.coloresSeleccionados.findIndex(
@@ -265,9 +230,9 @@ export class ProductComponent implements OnInit {
       this.coloresMostrar.splice(indexMostrar, 1);
     }
 
-    console.log('Color eliminado.');
-    console.log(this.coloresMostrar, 'despues mostrar');
-    console.log(this.coloresSeleccionados, 'despues seleccionado');
+    //console.log('Color eliminado.');
+    //console.log(this.coloresMostrar, 'despues mostrar');
+    //console.log(this.coloresSeleccionados, 'despues seleccionado');
 
     // Detectar cambios para actualizar la vista
     this.cdr.detectChanges();
@@ -383,8 +348,8 @@ export class ProductComponent implements OnInit {
                       title: "Ha ocurrido un inconveniente",
                       icon: "warning",
                       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+                      confirmButtonAriaLabel: 'De acuerdo',
+                      confirmButtonColor: '#0097A7',
 
                     })
                     // console.log('Error');
@@ -395,8 +360,8 @@ confirmButtonAriaLabel: 'De acuerdo',
                     title: "Ha ocurrido un inconveniente",
                     icon: "warning",
                     showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+                    confirmButtonAriaLabel: 'De acuerdo',
+                    confirmButtonColor: '#0097A7',
 
                   })
                   console.error("Error", error);

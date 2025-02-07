@@ -43,7 +43,7 @@ export class VisualizeOrdenComponent implements OnInit {
     const productoString = localStorage.getItem('productos');
     if (productoString !== null) {
       this.productos = JSON.parse(productoString);
-      console.log(this.productos);
+      //console.log(this.productos);
 
     } else {
       this.productos = null;
@@ -77,8 +77,8 @@ export class VisualizeOrdenComponent implements OnInit {
           title: 'Orden cancelada',
           icon: 'info',
           showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+          confirmButtonAriaLabel: 'De acuerdo',
+          confirmButtonColor: '#0097A7',
           showCancelButton: false,
 
         })
@@ -212,8 +212,8 @@ confirmButtonAriaLabel: 'De acuerdo',
                         title: "Ha ocurrido un inconveniente",
                         icon: "warning",
                         showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+                        confirmButtonAriaLabel: 'De acuerdo',
+                        confirmButtonColor: '#0097A7',
 
                       })
                       // console.log('Error');
@@ -224,8 +224,8 @@ confirmButtonAriaLabel: 'De acuerdo',
                       title: "Ha ocurrido un inconveniente",
                       icon: "warning",
                       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+                      confirmButtonAriaLabel: 'De acuerdo',
+                      confirmButtonColor: '#0097A7',
 
                     })
                     console.error("Error", error);

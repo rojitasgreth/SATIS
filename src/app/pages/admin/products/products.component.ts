@@ -227,7 +227,7 @@ export class ProductsComponent {
   consultarData() {
     this.http.post(`${environment.BASE_URL_API}/listarProductosSupervisor`, {}).subscribe(
       (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.dataSource.data = response;
         //this.dataSource.paginator = this.paginator;
         this._changeDetectorRef.detectChanges();
@@ -243,7 +243,7 @@ export class ProductsComponent {
       icon: 'success',
       title: 'Informacion actualizada exitosamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
@@ -254,7 +254,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'success',
       title: 'Usuario eliminado exitosamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });

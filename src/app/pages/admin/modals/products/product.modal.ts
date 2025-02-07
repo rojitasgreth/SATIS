@@ -1,22 +1,22 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environment/environment';
 import { CommonModule } from '@angular/common';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'product-edit',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatDatepickerModule, MatIconModule],
   templateUrl: './product.modal.html',
   encapsulation: ViewEncapsulation.None
 })
 
-export class productModalComponent implements OnInit{
+export class productModalComponent implements OnInit {
   productosForm: FormGroup;
   datosProductos: any;
   opcionesCategorias: any[] = [];
@@ -121,26 +121,26 @@ export class productModalComponent implements OnInit{
     this.matDialogRef.close(result);
   };
 
-  actualizarProducto(){
+  actualizarProducto() {
 
     if (this.productosForm.invalid) {
       this.showInvalidMessage();
       this.productosForm.markAllAsTouched();
     } else {
 
-    let form = this.productosForm.value;
-    //form.id = this.datosProductos.id;
-    this.http.post(`${environment.BASE_URL_API}/modificarProducto`, form).subscribe(
-      (response) => {
-        console.log(response);
+      let form = this.productosForm.value;
+      //form.id = this.datosProductos.id;
+      this.http.post(`${environment.BASE_URL_API}/modificarProducto`, form).subscribe(
+        (response) => {
+          //console.log(response);
 
-        if (response == 'Modificacion correcta') {
-          this.showSuccessMessage();
-          this.cerrar('exitoso');
+          if (response == 'Modificacion correcta') {
+            this.showSuccessMessage();
+            this.cerrar('exitoso');
+          }
+
         }
-
-      }
-    )
+      )
     }
   }
 
@@ -149,7 +149,7 @@ export class productModalComponent implements OnInit{
       icon: 'warning',
       title: 'Por favor, complete todos los campos',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
@@ -160,7 +160,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'success',
       title: 'Informacion actualizada exitosamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });

@@ -135,7 +135,7 @@ export class newProductModalComponent implements OnInit {
   };
 
   agregarProducto() {
-    console.log(this.imagenes);
+    //console.log(this.imagenes);
 
     if (this.productosForm.invalid) {
       this.showInvalidMessage();
@@ -144,27 +144,28 @@ export class newProductModalComponent implements OnInit {
       // Subir las imágenes y esperar la URL de la primera imagen
       this.subirImagenes().then((primeraImagenUrl) => {
         if (primeraImagenUrl !== "error") {
-          console.log(primeraImagenUrl, 'esta es la url');
+          //console.log(primeraImagenUrl, 'esta es la url');
 
           let form = this.productosForm.value;
           form.img = primeraImagenUrl; // Asignar la URL de la primera imagen al formulario
-          console.log(form, 'esto enviaaa');
+          form.imagenes = [{ url: primeraImagenUrl }]
+          //console.log(form, 'esto enviaaa');
 
           // Insertar el producto con la URL de la imagen
-        this.http.post(`${environment.BASE_URL_API}/insertarProducto`, form).subscribe(
-          (response) => {
-            console.log(response);
-            if (response === 'Inserción correcta') {
-              this.showSuccessMessage();
-              this.cerrar('exitoso');
-            } else {
-              this.showWrongMessage();
+          this.http.post(`${environment.BASE_URL_API}/insertarProducto`, form).subscribe(
+            (response) => {
+              //console.log(response);
+              if (response === 'Inserción correcta') {
+                this.showSuccessMessage();
+                this.cerrar('exitoso');
+              } else {
+                this.showWrongMessage();
+              }
+            },
+            (error) => {
+              console.error('Error al insertar producto:', error);
             }
-          },
-          (error) => {
-            console.error('Error al insertar producto:', error);
-          }
-        );
+          );
         } else {
           console.error("Error al subir imágenes");
           this.showWrongMessage();
@@ -176,7 +177,7 @@ export class newProductModalComponent implements OnInit {
   // Subir imágenes y devolver la URL de la primera imagen
   subirImagenes(): Promise<string> {
     return new Promise((resolve) => {
-      console.log('Subiendo imágenes...');
+      //console.log('Subiendo imágenes...');
 
       if (this.imagenes && this.imagenes.length > 0) {
         const file = this.imagenes[0]; // Tomar solo la primera imagen
@@ -185,15 +186,15 @@ export class newProductModalComponent implements OnInit {
 
         this.http.post(`${environment.BASE_URL_API}/CargarImagen`, formData).subscribe(
           (response: any) => {
-            console.log('Imagen subida correctamente:', response);
+            //console.log('Imagen subida correctamente:', response);
             const rutaAbsoluta = response.data.path;
 
             const ruta = rutaAbsoluta.replace(/^.*[\\/]assets/, '../../../assets');
 
             // Normalizar las barras invertidas a barras normales para que funcione en Angular
             const rutaRelativa = ruta.replace(/\\/g, '/');
-           // const rutaRelativa = '../../../assets/' + path.replace(/\\/g, '/');
-            console.log(rutaAbsoluta, rutaRelativa, 'esto es asiiiiiiii');
+            // const rutaRelativa = '../../../assets/' + path.replace(/\\/g, '/');
+            //console.log(rutaAbsoluta, rutaRelativa, 'esto es asiiiiiiii');
 
             resolve(rutaRelativa); // Devolver la URL de la imagen subida
           },
@@ -222,7 +223,7 @@ export class newProductModalComponent implements OnInit {
       let form = this.categoriaForm.value;
       this.http.post(`${environment.BASE_URL_API}/insertarCategoria`, form).subscribe(
         (response) => {
-          console.log(response);
+          //console.log(response);
 
           if (response == 'Insercion correcta') {
             this.cargarCategoria

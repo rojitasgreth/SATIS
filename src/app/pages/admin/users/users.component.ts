@@ -73,7 +73,7 @@ export class UsersComponent implements OnInit {
     this.consultarData();
   }
 
-  nuevoUsuario(){
+  nuevoUsuario() {
     const dialogRef = this._matDialog.open(newUserModalComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -200,7 +200,7 @@ export class UsersComponent implements OnInit {
       showCancelButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        let data = {id: row.id};
+        let data = { id: row.id };
         this.http.post(`${environment.BASE_URL_API}/eliminarEmpleado`, data).subscribe(
           (response) => {
             if (response == 'Eliminacion exitosa') {
@@ -228,7 +228,7 @@ export class UsersComponent implements OnInit {
   consultarData() {
     this.http.post(`${environment.BASE_URL_API}/listarVendedores`, {}).subscribe(
       (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.dataSource.data = response;
         //this.dataSource.paginator = this.paginator;
         this._changeDetectorRef.detectChanges();
@@ -244,7 +244,7 @@ export class UsersComponent implements OnInit {
       icon: 'success',
       title: 'Informacion actualizada exitosamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
@@ -255,7 +255,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'success',
       title: 'Usuario eliminado exitosamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
