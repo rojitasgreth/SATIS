@@ -93,7 +93,7 @@
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Detalle</label>
-        <textarea [formControlName]="'detalle'" maxlength="150" (input)="onText($event)"
+        <textarea [formControlName]="'detalle'" maxlength="150"
           class="h-20 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2"></textarea>
         <p class="text-red-500"
           *ngIf="productosForm.get('detalle')?.hasError('required') && productosForm.get('detalle')?.touched">

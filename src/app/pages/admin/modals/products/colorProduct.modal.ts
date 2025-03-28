@@ -74,6 +74,8 @@ export class colorProductModalComponent {
           } else {
             this.showWrongMessage();
           }
+
+          
         },
         (error) => {
           Swal.fire({
