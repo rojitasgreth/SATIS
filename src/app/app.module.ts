@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,44 +32,37 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './pages/admin/products/products.component';
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    HomeComponent,
-    MenuComponent,
-    HeaderComponent,
-    NewOrdenComponent,
-    CatalogComponent,
-    ProductComponent,
-    VisualizeOrdenComponent,
-    VisualizeClientComponent,
-    EditProdcutComponent,
-    DetailsComponent,
-    UsersComponent,
-    ProductsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    CommonModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatRadioModule,
-    MatTooltipModule,
-    FormsModule,
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatIconModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        HomeComponent,
+        MenuComponent,
+        HeaderComponent,
+        NewOrdenComponent,
+        CatalogComponent,
+        ProductComponent,
+        VisualizeOrdenComponent,
+        VisualizeClientComponent,
+        EditProdcutComponent,
+        DetailsComponent,
+        UsersComponent,
+        ProductsComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatRadioModule,
+        MatTooltipModule,
+        FormsModule,
+        MatDialogModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatIconModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
