@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import axios from 'axios';
 
 @Component({
   selector: 'user-new',
@@ -63,42 +64,72 @@ export class newUserModalComponent {
     this.matDialogRef.close(result);
   };
 
-  agregarEmpleado() {
+  async agregarEmpleado() {
 
     if (this.usuariosForm.invalid) {
       this.showInvalidMessage();
       this.usuariosForm.markAllAsTouched();
-    } else {
+      return;
+    }
 
-      if (this.usuariosForm.get('clave')?.value !== this.usuariosForm.get('clave2')?.value) {
+    // Validación de contraseñas
+    if (this.usuariosForm.get('clave')?.value !== this.usuariosForm.get('clave2')?.value) {
+      await Swal.fire({
+        icon: 'warning',
+        title: 'Las contraseñas no coinciden',
+        showConfirmButton: true,
+        confirmButtonAriaLabel: 'De acuerdo',
+        confirmButtonColor: '#0097A7',
+      });
+      return;
+    }
+
+    try {
+      const form = this.usuariosForm.value;
+      const response = await axios.post(`${environment.BASE_URL_API}/insertarEmpleado`, form);
+      console.log(response);
+
+      // Verificación de la respuesta
+      if (response.status === 200) {
+        if (response.data.code == 200) {
+          this.showSuccessMessage();
+          this.cerrar('exitoso');
+        }
+
+        if (response.data.code == 204) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Por favor, complete todos los campos correctamente',
+            showConfirmButton: true,
+            confirmButtonAriaLabel: 'De acuerdo',
+            confirmButtonColor: '#0097A7',
+            text: `Error en el campo ${response.data.errors[0].path}: ${response.data.errors[0].msg}`
+          })
+
+        }
+
+      }
+    } catch (error) {
+      // Manejo de errores
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 409) {
+          this.showInvalidMessage2();
+        } else {
+          console.error('Error del servidor:', error.response.data);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error del servidor',
+            text: 'Ocurrió un error inesperado',
+          });
+        }
+      } else {
+        console.error('Error de red:', error);
         Swal.fire({
-          icon: 'warning',
-          title: 'Las contraseñas no conciden',
-          showConfirmButton: true,
-          confirmButtonAriaLabel: 'De acuerdo',
-          confirmButtonColor: '#0097A7',
-
+          icon: 'error',
+          title: 'Error de conexión',
+          text: 'No se pudo conectar al servidor',
         });
       }
-      let form = this.usuariosForm.value;
-      this.http.post(`${environment.BASE_URL_API}/insertarEmpleado`, form, {
-        observe: 'response' // Nos da acceso al HttpResponse completo (incluyendo status)
-      }).subscribe(
-        (response) => {
-          const body = response.body; // Aquí está el cuerpo de la respuesta
-
-          if (response.status === 200) {
-            this.showSuccessMessage();
-            this.cerrar('exitoso');
-          } else if (response.status === 409) {
-            this.showInvalidMessage2();
-          }
-        },
-        (error) => {
-          console.error('Error en la petición:', error);
-          // Solo entrará aquí si hay un error de red o el servidor no responde
-        }
-      );
     }
   }
 

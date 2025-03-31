@@ -14,7 +14,7 @@
           <option value="Por abonos">Por abonos</option>
           <option value="Distribuidor">Distribuidor</option>
         </select>
-        <mat-error *ngIf="ordenForm.get('Condicion')?.touched && ordenForm.get('Condicion')?.hasError('required')">
+        <mat-error *ngIf="ordenForm.get('Condicion')?.touched && ordenForm.get('Condicion')?.hasError('required')" class="text-red-500">
           La condición es requerida.
         </mat-error>
       </div>
@@ -27,7 +27,7 @@
           <option value="Capital">Capital</option>
           <option value="Nacional">Nacional</option>
         </select>
-        <mat-error *ngIf="ordenForm.get('tipo_envio')?.touched && ordenForm.get('tipo_envio')?.hasError('required')">
+        <mat-error *ngIf="ordenForm.get('tipo_envio')?.touched && ordenForm.get('tipo_envio')?.hasError('required')" class="text-red-500">
           El tipo de envío es requerido.
         </mat-error>
       </div>
@@ -49,9 +49,9 @@
             class="h-12 w-full ml-3 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4"
             (blur)="consultarCliente()" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)">
         </div>
-        <mat-error *ngIf="ordenForm.get('RIF')?.touched && ordenForm.get('RIF')?.value.length != 9">RIF inválido.
+        <mat-error *ngIf="ordenForm.get('RIF')?.touched && ordenForm.get('RIF')?.value.length != 9" class="text-red-500">RIF inválido.
         </mat-error>
-        <mat-error *ngIf="ordenForm.get('RIF')?.touched && ordenForm.get('RIF')?.hasError('required')">
+        <mat-error *ngIf="ordenForm.get('RIF')?.touched && ordenForm.get('RIF')?.hasError('required')" class="text-red-500">
           El RIF es requerido.
         </mat-error>
       </div>
@@ -60,7 +60,7 @@
         <label class="mb-1">Teléfono:</label>
         <input matInput type="tel" formControlName="telefono" placeholder="04120000000" maxlength="11"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
-        <mat-error *ngIf="ordenForm.get('telefono')?.touched && ordenForm.get('telefono')?.hasError('required')">
+        <mat-error *ngIf="ordenForm.get('telefono')?.touched && ordenForm.get('telefono')?.hasError('required')" class="text-red-500">
           El teléfono es requerido.
         </mat-error>
       </div>
@@ -72,7 +72,7 @@
         <label class="mb-1">Cliente:</label>
         <input matInput type="text" formControlName="cliente" placeholder="Nombre ejemplo C.A"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
-        <mat-error *ngIf="ordenForm.get('cliente')?.touched && ordenForm.get('cliente')?.hasError('required')">
+        <mat-error *ngIf="ordenForm.get('cliente')?.touched && ordenForm.get('cliente')?.hasError('required')" class="text-red-500">
           El nombre del cliente es requerido.
         </mat-error>
       </div>
@@ -81,7 +81,7 @@
         <label class="mb-1">Correo electrónico:</label>
         <input matInput type="email" formControlName="email" placeholder="ejemplo@ejemplo.com"
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
-        <mat-error *ngIf="ordenForm.get('email')?.touched && ordenForm.get('email')?.hasError('required')">
+        <mat-error *ngIf="ordenForm.get('email')?.touched && ordenForm.get('email')?.hasError('required')" class="text-red-500">
           El correo electrónico es requerido.
         </mat-error>
       </div>

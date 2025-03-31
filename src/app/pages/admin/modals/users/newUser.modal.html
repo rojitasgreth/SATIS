@@ -11,8 +11,8 @@
     <form [formGroup]="usuariosForm" class="form-grid">
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Cédula:</label>
-        <input type="text" [formControlName]="'cedula'" maxlength="10"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full" minlength="5" maxlength="9">
+        <input type="text" [formControlName]="'cedula'" maxlength="9"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 w-full" minlength="5">
         <p class="text-red-500"
           *ngIf="usuariosForm.get('cedula')?.hasError('required') && usuariosForm.get('cedula')?.touched">
           Campo requerido</p>

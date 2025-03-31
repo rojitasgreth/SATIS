@@ -22,6 +22,7 @@
     "@angular/router": "^18.2.13",
     "@coreui/coreui": "^5.1.2",
     "autoprefixer": "^10.4.19",
+    "axios": "^1.8.4",
     "moment": "^2.30.1",
     "postcss": "^8.4.38",
     "rxjs": "~7.8.0",

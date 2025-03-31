@@ -60,7 +60,7 @@
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Total:</label>
-        <input type="text" [formControlName]="'total'" (input)="onInputChange($event, 'total')"
+        <input type="text" [formControlName]="'total'" (input)="onInputChange($event, 'total')" readonly
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
         <p class="text-red-500"
           *ngIf="productosForm.get('total')?.hasError('required') && productosForm.get('total')?.touched">
@@ -78,7 +78,7 @@
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Total con envío</label>
-        <input type="text" [formControlName]="'total_con_envio'" (input)="onInputChange($event, 'total_con_envio')"
+        <input type="text" [formControlName]="'total_con_envio'" (input)="onInputChange($event, 'total_con_envio')" readonly
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
         <p class="text-red-500"
           *ngIf="productosForm.get('total_con_envio')?.hasError('required') && productosForm.get('total_con_envio')?.touched">
@@ -96,7 +96,7 @@
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Total distribuidor:</label>
-        <input type="text" [formControlName]="'total_dist'" (input)="onInputChange($event, 'total_dist')"
+        <input type="text" [formControlName]="'total_dist'" (input)="onInputChange($event, 'total_dist')" readonly
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
         <p class="text-red-500"
           *ngIf="productosForm.get('total_dist')?.hasError('required') && productosForm.get('total_dist')?.touched">
@@ -105,7 +105,7 @@
 
       <div class="flex flex-col mb-4 w-80">
         <label class="mb-1">Detalle</label>
-        <input type="text" [formControlName]="'detalle'" maxlength="150" (input)="onText($event)"
+        <input type="text" [formControlName]="'detalle'" maxlength="150" (input)="onText($event)" readonly
           class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
         <p class="text-red-500"
           *ngIf="productosForm.get('detalle')?.hasError('required') && productosForm.get('detalle')?.touched">
