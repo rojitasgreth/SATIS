@@ -34,7 +34,7 @@ export class userModalComponent implements OnInit {
       segundo_nombre: [this.datosUsuario.segundo_nombre, Validators.required],
       primer_apellido: [this.datosUsuario.primer_apellido, Validators.required],
       fecha_nacimiento: [this.datosUsuario.fecha_nacimiento, Validators.required],
-      telefono: [this.datosUsuario.telefono, [Validators.required, Validators.pattern(regex)]],
+      telefono: [`0${this.datosUsuario.telefono}`, [Validators.required, Validators.pattern(regex)]],
       correo: [this.datosUsuario.correo, Validators.required],
       usuario: [this.datosUsuario.usuario, Validators.required],
       clave: [this.datosUsuario.clave, Validators.required],

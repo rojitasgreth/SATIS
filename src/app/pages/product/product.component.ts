@@ -299,7 +299,7 @@ export class ProductComponent implements OnInit {
 
             this.clienteFinal = {
               id_cliente: cliente.id,
-              id_usuario: info.id,
+              id_usuario: info.id_usuario,
               vendedor: info.primer_nombre + ' ' + info.primer_apellido,
               nombre: cliente.cliente,
               RIF: cliente.RIF,

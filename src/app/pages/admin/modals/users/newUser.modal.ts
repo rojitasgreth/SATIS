@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environment/environment';
 import { CommonModule } from '@angular/common';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'user-new',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatDatepickerModule, MatIconModule],
   templateUrl: './newUser.modal.html',
   encapsulation: ViewEncapsulation.None
@@ -62,7 +63,7 @@ export class newUserModalComponent {
     this.matDialogRef.close(result);
   };
 
-  agregarEmpleado(){
+  agregarEmpleado() {
 
     if (this.usuariosForm.invalid) {
       this.showInvalidMessage();
@@ -74,21 +75,30 @@ export class newUserModalComponent {
           icon: 'warning',
           title: 'Las contraseñas no conciden',
           showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
-      confirmButtonColor: '#0097A7',
+          confirmButtonAriaLabel: 'De acuerdo',
+          confirmButtonColor: '#0097A7',
 
         });
       }
       let form = this.usuariosForm.value;
-      this.http.post(`${environment.BASE_URL_API}/insertarEmpleado`, form).subscribe(
+      this.http.post(`${environment.BASE_URL_API}/insertarEmpleado`, form, {
+        observe: 'response' // Nos da acceso al HttpResponse completo (incluyendo status)
+      }).subscribe(
         (response) => {
-          if (response == 'Insercion correcta') {
+          const body = response.body; // Aquí está el cuerpo de la respuesta
+
+          if (response.status === 200) {
             this.showSuccessMessage();
             this.cerrar('exitoso');
+          } else if (response.status === 409) {
+            this.showInvalidMessage2();
           }
-
+        },
+        (error) => {
+          console.error('Error en la petición:', error);
+          // Solo entrará aquí si hay un error de red o el servidor no responde
         }
-      )
+      );
     }
   }
 
@@ -98,7 +108,7 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'success',
       title: 'Empleado cargado exitosamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });
@@ -109,7 +119,18 @@ confirmButtonAriaLabel: 'De acuerdo',
       icon: 'warning',
       title: 'Por favor, complete todos los campos correctamente',
       showConfirmButton: true,
-confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonAriaLabel: 'De acuerdo',
+      confirmButtonColor: '#0097A7',
+
+    });
+  }
+
+  showInvalidMessage2() {
+    Swal.fire({
+      icon: 'warning',
+      title: 'El usuario ya existe en el sistema',
+      showConfirmButton: true,
+      confirmButtonAriaLabel: 'De acuerdo',
       confirmButtonColor: '#0097A7',
 
     });

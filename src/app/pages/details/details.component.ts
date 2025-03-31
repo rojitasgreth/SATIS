@@ -21,7 +21,7 @@ export class DetailsComponent implements OnInit {
 
     if (infoString !== null) {
       let info = JSON.parse(infoString);
-      let idUser = info.id;
+      let idUser = info.id_usuario;
 
       let data = {
         idUser: idUser,
