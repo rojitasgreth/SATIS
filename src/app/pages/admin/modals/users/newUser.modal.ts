@@ -91,7 +91,8 @@ export class newUserModalComponent {
 
       // Verificación de la respuesta
       if (response.status === 200) {
-        if (response.data.code == 200) {
+        
+        if (response.data == 'Insercion correcta') {
           this.showSuccessMessage();
           this.cerrar('exitoso');
         }
