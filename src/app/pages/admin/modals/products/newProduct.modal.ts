@@ -179,6 +179,9 @@ export class newProductModalComponent implements OnInit {
   // Subir imágenes y devolver la URL de la primera imagen
   subirImagenes(): Promise<string[]> {
     return new Promise((resolve) => {
+
+      console.log(this.imagenes);
+
       if (this.imagenes && this.imagenes.length > 0) {
         const requests = this.imagenes.map(file => {
           const formData = new FormData();
@@ -189,8 +192,8 @@ export class newProductModalComponent implements OnInit {
           return this.http.post(`${environment.BASE_URL_API}/CargarImagen`, formData).toPromise()
             .then((response: any) => {
               const rutaAbsoluta = response.data.path;
-              const ruta = rutaAbsoluta.replace(/^.*[\\/]assets/, '../../../assets');
-              return ruta.replace(/\\/g, '/');
+              const ruta = rutaAbsoluta.replace(/^.*[\\/]assets/, '');
+              return ruta;
             })
             .catch(error => {
               console.error('Error al subir una imagen:', error);
