@@ -20,6 +20,7 @@ export class productModalComponent implements OnInit {
   productosForm: FormGroup;
   datosProductos: any;
   opcionesCategorias: any[] = [];
+  imagenes: any[] = [];
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public matDialogRef: MatDialogRef<productModalComponent>,
     private _formBuilder: FormBuilder,
@@ -27,6 +28,8 @@ export class productModalComponent implements OnInit {
     private cdr: ChangeDetectorRef,
   ) {
     this.datosProductos = data;
+    console.log(data);
+
     this.productosForm = this._formBuilder.group({
       cod_producto: [this.datosProductos.cod_producto, Validators.required],
       descripcion: [this.datosProductos.descripcion, Validators.required],
@@ -38,7 +41,8 @@ export class productModalComponent implements OnInit {
       precio_dist: [this.datosProductos.precio_dist, Validators.required],
       total_dist: [this.datosProductos.total_dist, Validators.required],
       detalle: [this.datosProductos.detalle, Validators.required],
-      activo: [true]
+      activo: [true],
+      imagenes_borrar: [[]]
     });
 
   }
@@ -86,6 +90,16 @@ export class productModalComponent implements OnInit {
       }
     )
   }
+
+  eliminarImagen(index: number): void {
+    let id = this.datosProductos.imagenes[index].id;
+    this.imagenes.push(id)
+    this.productosForm.get('imagenes_borrar')?.setValue(this.imagenes);
+    console.log(this.productosForm);
+
+    this.datosProductos.imagenes.splice(index, 1);
+  }
+
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;

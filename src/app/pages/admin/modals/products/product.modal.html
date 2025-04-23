@@ -100,6 +100,16 @@
           Campo requerido</p>
       </div>
 
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div *ngFor="let imagen of datosProductos.imagenes; let i = index" class="relative">
+          <img [src]="imagen.img" alt="Imagen del producto" class="w-full h-40 object-cover rounded border" />
+          <button type="button" class="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full shadow"
+                  (click)="eliminarImagen(i)">
+            ✕
+          </button>
+        </div>
+      </div>
+
       <div class="flex flex-col mb-4 w-80">
         <button type="button" class="bg-cyan-700 text-white rounded-md text-lg" (click)="actualizarProducto()">
           Actualizar datos
