@@ -1,143 +1,169 @@
-<div class="scroll-container bg-white" style="width: 600px;">
-  <div style="display: flex; justify-content: flex-end;" class="p-4">
-    <button mat-icon-button (click)="cerrar('cierre')" [tabIndex]="1" class="text-black font-bold">
-      X
+<div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto overflow-y-auto max-h-[700px]">
+  <!-- Encabezado con botón de cierre -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-cyan-700">Editar producto</h1>
+    <button mat-icon-button (click)="cerrar('cierre')" [tabIndex]="1"
+      class="text-black font-bold hover:bg-gray-100 rounded-full p-1">
+      <span class="text-xl">×</span>
     </button>
   </div>
 
-  <h1 class="flex justify-center text-cyan-700 font-bold">Editar producto</h1>
-
-  <div class="flex justify-center items-center h-full">
-    <form [formGroup]="productosForm" class="form-grid">
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Código de producto:</label>
-        <input type="text" [formControlName]="'cod_producto'" maxlength="100"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2 text-gray-500" readonly>
-        <p class="text-red-500"
+  <!-- Formulario -->
+  <form [formGroup]="productosForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Columna 1 -->
+    <div class="space-y-4">
+      <!-- Código de producto -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Código de producto:</label>
+        <input type="text" [formControlName]="'cod_producto'" maxlength="100" readonly
+          class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
           *ngIf="productosForm.get('cod_producto')?.hasError('required') && productosForm.get('cod_producto')?.touched">
           Campo requerido</p>
       </div>
 
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Descripción</label>
-        <input type="text" [formControlName]="'descripcion'" maxlength="100"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
-          *ngIf="productosForm.get('descripcion')?.hasError('required') && productosForm.get('descripcion')?.touched">
-          Campo requerido</p>
-      </div>
 
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Cantidad de piezas</label>
-        <input type="number" [formControlName]="'cantidad_piezas'" (input)="onInput($event)"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
-          *ngIf="productosForm.get('cantidad_piezas')?.hasError('required') && productosForm.get('cantidad_piezas')?.touched">
-          Campo requerido</p>
-      </div>
-
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Precio:</label>
+      <!-- Precio -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Precio:</label>
         <input type="text" [formControlName]="'precio'" (input)="onInputChange($event, 'precio')"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
           *ngIf="productosForm.get('precio')?.hasError('required') && productosForm.get('precio')?.touched">
           Campo requerido
         </p>
       </div>
 
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Total:</label>
-        <input type="text" [formControlName]="'total'" (input)="onInputChange($event, 'total')"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
-          *ngIf="productosForm.get('total')?.hasError('required') && productosForm.get('total')?.touched">
-          Campo requerido</p>
-      </div>
-
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Precio con envío:</label>
+      <!-- Precio con envío -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Precio con envío:</label>
         <input type="text" [formControlName]="'precio_con_envio'" (input)="onInputChange($event, 'precio_con_envio')"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
           *ngIf="productosForm.get('precio_con_envio')?.hasError('required') && productosForm.get('precio_con_envio')?.touched">
           Campo requerido</p>
       </div>
 
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Total con envío</label>
-        <input type="text" [formControlName]="'total_con_envio'" (input)="onInputChange($event, 'total_con_envio')"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
-          *ngIf="productosForm.get('total_con_envio')?.hasError('required') && productosForm.get('total_con_envio')?.touched">
-          Campo requerido</p>
-      </div>
-
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Precio distribuidor:</label>
+      <!-- Precio distribuidor -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Precio distribuidor:</label>
         <input type="text" [formControlName]="'precio_dist'" (input)="onInputChange($event, 'precio_dist')"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
           *ngIf="productosForm.get('precio_dist')?.hasError('required') && productosForm.get('precio_dist')?.touched">
           Campo requerido</p>
       </div>
 
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Total distribuidor:</label>
-        <input type="text" [formControlName]="'total_dist'" (input)="onInputChange($event, 'total_dist')"
-          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2">
-        <p class="text-red-500"
+      <!-- Cantidad de piezas -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad de piezas</label>
+        <input type="number" [formControlName]="'cantidad_piezas'" (input)="onInput($event)"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('cantidad_piezas')?.hasError('required') && productosForm.get('cantidad_piezas')?.touched">
+          Campo requerido</p>
+      </div>
+    </div>
+
+    <!-- Columna 2 -->
+    <div class="space-y-4">
+      <!-- Descripción -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+        <input type="text" [formControlName]="'descripcion'" maxlength="100"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('descripcion')?.hasError('required') && productosForm.get('descripcion')?.touched">
+          Campo requerido</p>
+      </div>
+
+      <!-- Total -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Total:</label>
+        <input type="text" [formControlName]="'total'" (input)="onInputChange($event, 'total')" readonly
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('total')?.hasError('required') && productosForm.get('total')?.touched">
+          Campo requerido</p>
+      </div>
+
+
+      <!-- Total con envío -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Total con envío</label>
+        <input type="text" [formControlName]="'total_con_envio'" (input)="onInputChange($event, 'total_con_envio')"
+          readonly
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('total_con_envio')?.hasError('required') && productosForm.get('total_con_envio')?.touched">
+          Campo requerido</p>
+      </div>
+
+      <!-- Total distribuidor -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Total distribuidor:</label>
+        <input type="text" [formControlName]="'total_dist'" (input)="onInputChange($event, 'total_dist')" readonly
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+        <p class="mt-1 text-sm text-red-500"
           *ngIf="productosForm.get('total_dist')?.hasError('required') && productosForm.get('total_dist')?.touched">
           Campo requerido</p>
       </div>
+    </div>
 
-      <div class="flex flex-col mb-4 w-80">
-        <label class="mb-1">Detalle</label>
-        <textarea [formControlName]="'detalle'" maxlength="150"
-          class="h-20 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2"></textarea>
-        <p class="text-red-500"
-          *ngIf="productosForm.get('detalle')?.hasError('required') && productosForm.get('detalle')?.touched">
-          Campo requerido</p>
-      </div>
+    <!-- Detalle -->
+    <div class="col-span-1 md:col-span-2">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Detalle</label>
+      <textarea [formControlName]="'detalle'" maxlength="150"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 h-20"></textarea>
+      <p class="mt-1 text-sm text-red-500"
+        *ngIf="productosForm.get('detalle')?.hasError('required') && productosForm.get('detalle')?.touched">
+        Campo requerido</p>
+    </div>
 
-      <div class="grid grid-cols-2 gap-4 mb-4">
-        <div *ngFor="let imagen of datosProductos.imagenes; let i = index" class="relative">
-          <img [src]="imagen.img" alt="Imagen del producto" class="w-full h-40 object-cover rounded border" />
-          <button type="button" class="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full shadow"
-                  (click)="eliminarImagen(i)">
-            ✕
+    <!-- Imágenes (ocupa ambas columnas) -->
+    <div class="col-span-1 md:col-span-2">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Imágenes del producto</label>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div *ngFor="let imagen of datosProductos.imagenes; let i = index" class="relative group">
+          <img [src]="imagen.img" alt="Imagen del producto"
+            class="w-full h-40 object-cover rounded-lg border border-gray-200" />
+          <button type="button"
+            class="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow"
+            (click)="eliminarImagen(i)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       </div>
 
-      <div class="flex flex-col mb-4 w-80">
-        <button type="button" class="bg-cyan-700 text-white rounded-md text-lg" (click)="actualizarProducto()">
-          Actualizar datos
-        </button>
+
+      <div class="flex flex-col mt-4 w-full">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Subir imagen del producto:</label>
+        <input
+          type="file"
+          accept=".jpg, .png"
+          multiple
+          (change)="onImageUpload($event)"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-2"
+        />
+        <p
+          class="text-red-500"
+          *ngIf="fileError"
+        >
+          Debes subir entre 1 y 5 imágenes en formato JPG o PNG.
+        </p>
       </div>
-    </form>
-  </div>
+    </div>
+
+    <!-- Botón de actualización (ocupa ambas columnas) -->
+    <div class="col-span-1 md:col-span-2 mt-4">
+      <button type="button"
+        class="w-full bg-cyan-700 hover:bg-cyan-800 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+        (click)="actualizarProducto()">
+        Actualizar datos
+      </button>
+    </div>
+  </form>
 </div>
-<style>
-  .scroll-container {
-    max-height: 700px;
-    /* Establece la altura máxima */
-    overflow-y: auto;
-    /* Activa el desplazamiento vertical si el contenido excede la altura máxima */
-    scroll-padding: 10%;
-    /* Establece el relleno del área de desplazamiento */
-    padding: 20px;
-    /* Añade espacio dentro del contenedor */
-
-  }
-
-  .responsive-container {
-    width: 100%;
-    max-width: 1500px;
-    /* o el ancho máximo deseado */
-    min-width: 300px;
-    margin: 0 auto;
-    padding: 0 20px;
-    /* Espacio a los lados del contenedor */
-  }
-</style>
