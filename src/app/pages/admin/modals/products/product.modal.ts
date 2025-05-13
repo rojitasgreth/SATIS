@@ -24,6 +24,7 @@ export class productModalComponent implements OnInit {
   imagenesOriginales: any[] = [];
   imagenes: File[] = [];
   fileError: boolean = false;
+  selectedFiles: File[] = [];
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public matDialogRef: MatDialogRef<productModalComponent>,
     private _formBuilder: FormBuilder,
@@ -31,6 +32,8 @@ export class productModalComponent implements OnInit {
     private cdr: ChangeDetectorRef,
   ) {
     this.datosProductos = data;
+    console.log(this.datosProductos);
+
     this.imagenesOriginales = [...this.datosProductos.imagenes];
     this.productosForm = this._formBuilder.group({
       cod_producto: [this.datosProductos.cod_producto, Validators.required],
@@ -44,7 +47,8 @@ export class productModalComponent implements OnInit {
       total_dist: [this.datosProductos.total_dist, Validators.required],
       detalle: [this.datosProductos.detalle, Validators.required],
       activo: [true],
-      imagenes_borrar: [[]]
+      imagenes_borrar: [[]],
+      imagen_principal: [0]
     });
 
   }
@@ -94,10 +98,24 @@ export class productModalComponent implements OnInit {
   }
 
   eliminarImagen(index: number): void {
+
+
+    if (this.datosProductos.imagenes.length == 1) {
+      console.log('no puede');
+
+    } else {
+      const id = this.datosProductos.imagenes[index].id;
+      this.imagenesParaBorrar.push(id);
+      this.productosForm.get('imagenes_borrar')?.setValue(this.imagenesParaBorrar);
+      this.datosProductos.imagenes.splice(index, 1);
+    }
+
+  }
+
+  seleccionarPrincipal(index: number): void {
     const id = this.datosProductos.imagenes[index].id;
-    this.imagenesParaBorrar.push(id);
-    this.productosForm.get('imagenes_borrar')?.setValue(this.imagenesParaBorrar);
-    this.datosProductos.imagenes.splice(index, 1);
+    this.datosProductos.imagenPrincipal = index;
+    this.productosForm.get('imagen_principal')?.setValue(id);
   }
 
   subirImagenes(): Promise<string[]> {
@@ -146,12 +164,15 @@ export class productModalComponent implements OnInit {
     this.imagenes = []; // Reinicia la lista de imágenes
 
     if (files) {
+      this.selectedFiles = Array.from(files);
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (file.type === 'image/jpeg' || file.type === 'image/png') {
           this.imagenes.push(file);
         }
       }
+    } else {
+      this.selectedFiles = [];
     }
 
     // Validar si el número de imágenes está entre 1 y 5
@@ -192,6 +213,7 @@ export class productModalComponent implements OnInit {
 
       this.datosProductos.imagenes = [...this.imagenesOriginales];
       this.imagenesParaBorrar = [];
+      this.datosProductos.imagenPrincipal = [];
       this.productosForm.get('imagenes_borrar')?.setValue([]);
     }
     this.matDialogRef.close(result);
@@ -204,36 +226,55 @@ export class productModalComponent implements OnInit {
       this.productosForm.markAllAsTouched();
     } else {
 
-      // Subir todas las imágenes
-      this.subirImagenes().then((imagenesUrls) => {
-        // Verificar que al menos una imagen se subió correctamente
-        const urlsValidas = imagenesUrls.filter(url => url !== "error");
+      if (this.imagenes && this.imagenes.length > 0) {
+        // Subir todas las imágenes
+        this.subirImagenes().then((imagenesUrls) => {
+          // Verificar que al menos una imagen se subió correctamente
+          const urlsValidas = imagenesUrls.filter(url => url !== "error");
 
-        if (urlsValidas.length > 0) {
-          let form = this.productosForm.value;
+          if (urlsValidas.length > 0) {
+            let form = this.productosForm.value;
 
-          // Asignar la primera imagen como imagen principal
-          form.img = urlsValidas[0];
+            // Asignar la primera imagen como imagen principal
+            form.img = urlsValidas[0];
 
-          // Crear array de objetos con todas las imágenes
-          form.imagenes = urlsValidas.map(url => ({ url }));
+            // Crear array de objetos con todas las imágenes
+            form.imagenes = urlsValidas.map(url => ({ url }));
 
-      //form.id = this.datosProductos.id;
-      this.http.post(`${environment.BASE_URL_API}/modificarProducto`, form).subscribe(
-        (response) => {
-          //console.log(response);
+            //form.id = this.datosProductos.id;
+            this.http.post(`${environment.BASE_URL_API}/modificarProducto`, form).subscribe(
+              (response) => {
+                //console.log(response);
 
-          if (response == 'Modificacion correcta') {
-            this.showSuccessMessage();
-            this.cerrar('exitoso');
+                if (response == 'Modificacion correcta') {
+                  this.showSuccessMessage();
+                  this.cerrar('exitoso');
+                }
+
+              }
+            );
+          } else {
+            console.error("Error al subir todas las imágenes");
           }
+        });
+      } else {
+        let form = this.productosForm.value;
 
-        }
-      );
-    } else {
-      console.error("Error al subir todas las imágenes");
-    }
-    });
+        //form.id = this.datosProductos.id;
+        this.http.post(`${environment.BASE_URL_API}/modificarProducto`, form).subscribe(
+          (response) => {
+            //console.log(response);
+
+            if (response == 'Modificacion correcta') {
+              this.showSuccessMessage();
+              this.cerrar('exitoso');
+            }
+
+          }
+        );
+      }
+
+
     }
 
   }
