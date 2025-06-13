@@ -29,6 +29,7 @@ export class ProductComponent implements OnInit {
   coloresMostrar: { genero: string, color: Color, cantidad: number, cod_producto: string }[] = [];
   slides: any[] = [];
   currentSlide = 0;
+  baseUrl = environment.BASE_URL_API_PLAIN;
   constructor(private route: ActivatedRoute, private http: HttpClient, private cdr: ChangeDetectorRef, private service: OtherService, private router: Router) { }
   ngOnInit(): void {
     this.service.setOrden();
@@ -86,7 +87,7 @@ export class ProductComponent implements OnInit {
           for (let img of imagenes) {
             //console.log(img, 'es estooo');
 
-            this.slides.push({ src: img.imagen, title: 'Carrusel de fotos' });
+            this.slides.push({ src: img.img, title: 'Carrusel de fotos' });
           }
           //console.log(this.slides, 'final');
         } else {

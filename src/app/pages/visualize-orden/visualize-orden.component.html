@@ -26,7 +26,7 @@
   <!-- Lista de productos -->
   <div class="container mx-auto px-5 py-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
     <div class="bg-white shadow-xl rounded-lg p-4 flex flex-col sm:flex-col md:flex-row items-center" *ngFor="let item of productos">
-      <img [src]="item.img" alt="Imagen del producto" class="w-32 h-32 md:w-40 md:h-40 rounded-md mb-4 md:mb-0">
+      <img [src]="baseUrl + item.img" alt="Imagen del producto" class="w-32 h-32 md:w-40 md:h-40 rounded-md mb-4 md:mb-0">
       <div class="flex flex-col md:ml-5">
         <table class="w-full text-sm md:text-base min-w-80">
           <tr>

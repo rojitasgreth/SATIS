@@ -1,67 +1,120 @@
-<div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto overflow-y-auto max-h-[700px]">
+<div
+  class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto overflow-y-auto max-h-[700px]"
+>
   <!-- Encabezado con botón de cierre -->
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-cyan-700">Editar producto</h1>
-    <button mat-icon-button (click)="cerrar('cierre')" [tabIndex]="1"
-      class="text-black font-bold hover:bg-gray-100 rounded-full p-1">
+    <button
+      mat-icon-button
+      (click)="cerrar('cierre')"
+      [tabIndex]="1"
+      class="text-black font-bold hover:bg-gray-100 rounded-full p-1"
+    >
       <span class="text-xl">×</span>
     </button>
   </div>
 
   <!-- Formulario -->
-  <form [formGroup]="productosForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <form
+    [formGroup]="productosForm"
+    class="grid grid-cols-1 md:grid-cols-2 gap-4"
+  >
     <!-- Columna 1 -->
     <div class="space-y-4">
       <!-- Código de producto -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Código de producto:</label>
-        <input type="text" [formControlName]="'cod_producto'" maxlength="100" readonly
-          class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('cod_producto')?.hasError('required') && productosForm.get('cod_producto')?.touched">
-          Campo requerido</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Código de producto:</label
+        >
+        <input
+          type="text"
+          [formControlName]="'cod_producto'"
+          maxlength="100"
+          readonly
+          class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('cod_producto')?.hasError('required') && productosForm.get('cod_producto')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
-
 
       <!-- Precio -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Precio:</label>
-        <input type="text" [formControlName]="'precio'" (input)="onInputChange($event, 'precio')"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('precio')?.hasError('required') && productosForm.get('precio')?.touched">
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Precio:</label
+        >
+        <input
+          type="text"
+          [formControlName]="'precio'"
+          (input)="onInputChange($event, 'precio')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('precio')?.hasError('required') && productosForm.get('precio')?.touched"
+        >
           Campo requerido
         </p>
       </div>
 
       <!-- Precio con envío -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Precio con envío:</label>
-        <input type="text" [formControlName]="'precio_con_envio'" (input)="onInputChange($event, 'precio_con_envio')"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('precio_con_envio')?.hasError('required') && productosForm.get('precio_con_envio')?.touched">
-          Campo requerido</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Precio con envío:</label
+        >
+        <input
+          type="text"
+          [formControlName]="'precio_con_envio'"
+          (input)="onInputChange($event, 'precio_con_envio')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('precio_con_envio')?.hasError('required') && productosForm.get('precio_con_envio')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
 
       <!-- Precio distribuidor -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Precio distribuidor:</label>
-        <input type="text" [formControlName]="'precio_dist'" (input)="onInputChange($event, 'precio_dist')"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('precio_dist')?.hasError('required') && productosForm.get('precio_dist')?.touched">
-          Campo requerido</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Precio distribuidor:</label
+        >
+        <input
+          type="text"
+          [formControlName]="'precio_dist'"
+          (input)="onInputChange($event, 'precio_dist')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('precio_dist')?.hasError('required') && productosForm.get('precio_dist')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
 
       <!-- Cantidad de piezas -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad de piezas</label>
-        <input type="number" [formControlName]="'cantidad_piezas'" (input)="onInput($event)"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('cantidad_piezas')?.hasError('required') && productosForm.get('cantidad_piezas')?.touched">
-          Campo requerido</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Cantidad de piezas</label
+        >
+        <input
+          type="number"
+          [formControlName]="'cantidad_piezas'"
+          (input)="onInput($event)"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('cantidad_piezas')?.hasError('required') && productosForm.get('cantidad_piezas')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
     </div>
 
@@ -69,87 +122,171 @@
     <div class="space-y-4">
       <!-- Descripción -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-        <input type="text" [formControlName]="'descripcion'" maxlength="100"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('descripcion')?.hasError('required') && productosForm.get('descripcion')?.touched">
-          Campo requerido</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Descripción</label
+        >
+        <input
+          type="text"
+          [formControlName]="'descripcion'"
+          maxlength="100"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('descripcion')?.hasError('required') && productosForm.get('descripcion')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
 
       <!-- Total -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Total:</label>
-        <input type="text" [formControlName]="'total'" (input)="onInputChange($event, 'total')" readonly
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('total')?.hasError('required') && productosForm.get('total')?.touched">
-          Campo requerido</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Total:</label
+        >
+        <input
+          type="text"
+          [formControlName]="'total'"
+          (input)="onInputChange($event, 'total')"
+          readonly
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('total')?.hasError('required') && productosForm.get('total')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
-
 
       <!-- Total con envío -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Total con envío</label>
-        <input type="text" [formControlName]="'total_con_envio'" (input)="onInputChange($event, 'total_con_envio')"
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Total con envío</label
+        >
+        <input
+          type="text"
+          [formControlName]="'total_con_envio'"
+          (input)="onInputChange($event, 'total_con_envio')"
           readonly
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('total_con_envio')?.hasError('required') && productosForm.get('total_con_envio')?.touched">
-          Campo requerido</p>
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('total_con_envio')?.hasError('required') && productosForm.get('total_con_envio')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
 
       <!-- Total distribuidor -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Total distribuidor:</label>
-        <input type="text" [formControlName]="'total_dist'" (input)="onInputChange($event, 'total_dist')" readonly
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
-        <p class="mt-1 text-sm text-red-500"
-          *ngIf="productosForm.get('total_dist')?.hasError('required') && productosForm.get('total_dist')?.touched">
-          Campo requerido</p>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Total distribuidor:</label
+        >
+        <input
+          type="text"
+          [formControlName]="'total_dist'"
+          (input)="onInputChange($event, 'total_dist')"
+          readonly
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+        />
+        <p
+          class="mt-1 text-sm text-red-500"
+          *ngIf="productosForm.get('total_dist')?.hasError('required') && productosForm.get('total_dist')?.touched"
+        >
+          Campo requerido
+        </p>
       </div>
     </div>
 
     <!-- Detalle -->
     <div class="col-span-1 md:col-span-2">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Detalle</label>
-      <textarea [formControlName]="'detalle'" maxlength="150"
-        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 h-20"></textarea>
-      <p class="mt-1 text-sm text-red-500"
-        *ngIf="productosForm.get('detalle')?.hasError('required') && productosForm.get('detalle')?.touched">
-        Campo requerido</p>
+      <label class="block text-sm font-medium text-gray-700 mb-1"
+        >Detalle</label
+      >
+      <textarea
+        [formControlName]="'detalle'"
+        maxlength="150"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 h-20"
+      ></textarea>
+      <p
+        class="mt-1 text-sm text-red-500"
+        *ngIf="productosForm.get('detalle')?.hasError('required') && productosForm.get('detalle')?.touched"
+      >
+        Campo requerido
+      </p>
     </div>
 
     <!-- Imágenes (ocupa ambas columnas) -->
     <div class="col-span-1 md:col-span-2">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Imágenes del producto</label>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        <div *ngFor="let imagen of datosProductos.imagenes; let i = index" class="relative group"
+      <label
+        class="text-sm font-medium text-gray-700 mb-1 flex items-center gap-1"
+      >
+        Imágenes del producto
+        <button
+          matTooltip="Al seleccionar una foto como Portada, será la portada del producto en el catálogo"
+          matTooltipPosition="right"
+          matTooltipClass="tooltip-custom"
+          class="text-gray-500 hover:text-blue-500 focus:outline-none"
         >
-          <img [src]="imagen.img" alt="Imagen del producto"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="w-4 h-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </label>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div
+          *ngFor="let imagen of datosProductos.imagenes; let i = index"
+          class="relative group"
+        >
+          <img
+            [src]="baseUrl + imagen.imagen"
+            alt="Imagen del producto"
             class="w-full h-40 object-cover rounded-lg border border-gray-200 mb-5"
             [ngClass]="{
               'border-cyan-700 ring-2 ring-cyan-700': datosProductos.imagenPrincipal === i,
               'border-gray-200': datosProductos.imagenPrincipal !== i
-            }"/>
-          <button type="button"
+            }"
+          />
+          <button
+            type="button"
             class="absolute top-1 right-2 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow"
-            (click)="eliminarImagen(i)">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            (click)="eliminarImagen(i)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
-          <button type="button"
+          <button
+            type="button"
             class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-cyan-700 text-white px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow text-sm"
-            (click)="seleccionarPrincipal(i)">
+            (click)="seleccionarPrincipal(i)"
+          >
             Portada
           </button>
         </div>
       </div>
-
-      <p>Al darle click en "Principal" se seleccionará dicha foto</p>
-
 
       <div class="flex flex-col mt-4 w-full">
         <!-- Input oculto -->
@@ -168,10 +305,19 @@
           class="flex items-center justify-center gap-2 h-12 cursor-pointer bg-white border-2 border-slate-300 hover:border-cyan-700 rounded-md px-4 text-cyan-700 font-medium transition"
         >
           <!-- Ícono de upload (Heroicons o similar) -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-700" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-4 4m4-4l4 4" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-cyan-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-4 4m4-4l4 4"
+            />
           </svg>
           <span>Subir imágenes</span>
         </label>
@@ -183,27 +329,39 @@
       </div>
 
       <!-- Lista de archivos seleccionados -->
-<ul class="mt-3 space-y-1" *ngIf="selectedFiles.length > 0">
-  <li *ngFor="let file of selectedFiles" class="flex items-center text-sm text-gray-700">
-    <!-- Ícono de archivo -->
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-cyan-700" fill="none" viewBox="0 0 24 24"
-  stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-    d="M6 2h9l5 5v13a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z" />
-</svg>
+      <ul class="mt-3 space-y-1" *ngIf="selectedFiles.length > 0">
+        <li
+          *ngFor="let file of selectedFiles"
+          class="flex items-center text-sm text-gray-700"
+        >
+          <!-- Ícono de archivo -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 mr-2 text-cyan-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 2h9l5 5v13a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z"
+            />
+          </svg>
 
-    {{ file.name }}
-  </li>
-</ul>
-
-
+          {{ file.name }}
+        </li>
+      </ul>
     </div>
 
     <!-- Botón de actualización (ocupa ambas columnas) -->
     <div class="col-span-1 md:col-span-2 mt-4">
-      <button type="button"
+      <button
+        type="button"
         class="w-full h-12 bg-cyan-700 hover:bg-cyan-800 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
-        (click)="actualizarProducto()">
+        (click)="actualizarProducto()"
+      >
         Actualizar datos
       </button>
     </div>

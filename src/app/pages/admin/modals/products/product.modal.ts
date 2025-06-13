@@ -8,10 +8,11 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'product-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatDatepickerModule, MatIconModule],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatDatepickerModule, MatIconModule, MatTooltipModule ],
   templateUrl: './product.modal.html',
   encapsulation: ViewEncapsulation.None
 })
@@ -25,6 +26,7 @@ export class productModalComponent implements OnInit {
   imagenes: File[] = [];
   fileError: boolean = false;
   selectedFiles: File[] = [];
+  baseUrl = environment.BASE_URL_API_PLAIN;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public matDialogRef: MatDialogRef<productModalComponent>,
     private _formBuilder: FormBuilder,
@@ -113,7 +115,7 @@ export class productModalComponent implements OnInit {
   }
 
   seleccionarPrincipal(index: number): void {
-    const id = this.datosProductos.imagenes[index].id;
+    const id = this.datosProductos.imagenes[index].id_imagen;
     this.datosProductos.imagenPrincipal = index;
     this.productosForm.get('imagen_principal')?.setValue(id);
   }

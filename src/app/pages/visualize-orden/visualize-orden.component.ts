@@ -19,6 +19,7 @@ export class VisualizeOrdenComponent implements OnInit {
   orden: any;
   productos: any;
   clienteFinal: any;
+  baseUrl = environment.BASE_URL_API_PLAIN + '/img/';
   constructor(private router: Router, private cdr: ChangeDetectorRef, private _matDialog: MatDialog, private http: HttpClient) { }
 
   ngOnInit(): void {
