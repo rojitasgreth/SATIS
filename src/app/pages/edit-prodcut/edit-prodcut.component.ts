@@ -22,7 +22,7 @@ export class EditProdcutComponent implements OnInit {
   colorInicial: any;
   colorSeleccionado: Color = { value: 0, label: '' };
   cantidad: number = 0;
-  baseUrl = environment.BASE_URL_API_PLAIN + '/img/';
+  baseUrl = environment.BASE_URL_API + '/img/';
   constructor(private http: HttpClient, private _matDialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {

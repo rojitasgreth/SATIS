@@ -26,7 +26,7 @@ export class productModalComponent implements OnInit {
   imagenes: File[] = [];
   fileError: boolean = false;
   selectedFiles: File[] = [];
-  baseUrl = environment.BASE_URL_API_PLAIN;
+  baseUrl = environment.BASE_URL_API;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public matDialogRef: MatDialogRef<productModalComponent>,
     private _formBuilder: FormBuilder,

@@ -14,7 +14,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   orden: any;
   productos: any;
   categorias: any[] = [];
-  baseUrl = environment.BASE_URL_API_PLAIN;
+  baseUrl = environment.BASE_URL_API;
   private unsubscribe$ = new Subject<void>();
   constructor(
     private http: HttpClient,
