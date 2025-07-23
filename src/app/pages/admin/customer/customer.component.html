@@ -1,0 +1,87 @@
+<app-menu></app-menu>
+<div class="bg-white min-h-screen flex">
+  <div class="flex-1 p-8 sm:p-10">
+    <div
+      class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0 ml-5">
+      <div class="w-full bg-white h-10 fuse-mat-rounded sm:min-w-64 text-black flex items-center justify-between">
+        <h1 class="items-center">Listado de clientes <mat-icon matTooltip="Nuevo cliente"
+            (click)="nuevoCliente()">add_circle</mat-icon></h1>
+
+        <div class="flex items-center">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="filter_alt"></mat-icon>
+          <input class="border-2 border-cyan-700 rounded-lg p-2 focus:outline-none focus:ring-cyan-500 focus:ring-1"
+            (keyup)="applyFilter($event)" autocomplete="off" placeholder="Nombre, rif, correo..." #input>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex overflow-x-auto shadow-lg">
+      <div class="w-full max-w-full p-3">
+        <table mat-table [dataSource]="dataSource" matSort
+          class="min-w-5xl !bg-white border-2 border-black rounded-lg text-black w-full text-center">
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef class="bg-gray-200 text-black">Acciones</th>
+            <td mat-cell *matCellDef="let row" class="text-black flex">
+              <button mat-icon-button color="primary" class="pt-4" (click)="editar(row)">
+                <mat-icon matTooltip="EDITAR CLIENTE">edit</mat-icon>
+              </button>
+              <button *ngIf="row.estatus == true" class="pt-4" mat-icon-button color="warn" (click)="desactivar(row)">
+                <mat-icon matTooltip="DESACTIVAR CLIENTE">archive</mat-icon>
+              </button>
+              <button *ngIf="row.estatus != true" class="pt-4" mat-icon-button color="warn" (click)="activar(row)">
+                <mat-icon matTooltip="ACTIVAR CLIENTE">beenhere</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="rif">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Rif</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.rif }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="razon_social">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Cliente</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.razon_social }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Teléfono</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.telefono }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="correo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Correo electrónico</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.correo }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Estado
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.estado }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="calle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Calle o Avenida</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.calle }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="edificio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-gray-200 text-black">Edificio o local</th>
+            <td mat-cell *matCellDef="let row" class="text-black">{{ row.edificio }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="9">No se encontraron datos asociados al filtro</td>
+          </tr>
+        </table>
+        <div class="flex justify-center mt-2">
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]" class="!bg-stone-300 text-black rounded-lg">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

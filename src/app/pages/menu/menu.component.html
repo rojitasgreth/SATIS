@@ -120,6 +120,13 @@
             class="block py-2 md:py-0 text-white text-xl hover:bg-cyan-800 rounded-lg p-4"
           >Gestión de productos</a>
         </li>
+        <li *ngIf="info.rol == 'Admin'">
+          <a
+            routerLink="/admin/clients"
+            routerLinkActive="bg-cyan-800 rounded-lg p-4"
+            class="block py-2 md:py-0 text-white text-xl hover:bg-cyan-800 rounded-lg p-4"
+          >Gestión de clientes</a>
+        </li>
         <li *ngIf="orden">
           <a
             routerLink="/visualize-orden"

@@ -35,14 +35,11 @@ export class MenuComponent implements OnInit {
   }
 
   checkScreenSize() {
-    this.isMobile = window.innerWidth <= 768; // Considerar móvil si el ancho es <= 768px
+    this.isMobile = window.innerWidth <= 768;
   }
 
   toogleMenu() {
     this.menuExpanded = !this.menuExpanded;
-
-    //console.log(this.menuExpanded);
-
   }
   cerrarSesion() {
     localStorage.clear();

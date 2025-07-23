@@ -1,0 +1,108 @@
+<div
+  class="bg-white p-6 rounded-lg shadow-lg w-[500px] mx-auto overflow-y-auto max-h-[700px]"
+>
+  <!-- Encabezado con botón de cierre -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-cyan-700">Editar cliente</h1>
+    <button
+      mat-icon-button
+      (click)="cerrar('cierre')"
+      [tabIndex]="1"
+      class="text-black font-bold hover:bg-gray-100 rounded-full p-1"
+    >
+      <span class="text-xl">×</span>
+    </button>
+  </div>
+
+  <div class="flex justify-center items-center h-full mt-50">
+    <form [formGroup]="clientesForm" class="form-grid">
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">RIF:</label>
+          <input matInput type="text" formControlName="RIF" placeholder="J-170333337" maxlength="11" minlength="11"
+            class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2"
+            >
+        <mat-error *ngIf="clientesForm.get('RIF')?.touched && clientesForm.get('RIF')?.value.length != 11" class="text-red-500">RIF inválido.
+        </mat-error>
+        <mat-error *ngIf="clientesForm.get('RIF')?.touched && clientesForm.get('RIF')?.hasError('required')" class="text-red-500">
+          El RIF es requerido.
+        </mat-error>
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Teléfono:</label>
+        <input matInput type="tel" formControlName="telefono" placeholder="04120000000" maxlength="11"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
+        <mat-error *ngIf="clientesForm.get('telefono')?.touched && clientesForm.get('telefono')?.hasError('required')" class="text-red-500">
+          El teléfono es requerido.
+        </mat-error>
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Cliente:</label>
+        <input matInput type="text" formControlName="cliente" placeholder="Nombre ejemplo C.A"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
+        <mat-error *ngIf="clientesForm.get('cliente')?.touched && clientesForm.get('cliente')?.hasError('required')" class="text-red-500">
+          El nombre del cliente es requerido.
+        </mat-error>
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Correo electrónico:</label>
+        <input matInput type="email" formControlName="email" placeholder="ejemplo@ejemplo.com"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-4">
+        <mat-error *ngIf="clientesForm.get('email')?.touched && clientesForm.get('email')?.hasError('required')" class="text-red-500">
+          El correo electrónico es requerido.
+        </mat-error>
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Estado:</label>
+        <select formControlName="estado"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2">
+          <option value="AMAZONAS">AMAZONAS</option>
+            <option value="ANZOATEGUI">ANZOATEGUI</option>
+            <option value="APURE">APURE</option>
+            <option value="ARAGUA">ARAGUA</option>
+            <option value="BARINAS">BARINAS</option>
+            <option value="BOLIVAR">BOLIVAR</option>
+            <option value="CARABOBO">CARABOBO</option>
+            <option value="COJEDES">COJEDES</option>
+            <option value="DELTA AMACURO">DELTA AMACURO</option>
+            <option value="DISTRITO CAPITAL">DISTRITO CAPITAL</option>
+            <option value="FALCON">FALCON</option>
+            <option value="GUARICO">GUARICO</option>
+            <option value="LA GUAIRA">LA GUAIRA</option>
+            <option value="LARA">LARA</option>
+            <option value="MERIDA">MERIDA</option>
+            <option value="MIRANDA">MIRANDA</option>
+            <option value="MONAGAS">MONAGAS</option>
+            <option value="NUEVA ESPARTA">NUEVA ESPARTA</option>
+            <option value="PORTUGUESA">PORTUGUESA</option>
+            <option value="SUCRE">SUCRE</option>
+            <option value="TACHIRA">TACHIRA</option>
+            <option value="TRUJILLO">TRUJILLO</option>
+            <option value="YARACUY">YARACUY</option>
+            <option value="ZULIA">ZULIA</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Calle o Avenida:</label>
+        <input matInput type="text" formControlName="calle" placeholder="Calle o Avenida" maxlength="80"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-6">
+      </div>
+
+      <div class="flex flex-col mb-4 w-80">
+        <label class="mb-1">Edificio o Local:</label>
+        <input matInput type="text" formControlName="edificio" placeholder="Edificio/local" maxlength="80"
+          class="h-12 bg-white border-slate-300 hover:border-cyan-700 rounded-md border-2 pl-6">
+      </div>
+
+      <div class="flex flex-col mb-10 w-80">
+        <button type="button" class="bg-cyan-700 text-white rounded-md text-lg" (click)="actualizarCliente()">
+          Editar cliente
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -32,6 +32,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './pages/admin/products/products.component';
+import { CustomerComponent } from './pages/admin/customer/customer.component';
 @NgModule({ declarations: [
         AppComponent,
         LoginComponent,
@@ -46,7 +47,8 @@ import { ProductsComponent } from './pages/admin/products/products.component';
         EditProdcutComponent,
         DetailsComponent,
         UsersComponent,
-        ProductsComponent
+        ProductsComponent,
+        CustomerComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
