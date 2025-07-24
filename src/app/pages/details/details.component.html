@@ -19,7 +19,7 @@
       *ngFor="let item of productos"
       class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col lg:flex-row p-5">
       <img
-        src="{{item.img}}"
+        [src]="baseUrl + item.img"
         alt="Imagen del producto"
         class="w-full lg:w-40 rounded-lg object-cover mb-4 lg:mb-0">
       <table class="w-full lg:ml-5 text-center text-sm lg:text-base">

@@ -10,6 +10,8 @@ import { environment } from 'src/environment/environment';
 export class DetailsComponent implements OnInit {
   parametro: string = '';
   productos: any;
+   baseUrl = environment.BASE_URL_API + '/img/';
+
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => this.parametro = params['orden']);
